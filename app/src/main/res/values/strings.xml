@@ -1,0 +1,44 @@
+<resources>
+    <string name="app_name">ChedliWeldi</string>
+
+    <string name="title_activity_sign_up">SignUp</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    <string name="next">NEXT</string>
+    <string name="skip">SKIP</string>
+    <string name="start">GOT IT</string>
+
+    <string name="slide_1_title">Chedli Weldi!</string>
+    <string name="slide_1_desc">The easiest way to find babysitters in the area!</string>
+
+    <string name="slide_2_title">Safe !</string>
+    <string name="slide_2_desc">Our babysitter are all trained well and bla bla </string>
+
+    <string name="slide_3_title">Great People</string>
+    <string name="slide_3_desc">bla bla bla bla bla bla bla whatever!</string>
+
+    <string name="slide_4_title">World Babysitters</string>
+    <string name="slide_4_desc">Chedli Weldi is a great way to find babysitting jobs nearby !</string>
+
+    <string name="play_again_desc">To see the welcome slider again, goto Settings -> apps -> welcome slider -> clear data</string>
+    <string name="play_again">Play Again</string>
+    <string name="tab_title_main_1">Acceuil</string>
+    <string name="tab_title_main_2">Map</string>
+    <string name="nav_header_text">Chedli weldi</string>
+    <string name="navigation_drawer_open">Navigation drawer open</string>
+    <string name="navigation_drawer_close">Navigation drawer close</string>
+
+    <string name="main_card_title">Your job post</string>
+    <string name="main_card_title_short">Title</string>
+    <string name="main_card_subtitle">Subtitle</string>
+    <string name="main_card_details">Details about the job</string>
+
+    <string name="main_card_button_1">Modifier</string>
+    <string name="main_card_button_2">Annuler</string>
+    <string name="title_activity_maps">Map</string>
+</resources>
