@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import carsapp.douirimohamedtaha.com.chedliweldi.Activities.MainActivity;
+import carsapp.douirimohamedtaha.com.chedliweldi.AppController;
 import carsapp.douirimohamedtaha.com.chedliweldi.Entities.Babysitter;
 import carsapp.douirimohamedtaha.com.chedliweldi.R;
 import carsapp.douirimohamedtaha.com.chedliweldi.Utils.BabySittersJSONParser;
@@ -141,7 +142,7 @@ public class Feed extends Fragment {
 
     private void getBabysiiters() {
         RequestQueue queue = Volley.newRequestQueue(getContext());
-        String url = "http://192.168.160.1/chedliweldi/getBabysitters.php";
+        String url = AppController.TAHA_ADRESS+"getBabysitters.php";
 // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
