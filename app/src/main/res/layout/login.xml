@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<android.support.v7.widget.ContentFrameLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingPrefix"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+      <android.support.v7.widget.AppCompatImageView
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:scaleType="fitXY"
+          android:src="@drawable/background2"
+          />
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="100dp"
+            app:srcCompat="@drawable/newborn" />
+
+        <android.support.v7.widget.ContentFrameLayout
+            android:id="@+id/contentFrameLayout"
+            android:layout_width="300dp"
+            android:layout_height="100dp"
+            android:layout_below="@id/imageView"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="20dp">
+
+            <android.support.v7.widget.AppCompatImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"
+                android:src="@drawable/bg" />
+
+
+            <android.support.v7.widget.LinearLayoutCompat
+                android:layout_width="270dp"
+                android:layout_height="70dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:orientation="vertical">
+
+                <android.support.v7.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+
+                    <android.support.v7.widget.AppCompatImageView
+                        android:layout_width="25dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/email" />
+
+                    <EditText
+
+                        android:id="@+id/etEmail"
+                        fontPath="fonts/Proxima-Nova-Regular.ttf"
+
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="5dp"
+                        android:background="@android:color/transparent"
+                        android:hint="E-mail Adress"
+                        android:inputType="textEmailAddress"
+                        android:textColor="@color/mtlcBlack" />
+
+
+                </android.support.v7.widget.LinearLayoutCompat>
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
+                    android:src="@drawable/separator" />
+
+                <android.support.v7.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp">
+
+                    <android.support.v7.widget.AppCompatImageView
+                        android:layout_width="20dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/lock" />$
+
+
+                    <EditText
+                        android:id="@+id/etPassword"
+                        fontPath="fonts/Proxima-Nova-Regular.ttf"
+                        android:layout_width="fill_parent"
+
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="5dp"
+                        android:background="@android:color/transparent"
+                        android:hint="password"
+                        android:inputType="textPassword"
+                        android:textColor="@color/mtlcBlack" />
+
+
+                </android.support.v7.widget.LinearLayoutCompat>
+
+
+            </android.support.v7.widget.LinearLayoutCompat>
+
+
+        </android.support.v7.widget.ContentFrameLayout>
+
+        <Button
+            android:id="@+id/btnNext"
+            fontPath="fonts/Proxima-Nova-Semibold.ttf"
+            android:layout_width="270dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/contentFrameLayout"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:background="@color/mtlcOrange"
+
+            android:text="Sign In"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white" />
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btnNext"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="15dp"
+            app:srcCompat="@drawable/separator2" />
+
+
+        <android.support.v7.widget.ContentFrameLayout
+
+            android:id="@+id/button3"
+
+            android:layout_width="270dp"
+            android:layout_height="40dp"
+            android:layout_below="@+id/imageView3"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="5dp"
+            android:textAllCaps="false"
+
+            >
+
+            <android.support.v7.widget.AppCompatImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"
+                android:src="@drawable/btn_fb" />
+
+            <android.support.v7.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center">
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/fb" />
+
+                <android.support.v7.widget.AppCompatTextView
+
+                    fontPath="fonts/Proxima-Nova-Semibold.ttf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="Sign in with facebook"
+                    android:textColor="@android:color/white" />
+
+            </android.support.v7.widget.LinearLayoutCompat>
+
+
+        </android.support.v7.widget.ContentFrameLayout>
+
+
+        <android.support.v7.widget.ContentFrameLayout
+
+            android:id="@+id/button4"
+            android:layout_width="270dp"
+            android:layout_height="40dp"
+            android:layout_alignStart="@+id/button3"
+            android:layout_below="@+id/button3"
+            android:textAllCaps="false">
+
+            <android.support.v7.widget.AppCompatImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"
+                android:src="@drawable/btn_twitter" />
+
+            <android.support.v7.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center">
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+
+                    android:src="@drawable/tw" />
+
+                <android.support.v7.widget.AppCompatTextView
+
+                    fontPath="fonts/Proxima-Nova-Semibold.ttf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="Sign in with twitter"
+                    android:textColor="@android:color/white" />
+
+            </android.support.v7.widget.LinearLayoutCompat>
+
+
+        </android.support.v7.widget.ContentFrameLayout>
+
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignStart="@+id/button4"
+            android:layout_marginBottom="15dp"
+            android:layout_marginStart="4dp"
+            android:text="Forgot password ?"
+            android:textColor="@color/mtlcGrey" />
+
+        <TextView
+            android:id="@+id/txtSignUp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/button4"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="15dp"
+            android:layout_marginEnd="25dp"
+            android:text="New her? Sign Up"
+            android:textColor="@color/mtlcGrey" />
+
+    </RelativeLayout>
+
+
+</android.support.v7.widget.ContentFrameLayout>

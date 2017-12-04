@@ -16,7 +16,7 @@ import carsapp.douirimohamedtaha.com.chedliweldi.Fragments.Login;
 import carsapp.douirimohamedtaha.com.chedliweldi.R;
 import carsapp.douirimohamedtaha.com.chedliweldi.Fragments.SignUp;
 
-public class MainActivity extends AppCompatActivity implements Login.OnFragmentInteractionListener,SignUp.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity  {
     private FragmentManager fragmentManager;
     private Fragment fragment;
     public static List<Babysitter> bbySitters;
@@ -35,8 +35,5 @@ public class MainActivity extends AppCompatActivity implements Login.OnFragmentI
         fragmentManager.beginTransaction().replace(R.id.frame, fragment).commit();
     }
 
-    @Override
-    public void onFragmentInteraction(Uri uri) {
 
-    }
 }

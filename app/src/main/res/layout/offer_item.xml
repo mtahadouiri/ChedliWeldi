@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout android:layout_width="match_parent"
+    android:id="@+id/item"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"  android:clipChildren="false"
+    android:clipToPadding="false" >
+
+    <com.ramotion.foldingcell.FoldingCell
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/folding_cell"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:layout_marginBottom="10dp">
+        ​
+
+
+
+        <FrameLayout android:layout_width="match_parent"
+            android:id="@+id/cell_content_view"
+            android:visibility="gone"
+            android:layout_height="wrap_content"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto">
+
+            <include android:id="@+id/news_title"
+                android:layout_width="match_parent"
+                android:layout_height="500dp"
+                layout="@layout/profil_offer"/>
+
+
+
+        </FrameLayout>
+
+        <FrameLayout android:layout_width="match_parent"
+
+            android:id="@+id/cell_title_view"
+            android:layout_height="wrap_content"
+
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp">
+
+
+                <ImageView
+                    android:id="@+id/photo"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="26dp"
+                    android:layout_marginTop="29dp"
+                    app:srcCompat="@drawable/man" />
+
+                <TextView
+                    android:id="@+id/txtFullName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/photo"
+                    android:layout_marginStart="22dp"
+                    android:layout_marginTop="19dp"
+                    android:layout_toEndOf="@+id/photo"
+                    android:text="Oussama reguez"   android:textSize="25dp" />
+
+                <TextView
+                    android:id="@+id/txtDesc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@+id/txtFullName"
+                    android:layout_below="@+id/txtFullName"
+                    android:layout_marginTop="12dp"
+                    android:ems="10"
+                    android:inputType="textMultiLine"
+                    android:text="I am looking for a good baby sitter preferably a pretty women  " />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:gravity="center"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="16dp"
+
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp" android:src="@drawable/time" android:layout_marginRight="4dp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+
+                        android:layout_height="wrap_content" android:text="30 min" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginBottom="16dp"
+
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp" android:src="@drawable/placeholder" android:layout_marginRight="4dp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+
+                        android:layout_height="wrap_content" android:text="1 km" />
+
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+
+
+
+        </FrameLayout>
+
+        ​
+
+        ​
+    </com.ramotion.foldingcell.FoldingCell>
+
+
+
+
+
+    </LinearLayout>

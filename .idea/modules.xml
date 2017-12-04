@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/ChedliWeldi.iml" filepath="$PROJECT_DIR$/ChedliWeldi.iml" />
+      <module fileurl="file://C:\ChedliWeldi_git\ChedliWeldi.iml" filepath="C:\ChedliWeldi_git\ChedliWeldi.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/ChedliWeldi_git.iml" filepath="$PROJECT_DIR$/.idea/ChedliWeldi_git.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

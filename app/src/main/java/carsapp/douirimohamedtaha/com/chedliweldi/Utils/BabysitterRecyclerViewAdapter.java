@@ -13,6 +13,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.List;
 
+import carsapp.douirimohamedtaha.com.chedliweldi.AppController;
 import carsapp.douirimohamedtaha.com.chedliweldi.Entities.Babysitter;
 import carsapp.douirimohamedtaha.com.chedliweldi.R;
 
@@ -42,7 +43,7 @@ public class BabysitterRecyclerViewAdapter extends RecyclerView.Adapter<Babysitt
         holder.name.setText(item.getFirstName()+" "+item.getLastName());
         holder.location.setText("10 km");
         holder.desc.setText(item.getDescr());
-        Glide.with(mContext).load(item.getImgURL())
+        Glide.with(mContext).load(AppController.IMAGE_SERVER_ADRESS+item.getImgURL())
                 //.thumbnail(0.5f)
                 .crossFade()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
