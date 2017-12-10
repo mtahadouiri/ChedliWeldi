@@ -45,6 +45,10 @@
     <string name="no_account">Dont have an account ? </string>
     <string name="sign_in">Sign In </string>
 
+    <string name="ham_profile">Profile</string>
+    <string name="ham_profile_sub">Open profile settings</string>
+    <string name="ham_job">Jobs</string>
+    <string name="ham_job_sub">Add a new babysitting job</string>
     <!-- TODO: Remove or change this placeholder text -->
 
 
@@ -63,5 +67,10 @@
         It should describe the category of notifications that will be sent through this channel
      -->
     <string name="default_notification_channel_name" translatable="true">News</string>
+
+    <string name="title_activity_fullscreen">FullscreenAddJobActivity</string>
+    <string name="title_activity_live_card_service">Hello World LiveCard</string>
+    <string name="action_stop">Stop</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>

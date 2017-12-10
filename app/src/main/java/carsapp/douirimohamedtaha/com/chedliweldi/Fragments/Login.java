@@ -111,51 +111,45 @@ public class Login extends Fragment {
 
 
         String url = AppController.SERVER_ADRESS+"login";
-        StringRequest sr = new StringRequest(Request.Method.POST, url , new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
+        StringRequest sr = new StringRequest(Request.Method.POST, url , response -> {
 
 
-                try {
-                    JSONObject jsonObject = new JSONObject(response);
-                    boolean d= jsonObject.getBoolean("error");
-                    if (d){
+            try {
+                JSONObject jsonObject = new JSONObject(response);
+                boolean d= jsonObject.getBoolean("error");
+                if (d){
 
-                        MaterialDialog dialog = new MaterialDialog.Builder(getActivity())
-                                .title("authentication")
-                                .content("incorect email or password")
-                                .positiveText("ok")
-                                .show();
+                    MaterialDialog dialog = new MaterialDialog.Builder(getActivity())
+                            .title("authentication")
+                            .content("incorect email or password")
+                            .positiveText("ok")
+                            .show();
 
 
+                }
+                else{
+                    Log.i("etat","success");
+                    connectedUser=jsonObject.getString("id");
+                    if(jsonObject.getString("type").equals("Babysitter")){
+                        showListoffers();
                     }
-                    else{
-                        Log.i("etat","success");
-                        connectedUser=jsonObject.getString("id");
-                        if(jsonObject.getString("type").equals("Babysitter")){
-                            showListoffers();
-                        }
-                        else {
-                    getBabysiiters();
-                        }
-                       // showMyoffer();
-
-
+                    else {
+                getBabysiiters();
                     }
+                   // showMyoffer();
 
 
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
 
 
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.d("", "Error: " + error.getMessage());
-                Log.d("", ""+error.getMessage()+","+error.toString());
-            }
+
+
+        }, error -> {
+            VolleyLog.d("", "Error: " + error.getMessage());
+            Log.d("", ""+error.getMessage()+","+error.toString());
         }){
             @Override
             protected java.util.Map<String,String> getParams(){

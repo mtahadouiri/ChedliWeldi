@@ -33,38 +33,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-    <com.imangazaliev.circlemenu.CircleMenu
+
+    <com.nightonke.boommenu.BoomMenuButton
+        android:id="@+id/bmb"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:id="@+id/circleMenu"
-        >
-
-        <com.imangazaliev.circlemenu.CircleMenuButton
-            android:id="@+id/favorite"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:colorNormal="#2196F3"
-            app:colorPressed="#1E88E5"
-            app:icon="@drawable/ic_home"
-            />
-
-        <com.imangazaliev.circlemenu.CircleMenuButton
-            android:id="@+id/search"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:colorNormal="#4CAF50"
-            app:colorPressed="#43A047"
-            app:icon="@drawable/ic_search"/>
-
-        <com.imangazaliev.circlemenu.CircleMenuButton
-            android:id="@+id/alert"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:colorNormal="#F44336"
-            app:colorPressed="#E53935"
-            app:icon="@drawable/ic_place"/>
-
-    </com.imangazaliev.circlemenu.CircleMenu>
-
+        app:bmb_buttonEnum="ham"
+        app:bmb_piecePlaceEnum="piecePlace_ham_4"
+        app:bmb_buttonPlaceEnum="buttonPlace_ham_4"
+        app:layout_anchor="@+id/view_pager_main"
+        app:layout_anchorGravity="right|bottom" />
 </android.support.design.widget.CoordinatorLayout>
