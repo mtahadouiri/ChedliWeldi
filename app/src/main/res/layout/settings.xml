@@ -34,36 +34,15 @@
 
            >
 
-<FrameLayout
-    android:id="@+id/fr"
-    android:layout_width="80dp"
-    android:layout_height="80dp"  android:layout_centerInParent="true" >
 
 
-    <ImageView
-        android:id="@+id/imageView4"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
 
-        android:layout_centerInParent="true"
-        app:srcCompat="@drawable/man" />
-
-    <ImageView android:id="@+id/mask"
-        android:layout_width="80dp" android:alpha="0.6" android:visibility="invisible"
-        android:layout_height="80dp"  android:src="@drawable/back_rounded" />
-
-    <com.wang.avi.AVLoadingIndicatorView
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_gravity="center"
-        android:id="@+id/loading"
-
-        app:indicatorName="BallPulseSyncIndicator"
-        />
-
-
-</FrameLayout>
-
+                android:layout_centerInParent="true"
+                app:srcCompat="@drawable/man" />
             <ImageView
                 android:id="@+id/imageView5"
                 android:layout_width="20dp"
@@ -72,8 +51,8 @@
 
                 app:srcCompat="@drawable/plus_blue"
                 android:layout_marginLeft="-20dp"
-                android:layout_alignTop="@+id/fr"
-                android:layout_toEndOf="@+id/fr" />
+                android:layout_alignTop="@+id/imageView4"
+                android:layout_toEndOf="@+id/imageView4" />
         </RelativeLayout>
 
         <TextView

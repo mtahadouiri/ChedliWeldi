@@ -9,18 +9,10 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:orientation="vertical"
         android:layout_height="match_parent">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content" android:text="hello" />
-
-        <Button
-            android:layout_width="wrap_content" android:id="@+id/btnchoose"
-            android:layout_height="wrap_content" android:text="choose" />
-        <Button
-            android:layout_width="wrap_content" android:id="@+id/btnupload"
-            android:layout_height="wrap_content" android:text=" upload" />
     </LinearLayout>
 </LinearLayout>

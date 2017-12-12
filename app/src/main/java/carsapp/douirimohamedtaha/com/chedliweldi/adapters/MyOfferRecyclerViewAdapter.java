@@ -66,9 +66,18 @@ public class MyOfferRecyclerViewAdapter extends RecyclerView.Adapter<MyOfferRecy
 
              // feedItem.get(0);
 
-
+            final String  ff=feedItem.getString("id");
             customViewHolder.description.setText(feedItem.getString("description"));
+            customViewHolder.item.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                 Intent i = new Intent(mContext,RequestsActivity.class);
+                    i.putExtra("id",ff);
 
+                    mContext.startActivity(i);
+
+                }
+            });
             /*
            customViewHolder.fullName.setText(feedItem.getString("firstName")+" "+feedItem.getString("lastName"));
             customViewHolder.description.setText(feedItem.getString("description"));

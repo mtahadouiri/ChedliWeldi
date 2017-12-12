@@ -46,16 +46,6 @@ public class ReviewFragment extends Fragment {
     ReviewRecycleViewAdapter adapter ;
     LinearLayoutManager layoutManager;
     MaterialRatingBar rate;
-
-    public static ReviewFragment newInstance(String idUser) {
-        ReviewFragment fragment = new  ReviewFragment();
-        Bundle args = new Bundle();
-        args.putString("id", idUser);
-
-
-        fragment.setArguments(args);
-        return fragment;
-    }
     //Overriden method onCreateView
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -63,7 +53,7 @@ public class ReviewFragment extends Fragment {
         //Returning the layout file after inflating
         //Change R.layout.tab1 in you classes
         View v= inflater.inflate(R.layout.reviews, container, false);
-        String id = getArguments().getString("id");
+
         reviews = (RecyclerView) v. findViewById(R.id.recycler_view);
         nbrReviews = (TextView) v.findViewById(R.id.nbrReviews);
         rate = (MaterialRatingBar)v. findViewById(R.id.rate);
@@ -76,7 +66,7 @@ public class ReviewFragment extends Fragment {
 
 
 
-        getReviews(id);
+        getReviews("4");
 
 
 

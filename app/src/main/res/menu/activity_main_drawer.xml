@@ -1,27 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <group android:checkableBehavior="none" android:id="@+id/group_main">
-
+    <group android:checkableBehavior="none">
+        <item
+            android:id="@+id/nav_recycler_and_swipe_refresh"
+            android:icon="@drawable/ic_format_list_bulleted_black_24dp"
+            android:title="Feed" />
         <item
             android:id="@+id/nav_scrolling"
             android:icon="@drawable/ic_file_download_black_24dp"
             android:title="Favorites" />
         <item
-            android:id="@+id/nav_my_offers"
+            android:id="@+id/nav_full_screen"
             android:icon="@drawable/ic_fullscreen_black_24dp"
-            android:title="My offers" />
-
-        <item
-            android:id="@+id/on_going_offers"
-            android:icon="@drawable/ic_fullscreen_black_24dp"
-            android:title="on going offers" />
-
-        <item
-            android:id="@+id/calendar"
-            android:icon="@drawable/ic_fullscreen_black_24dp"
-            android:title="My Calendar" />
-
-
+            android:title="OtherStuff" />
         <item
             android:id="@+id/nav_bottom_navigation"
             android:icon="@drawable/ic_more_horiz_black_24dp"
@@ -37,12 +28,10 @@
             android:id="@+id/nav_about"
             android:icon="@drawable/ic_info_black_24dp"
             android:title="About" />
-
         <item
-            android:id="@+id/nav_sign_out"
-            android:icon="@drawable/ic_info_black_24dp"
-            android:title="Sign out" />
-
+            android:id="@+id/nav_donate"
+            android:icon="@drawable/ic_monetization_on_black_24dp"
+            android:title="Premium" />
     </group>
 
 </menu>

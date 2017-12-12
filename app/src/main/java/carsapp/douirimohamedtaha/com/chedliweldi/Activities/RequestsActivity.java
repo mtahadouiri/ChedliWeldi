@@ -30,7 +30,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import carsapp.douirimohamedtaha.com.chedliweldi.AppController;
-import carsapp.douirimohamedtaha.com.chedliweldi.Fragments.RequestFragment;
 import carsapp.douirimohamedtaha.com.chedliweldi.R;
 import carsapp.douirimohamedtaha.com.chedliweldi.adapters.RecycleItemClickListener;
 import carsapp.douirimohamedtaha.com.chedliweldi.adapters.RequestRecyclerViewAdapter;
@@ -40,7 +39,6 @@ public class RequestsActivity extends AppCompatActivity {
     RecyclerView offers ;
    RequestRecyclerViewAdapter adapter ;
  LinearLayoutManager layoutManager;
-    String id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +53,6 @@ public class RequestsActivity extends AppCompatActivity {
         offers.addOnItemTouchListener(new RecycleItemClickListener(this, offers, new RecycleItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, final int position) {
-                /*
                 Log.i(" dfs","sdf");
                 boolean wrapInScrollView = true;
                 final MaterialDialog n =  new MaterialDialog.Builder(RequestsActivity.this
@@ -95,19 +92,6 @@ public class RequestsActivity extends AppCompatActivity {
                         n.dismiss();
                     }
                 });
-
-                */
-
-                Intent i = new Intent(RequestsActivity.this,RequestProfilActivity.class);
-                //   JSONObject jsonObject  =new JSONObject();
-                // i.putExtra("json",jsonObject);
-                try {
-                    RequestProfilActivity.user=requests.getJSONObject(position);
-                    startActivity(i);
-                } catch (JSONException e) {
-
-                }
-
             }
 
 
@@ -121,7 +105,7 @@ public class RequestsActivity extends AppCompatActivity {
 
         Intent  k = getIntent();
 
-         id =k.getStringExtra("id");
+        String id =k.getStringExtra("id");
 
           getRequests(id);
 
@@ -280,9 +264,7 @@ public class RequestsActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        getRequests(id);
-    }
+
+
+
 }

@@ -11,7 +11,7 @@
     android:layout_height="wrap_content"  android:text="sdfsdf"/>
 
     <LinearLayout
-       android:orientation="vertical" android:layout_width="match_parent" android:id="@+id/photosL"
+       android:orientation="vertical" android:layout_width="match_parent" android:id="@+id/photosLayoute"
         android:layout_height="wrap_content">
 
 

@@ -62,7 +62,7 @@ public class OfferRecycleViewAdapter extends RecyclerView.Adapter<OfferRecycleVi
              feedItem = feedItemList.getJSONObject(i);
            customViewHolder.fullName.setText(feedItem.getString("firstName")+" "+feedItem.getString("lastName"));
             customViewHolder.description.setText(feedItem.getString("description"));
-            Glide.with(mContext).load(AppController.IMAGE_SERVER_ADRESS+feedItem.getString("photo")).transform(new AppController.CircleTransform(mContext)).into(customViewHolder.image);
+            Glide.with(mContext).load(AppController.IMAGE_SERVER_ADRESS+feedItem.getString("photo")).into(customViewHolder.image);
             final String id=feedItem.getString("idOffer");
             customViewHolder.btn.setOnClickListener(new View.OnClickListener() {
                 @Override
