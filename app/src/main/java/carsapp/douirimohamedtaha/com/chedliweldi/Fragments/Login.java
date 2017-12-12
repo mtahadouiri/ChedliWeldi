@@ -39,6 +39,7 @@ import carsapp.douirimohamedtaha.com.chedliweldi.Activities.LoginActivity;
 import carsapp.douirimohamedtaha.com.chedliweldi.Activities.MainActivity;
 import carsapp.douirimohamedtaha.com.chedliweldi.Activities.MyOfferActivity;
 import carsapp.douirimohamedtaha.com.chedliweldi.Activities.OfferListActivity;
+import carsapp.douirimohamedtaha.com.chedliweldi.Activities.ParentMainActivity;
 import carsapp.douirimohamedtaha.com.chedliweldi.Activities.SignUpActivity;
 import carsapp.douirimohamedtaha.com.chedliweldi.AppController;
 import carsapp.douirimohamedtaha.com.chedliweldi.R;
@@ -58,6 +59,10 @@ public class Login extends Fragment {
     @Bind(R.id.txtSignUp)
     TextView txtSignUp ;
     public static  String connectedUser="4";
+
+    //public static String type="Babysitter";
+    public static String type="Parent";
+
     public void validateLogin(String email ,String password){
 
 
@@ -132,8 +137,10 @@ public class Login extends Fragment {
                     else{
                         Log.i("etat","success");
                         connectedUser=jsonObject.getString("id");
-                        if(jsonObject.getString("type").equals("Babysitter")){
+                        type= jsonObject.getString("type");
+                        if(type.equals("Babysitter")){
                             showListoffers();
+                          //  showParentMain();
                         }
                         else {
                     getBabysiiters();
@@ -191,6 +198,11 @@ public class Login extends Fragment {
 
     void showListoffers(){
         Intent i = new Intent(getActivity(),OfferListActivity.class);
+        startActivity(i);
+    }
+
+    public void showParentMain(){
+        Intent i = new Intent(getActivity(),ParentMainActivity.class);
         startActivity(i);
     }
 
@@ -296,6 +308,8 @@ public class Login extends Fragment {
 // Add the request to the RequestQueue.
         queue.add(stringRequest);
     }
+
+
 
 
 

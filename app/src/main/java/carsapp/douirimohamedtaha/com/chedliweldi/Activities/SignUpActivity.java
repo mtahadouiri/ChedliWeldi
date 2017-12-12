@@ -37,7 +37,7 @@ public class SignUpActivity extends AppCompatActivity {
     public  String firstName;
     public   String lastName;
     public   String phoneNumber;
-    public int type ;
+    public String type ;
     public   int gender ;
 
 

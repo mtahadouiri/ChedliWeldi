@@ -17,7 +17,7 @@
             android:layout_centerVertical="true"
             android:layout_marginStart="14dp"
             android:textSize="20dp"
-            android:text="TextView" />
+            android:text="No reviews" />
 
         <me.zhanghai.android.materialratingbar.MaterialRatingBar
             android:id="@+id/rate"
@@ -29,7 +29,7 @@
             android:layout_marginEnd="11dp"
             android:backgroundTint="@color/colorPrimary"
             android:progressTint="@color/mtlcyellow"
-            android:rating="2.5"
+            android:rating="0"
 
             android:stepSize="0.01" />
     </RelativeLayout>

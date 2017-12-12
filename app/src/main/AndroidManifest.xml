@@ -48,25 +48,68 @@
 
 
 
-        <activity android:name=".Activities.ProfilActivity"></activity>
+        <activity android:name=".Activities.ProfilActivity"     android:excludeFromRecents="true" android:theme="@style/Theme.UserDialog" >
+
+
+        </activity>
 
         <activity android:name=".Activities.LoginActivity">
 
 
+
         </activity>
+
+
+        <activity android:name=".Activities.CalendarActivity">
+
+
+
+        </activity>
+
+
+
+        <activity android:name=".Activities.OnGoingOfferActivity">
+
+
+
+
+        </activity>
+
+
+        <activity android:name=".Activities.SettingActivity"     >
+
+
+
+
+        </activity>
+
+
 
         <activity android:name=".Activities.TestActivity"     >
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
+
+        </activity>
+
+
+        <activity android:name=".Activities.ParentMainActivity"     >
+
 
 
         </activity>
 
 
+
+
+
         <activity android:name=".Activities.ReviewActivity">
+
+
+
+
+        </activity>
+
+        <activity android:name=".Activities.RequestProfilActivity">
+
 
 
 
@@ -81,8 +124,10 @@
 
         <activity android:name=".Activities.MyOfferActivity">
 
-
-
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
 
 
         </activity>

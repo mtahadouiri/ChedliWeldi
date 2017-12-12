@@ -21,13 +21,15 @@ public class ProfilePager extends FragmentStatePagerAdapter {
 
     //integer to count number of tabs
     int tabCount;
-
+String idUser;
+String about;
     //Constructor to the class
-    public ProfilePager(FragmentManager fm, int tabCount) {
+    public ProfilePager(FragmentManager fm, int tabCount,String id,String about) {
         super(fm);
         //Initializing tab count
         this.tabCount= tabCount;
-
+        this.about=about;
+this.idUser=id;
     }
 
     //Overriding method getItem
@@ -36,13 +38,13 @@ public class ProfilePager extends FragmentStatePagerAdapter {
         //Returning the current tabs
         switch (position) {
             case 0:
-                AboutFragment tab1 = new  AboutFragment();
+                AboutFragment tab1 =  AboutFragment.newInstance(idUser,about);
                 return tab1;
             case 1:
-                PhotosFragment tab2 = new PhotosFragment();
+                PhotosFragment tab2 =  PhotosFragment.newInstance(idUser);
                 return tab2;
             case 2:
-                ReviewFragment tab3 = new ReviewFragment();
+                ReviewFragment tab3 = ReviewFragment.newInstance(idUser);
                 return tab3;
             default:
                 return null;

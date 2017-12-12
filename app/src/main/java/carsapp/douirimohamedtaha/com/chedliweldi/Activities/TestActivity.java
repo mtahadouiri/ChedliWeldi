@@ -4,17 +4,23 @@ package carsapp.douirimohamedtaha.com.chedliweldi.Activities;
  * Created by oussama_2 on 11/27/2017.
  */
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.QuickContactBadge;
 import android.widget.RelativeLayout;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
 import com.etiennelawlor.imagegallery.library.ImageGalleryFragment;
 import com.etiennelawlor.imagegallery.library.adapters.FullScreenImageGalleryAdapter;
@@ -23,6 +29,12 @@ import com.etiennelawlor.imagegallery.library.enums.PaletteColorType;
 
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONObject;
+
+import carsapp.douirimohamedtaha.com.chedliweldi.Fragments.InfoFragment;
+import carsapp.douirimohamedtaha.com.chedliweldi.Fragments.MyOffersFragment;
+import carsapp.douirimohamedtaha.com.chedliweldi.Fragments.OffersFragment;
+import carsapp.douirimohamedtaha.com.chedliweldi.Fragments.PhotosFragment;
 import carsapp.douirimohamedtaha.com.chedliweldi.Fragments.SettingsFragment;
 import carsapp.douirimohamedtaha.com.chedliweldi.Fragments.TabsFragment;
 import carsapp.douirimohamedtaha.com.chedliweldi.R;
@@ -37,18 +49,39 @@ public class TestActivity extends AppCompatActivity implements ImageGalleryAdapt
     private PaletteColorType paletteColorType;
     TagGroup tags;
     RelativeLayout infoTab ;
-
+Button btn;
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.test);
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragmentLayout, new MyOffersFragment(), "")
+                .commit();
+
+        /*
+
+        btn=(Button) findViewById(R.id.testBtn);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(TestActivity.this,ProfilActivity.class);
+             //   JSONObject jsonObject  =new JSONObject();
+               // i.putExtra("json",jsonObject);
+                startActivity(i);
+
+            }
+        });
+
+
+/*
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragmentLayout, new TabsFragment(), "")
                 .commit();
-
-        /*
+/*
 linear = (LinearLayoutCompat) findViewById(R.id.fragmentLayout);
 
 
@@ -57,7 +90,7 @@ linear = (LinearLayoutCompat) findViewById(R.id.fragmentLayout);
                 .replace(R.id.fragmentLayout, new TabsFragment(), "")
                 .commit();
 
-*/
+
         /*
         setContentView(R.layout.about);
         tags = (TagGroup) findViewById(R.id.tags);
@@ -110,6 +143,20 @@ linear = (LinearLayoutCompat) findViewById(R.id.fragmentLayout);
 
     }
 
+
+    public void showDialog(View vIew){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        View view = this.getLayoutInflater().inflate(R.layout.dialog, null);
+        builder.setView(view)
+                .setPositiveButton("OK", null)
+                .setNegativeButton("Cancel", null);
+
+
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
     LinearLayout tmp;
     @Override
     public void loadImageThumbnail(ImageView iv, String imageUrl, int dimension) {
@@ -124,10 +171,6 @@ linear = (LinearLayoutCompat) findViewById(R.id.fragmentLayout);
                 .resize(dimension, dimension)
                 .centerCrop()
                 .into(iv); Glide.with(iv.getContext()).load(imageUrl).into(iv); Glide.with(iv.getContext()).load(imageUrl).into(iv);
-
-
-
-
 
 
     }
