@@ -21,9 +21,9 @@ public class AppController extends Application {
     public static String IMAGE_SERVER_ADRESS="http://192.168.137.1/images/";
     */
 
-    public static String SERVER_ADRESS="http://192.168.1.4/rest/v1/";
-    public static String TAHA_ADRESS="http://192.168.1.4/chedliweldi/";
-    public static String IMAGE_SERVER_ADRESS="http://192.168.1.4/images/";
+    public static String SERVER_ADRESS="http://192.168.43.114/rest/v1/";
+    public static String TAHA_ADRESS="http://192.168.43.114/chedliweldi/";
+    public static String IMAGE_SERVER_ADRESS="http://192.168.43.114/images/";
 
 
 

@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:context=".Activities.AddJob"
-        tools:showIn="@layout/calendar_app_bar">
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".Activities.AddJob"
+    tools:showIn="@layout/calendar_app_bar">
+
     <LinearLayout
         android:id="@+id/LinearLayoutTitle"
         android:layout_width="0dp"
@@ -42,9 +43,9 @@
                         android:textColorHint="@color/green_primary">
 
                         <android.support.design.widget.TextInputEditText
+                            android:id="@+id/txtTitle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:id="@+id/txtTitle"
                             android:hint="Title" />
                     </android.support.design.widget.TextInputLayout>
                 </LinearLayout>
@@ -259,22 +260,41 @@
         android:layout_marginStart="8dp"
         android:background="@color/app_green"
         android:elevation="10dp"
-        android:visibility="gone"
         android:text="Add"
-
         android:textColor="@android:color/white"
+
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/morphing"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/LinearLayoutDescr"
+        tools:context="com.example.mapwithmarker.MapsMarkerActivity" />
 
     <com.dd.morphingbutton.MorphingButton
         android:id="@+id/morphing"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:text="Add"
         android:textColor="@color/white"
-        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
 </android.support.constraint.ConstraintLayout>

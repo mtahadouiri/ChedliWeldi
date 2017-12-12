@@ -56,14 +56,8 @@
         <activity android:name=".Activities.MyOfferActivity" />
         <activity android:name=".Activities.RequestsActivity" />
 
-        <service
-            android:name=".LiveCardService"
-            android:icon="@drawable/ic_glass_logo"
-            android:label="@string/title_activity_live_card_service" />
 
-        <activity
-            android:name=".LiveCardMenuActivity"
-            android:theme="@style/MenuTheme" />
+
         <activity android:name=".Activities.AddJob" />
     </application>
 
