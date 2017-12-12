@@ -58,7 +58,7 @@ public class RequestRecyclerViewAdapter extends RecyclerView.Adapter<RequestRecy
              feedItem = feedItemList.getJSONObject(i);
            customViewHolder.request.setText(feedItem.getString("firstName")+" "+feedItem.getString("lastName") +" Send you a request");
            // customViewHolder.description.setText(feedItem.getString("description"));
-           Glide.with(mContext).load(AppController.IMAGE_SERVER_ADRESS+feedItem.getString("photo")).into(customViewHolder.image);
+           Glide.with(mContext).load(AppController.IMAGE_SERVER_ADRESS+feedItem.getString("photo")).transform(new AppController.CircleTransform(mContext)).into(customViewHolder.image);
            /*
             final String id=feedItem.getString("idOffer");
             customViewHolder.btn.setOnClickListener(new View.OnClickListener() {

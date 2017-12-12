@@ -154,7 +154,7 @@ public class CreateAccountFragment extends Fragment {
                         SignUpActivity act = (SignUpActivity) getActivity() ;
                         act.email=email;
                         act.password=password.getText().toString();
-                        getFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.Fragcontainer,new CreateProfilFragment()).commit();
+                        getFragmentManager().beginTransaction().setCustomAnimations(R.animator.enter_from_right,R.animator.exit_to_left,R.animator.enter_from_left,R.animator.exit_to_right).addToBackStack(null).replace(R.id.Fragcontainer,new CreateProfilFragment()).commit();
                     }
 
 

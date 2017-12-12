@@ -83,8 +83,8 @@ public class ChooseTypeFragment extends Fragment {
     public void onClick(View view) {
 
          SignUpActivity activity = (SignUpActivity) getActivity() ;
-        activity.type=0;
-        getFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.Fragcontainer,new CreateAccountFragment()).commit();
+        activity.type="Parent";
+        getFragmentManager().beginTransaction().setCustomAnimations(R.animator.enter_from_right,R.animator.exit_to_left,R.animator.enter_from_left,R.animator.exit_to_right).addToBackStack(null).replace(R.id.Fragcontainer,new CreateAccountFragment()).commit();
     }
    });
 
@@ -94,9 +94,9 @@ public class ChooseTypeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 SignUpActivity activity = (SignUpActivity) getActivity() ;
-                activity.type=1;
+                activity.type="Babysitter";
 
-                getFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.Fragcontainer,new CreateAccountFragment()).commit();
+                getFragmentManager().beginTransaction().setCustomAnimations(R.animator.enter_from_right,R.animator.exit_to_left,R.animator.enter_from_left,R.animator.exit_to_right).addToBackStack(null).replace(R.id.Fragcontainer,new CreateAccountFragment()).commit();
             }
         });
 
