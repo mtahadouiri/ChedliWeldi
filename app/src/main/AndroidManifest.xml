@@ -48,14 +48,18 @@
 
 
 
-        <activity android:name=".Activities.ProfilActivity"></activity>
+        <activity android:name=".Activities.ProfilActivity"     android:excludeFromRecents="true" android:theme="@style/Theme.UserDialog" >
+
+
+        </activity>
 
         <activity android:name=".Activities.LoginActivity">
 
 
         </activity>
 
-        <activity android:name=".Activities.TestActivity"     >
+
+        <activity android:name=".Activities.CalendarActivity">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -66,7 +70,49 @@
         </activity>
 
 
+
+        <activity android:name=".Activities.OnGoingOfferActivity">
+
+
+
+
+        </activity>
+
+
+        <activity android:name=".Activities.SettingActivity"     >
+
+
+
+
+        </activity>
+
+
+
+        <activity android:name=".Activities.TestActivity"     >
+
+
+        </activity>
+
+
+        <activity android:name=".Activities.ParentMainActivity"     >
+
+
+
+        </activity>
+
+
+
+
+
         <activity android:name=".Activities.ReviewActivity">
+
+
+
+
+        </activity>
+
+        <activity android:name=".Activities.RequestProfilActivity">
+
 
 
 
@@ -80,7 +126,6 @@
         </activity>
 
         <activity android:name=".Activities.MyOfferActivity">
-
 
 
 
