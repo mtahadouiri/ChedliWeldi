@@ -136,6 +136,7 @@ public class Login extends Fragment {
                     }
                     else{
                         Log.i("etat","success");
+                        
                         connectedUser=jsonObject.getString("id");
                         type= jsonObject.getString("type");
                         if(type.equals("Babysitter")){

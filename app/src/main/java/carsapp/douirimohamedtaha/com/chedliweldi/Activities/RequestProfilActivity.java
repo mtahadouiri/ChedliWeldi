@@ -82,6 +82,12 @@ public class RequestProfilActivity extends AppCompatActivity {
         this.setFinishOnTouchOutside(true);
 
         getSupportFragmentManager().beginTransaction().replace(R.id.frame, new TabsFragment()).commit();
+        refuse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         accept.setOnClickListener(new View.OnClickListener() {
 

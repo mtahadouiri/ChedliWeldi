@@ -328,7 +328,7 @@ getCalendar(Login.connectedUser);
 
     @Override
     public List<? extends WeekViewEvent> onLoad(int periodIndex) {
-     return events;
+     return getEvent();
     }
 
     JSONArray offers;
