@@ -39,6 +39,7 @@ import carsapp.douirimohamedtaha.com.chedliweldi.Activities.LoginActivity;
 import carsapp.douirimohamedtaha.com.chedliweldi.Activities.MainActivity;
 import carsapp.douirimohamedtaha.com.chedliweldi.Activities.MyOfferActivity;
 import carsapp.douirimohamedtaha.com.chedliweldi.Activities.OfferListActivity;
+import carsapp.douirimohamedtaha.com.chedliweldi.Activities.ParentMainActivity;
 import carsapp.douirimohamedtaha.com.chedliweldi.Activities.SignUpActivity;
 import carsapp.douirimohamedtaha.com.chedliweldi.AppController;
 import carsapp.douirimohamedtaha.com.chedliweldi.R;
@@ -58,6 +59,10 @@ public class Login extends Fragment {
     @Bind(R.id.txtSignUp)
     TextView txtSignUp ;
     public static  String connectedUser="4";
+
+    //public static String type="Babysitter";
+    public static String type="Parent";
+
     public void validateLogin(String email ,String password){
 
 
@@ -111,29 +116,36 @@ public class Login extends Fragment {
 
 
         String url = AppController.SERVER_ADRESS+"login";
-        StringRequest sr = new StringRequest(Request.Method.POST, url , new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
+        StringRequest sr = new StringRequest(Request.Method.POST, url , response -> {
 
 
-                try {
-                    JSONObject jsonObject = new JSONObject(response);
-                    boolean d= jsonObject.getBoolean("error");
-                    if (d){
+            try {
+                JSONObject jsonObject = new JSONObject(response);
+                boolean d= jsonObject.getBoolean("error");
+                if (d){
 
-                        MaterialDialog dialog = new MaterialDialog.Builder(getActivity())
-                                .title("authentication")
-                                .content("incorect email or password")
-                                .positiveText("ok")
-                                .show();
+                    MaterialDialog dialog = new MaterialDialog.Builder(getActivity())
+                            .title("authentication")
+                            .content("incorect email or password")
+                            .positiveText("ok")
+                            .show();
 
 
+                }
+                else{
+                    Log.i("etat","success");
+                    connectedUser=jsonObject.getString("id");
+                    if(jsonObject.getString("type").equals("Babysitter")){
+                        showListoffers();
                     }
                     else{
                         Log.i("etat","success");
+                        
                         connectedUser=jsonObject.getString("id");
-                        if(jsonObject.getString("type").equals("Babysitter")){
+                        type= jsonObject.getString("type");
+                        if(type.equals("Babysitter")){
                             showListoffers();
+                          //  showParentMain();
                         }
                         else {
                     getBabysiiters();
@@ -142,20 +154,20 @@ public class Login extends Fragment {
 
 
                     }
+                   // showMyoffer();
 
 
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
 
 
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.d("", "Error: " + error.getMessage());
-                Log.d("", ""+error.getMessage()+","+error.toString());
-            }
+
+
+        }, error -> {
+            VolleyLog.d("", "Error: " + error.getMessage());
+            Log.d("", ""+error.getMessage()+","+error.toString());
         }){
             @Override
             protected java.util.Map<String,String> getParams(){
@@ -191,6 +203,11 @@ public class Login extends Fragment {
 
     void showListoffers(){
         Intent i = new Intent(getActivity(),OfferListActivity.class);
+        startActivity(i);
+    }
+
+    public void showParentMain(){
+        Intent i = new Intent(getActivity(),ParentMainActivity.class);
         startActivity(i);
     }
 
@@ -296,6 +313,8 @@ public class Login extends Fragment {
 // Add the request to the RequestQueue.
         queue.add(stringRequest);
     }
+
+
 
 
 
