@@ -23,8 +23,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 
-import com.imangazaliev.circlemenu.CircleMenu;
-import com.imangazaliev.circlemenu.CircleMenuButton;
+import com.nightonke.boommenu.BoomButtons.BoomButton;
+import com.nightonke.boommenu.BoomButtons.HamButton;
+import com.nightonke.boommenu.BoomButtons.OnBMClickListener;
+import com.nightonke.boommenu.BoomButtons.SimpleCircleButton;
+import com.nightonke.boommenu.BoomMenuButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +44,9 @@ public class Home extends AppCompatActivity implements Feed.OnFragmentInteractio
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
     private DrawerLayout drawer;
+    private BoomMenuButton bmb;
+    private HamButton.Builder boomButtonProfile;
+    private HamButton.Builder boomButtonAddJob;
 
     public String resp;
     public List<Babysitter> babysitters=new ArrayList<>();
@@ -69,28 +75,62 @@ public class Home extends AppCompatActivity implements Feed.OnFragmentInteractio
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        bmb = (BoomMenuButton) findViewById(R.id.bmb);
+        bmb.setNormalColor(getResources().getColor(R.color.primary));
+
         initView();
 
         initViewPager();
-        CircleMenu circleMenu = (CircleMenu) findViewById(R.id.circleMenu);
-        circleMenu.setOnItemClickListener(new CircleMenu.OnItemClickListener() {
+
+        setUpBoomMenu();
+    }
+
+    private void setUpBoomMenu() {
+        boomButtonProfile = new HamButton.Builder()
+                .normalImageRes(R.drawable.ic_add_white_24dp)
+                .normalTextRes(R.string.ham_job)
+                .subNormalTextRes(R.string.ham_job_sub)
+                .normalColorRes(R.color.primary);
+        bmb.addBuilder(boomButtonProfile);
+        boomButtonProfile.listener(new OnBMClickListener() {
             @Override
-            public void onItemClick(CircleMenuButton menuButton) {
+            public void onBoomButtonClick(int index) {
+                Log.d("BoomButtonProfile","clicked");
+                Intent i = new Intent(Home.this,AddJob.class);
+                startActivity(i);
+            }
+        });
+
+        boomButtonAddJob = new HamButton.Builder()
+                .normalImageRes(R.drawable.ic_settings_white)
+                .normalTextRes(R.string.ham_profile)
+                .subNormalTextRes(R.string.ham_profile_sub)
+                .normalColorRes(R.color.red_400);
+
+        bmb.addBuilder(boomButtonAddJob);
+        boomButtonAddJob.listener(new OnBMClickListener() {
+            @Override
+            public void onBoomButtonClick(int index) {
+                Log.d("boomButtonAddJob","clicked");
 
             }
         });
-        circleMenu.setStateUpdateListener(new CircleMenu.OnStateUpdateListener() {
-            @Override
-            public void onMenuExpanded() {
 
-            }
+        boomButtonProfile = new HamButton.Builder()
+                //.normalImageRes(R.drawable.profilee)
+                .normalTextRes(R.string.dummy_content)
+                .subNormalTextRes(R.string.title_activity_sign_up)
+                .normalColorRes(R.color.blue_A400);
 
-            @Override
-            public void onMenuCollapsed() {
+        bmb.addBuilder(boomButtonProfile);
 
-            }
-        });
+        boomButtonAddJob = new HamButton.Builder()
+               // .normalImageRes(R.drawable.profilee)
+                .normalTextRes(R.string.dummy_content)
+                .subNormalTextRes(R.string.title_activity_sign_up)
+                .normalColorRes(R.color.primary_dark);
 
+        bmb.addBuilder(boomButtonAddJob);
     }
 
 
