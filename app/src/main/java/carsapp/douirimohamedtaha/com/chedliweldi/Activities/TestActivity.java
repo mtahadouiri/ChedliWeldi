@@ -4,14 +4,19 @@ package carsapp.douirimohamedtaha.com.chedliweldi.Activities;
  * Created by oussama_2 on 11/27/2017.
  */
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.LinearLayoutCompat;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -56,6 +61,34 @@ Button btn;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.test);
 
+        btn=(Button) findViewById(R.id.testBtn);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(TestActivity.this,ProfilActivity.class);
+                //   JSONObject jsonObject  =new JSONObject();
+                // i.putExtra("json",jsonObject);
+                NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(TestActivity.this, "M_CH_ID");
+
+                notificationBuilder.setAutoCancel(true)
+                        .setDefaults(Notification.DEFAULT_ALL)
+                        .setPriority(1)
+                        .setWhen(System.currentTimeMillis())
+                        .setSmallIcon(R.mipmap.ic_launcher)
+                        .setTicker("Hearty365")
+                        //     .setPriority(Notification.PRIORITY_MAX) // this is deprecated in API 26 but you can still use for below 26. check below update for 26 API
+                        .setContentTitle("Default notification")
+                        .setContentText("Lorem ipsum dolor sit amet, consectetur adipiscing elit.")
+                        .setContentInfo("Info");
+
+                NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                notificationManager.notify(1, notificationBuilder.build());
+
+                Log.i("MyFirebaseMsgService","sone");
+
+            }
+        });
+        /*
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragmentLayout, new MyOffersFragment(), "")

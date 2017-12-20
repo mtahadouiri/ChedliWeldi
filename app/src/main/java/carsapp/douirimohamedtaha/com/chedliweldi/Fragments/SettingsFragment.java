@@ -4,7 +4,12 @@ package carsapp.douirimohamedtaha.com.chedliweldi.Fragments;
  * Created by oussama_2 on 12/1/2017.
  */
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
+import android.app.TaskStackBuilder;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -12,6 +17,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
@@ -56,9 +62,12 @@ import java.util.HashMap;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import carsapp.douirimohamedtaha.com.chedliweldi.Activities.LoginActivity;
+import carsapp.douirimohamedtaha.com.chedliweldi.Activities.MainActivity;
 import carsapp.douirimohamedtaha.com.chedliweldi.Activities.SettingActivity;
 import carsapp.douirimohamedtaha.com.chedliweldi.AppController;
 import carsapp.douirimohamedtaha.com.chedliweldi.R;
+import carsapp.douirimohamedtaha.com.chedliweldi.Utils.ImageProcessClass;
 import carsapp.douirimohamedtaha.com.chedliweldi.Utils.RoundedBitmapDrawableUtility;
 import carsapp.douirimohamedtaha.com.chedliweldi.adapters.RequestRecyclerViewAdapter;
 import me.gujun.android.taggroup.TagGroup;
@@ -92,7 +101,10 @@ TagGroup tags;
 
     String ImagePath = "image_path" ;
 
-    String ServerUploadPath ="http://10.0.2.2/rest/upload.php" ;
+   // String ServerUploadPath ="http://10.0.2.2/rest/upload.php" ;
+    String ServerUploadPath =AppController.SERVER_ADRESS+"upload" ;
+
+
     LinearLayout t;
     //Overriden method onCreateView
 ImageView profileImg;
@@ -100,6 +112,10 @@ TextView fullName;
 RelativeLayout relativeLayout;
 Toolbar toolbar;
     RelativeLayout infoTab;
+    RelativeLayout notificationTab;
+    RelativeLayout managePhotosTab;
+
+    RelativeLayout skillsTab;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -115,6 +131,11 @@ Toolbar toolbar;
 
         profileImg =(ImageView) v.findViewById(R.id.imageView4);
        relativeLayout =(RelativeLayout) v.findViewById(R.id.relativeLayout);
+        skillsTab=(RelativeLayout) v.findViewById(R.id.manageSkills);
+        managePhotosTab=(RelativeLayout) v.findViewById(R.id.managePhotos);
+        notificationTab=(RelativeLayout) v.findViewById(R.id.notification_bar);
+
+
         relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -126,7 +147,30 @@ Toolbar toolbar;
 
                 intent.setAction(Intent.ACTION_GET_CONTENT);
 
+
+
                 startActivityForResult(Intent.createChooser(intent, "Select Image From Gallery"), 1);
+            }
+        });
+
+
+notificationTab.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View view) {
+
+    }
+});
+
+        skillsTab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .setCustomAnimations(R.animator.enter_from_right,R.animator.exit_to_left,R.animator.enter_from_left,R.animator.exit_to_right)
+                        .replace(R.id.frame, new EditSkillsFragment(), "").addToBackStack("dff")
+
+
+                        .commit();
             }
         });
 
@@ -139,6 +183,20 @@ Toolbar toolbar;
                         .beginTransaction()
                         .setCustomAnimations(R.animator.enter_from_right,R.animator.exit_to_left,R.animator.enter_from_left,R.animator.exit_to_right)
                         .replace(R.id.frame, new InfoFragment(), "").addToBackStack("dff")
+
+
+                        .commit();
+            }
+        });
+
+
+        managePhotosTab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .setCustomAnimations(R.animator.enter_from_right,R.animator.exit_to_left,R.animator.enter_from_left,R.animator.exit_to_right)
+                        .replace(R.id.frame, new ManagePhotoFragment(), "").addToBackStack("dff")
 
 
                         .commit();
@@ -278,100 +336,7 @@ Toolbar toolbar;
         AsyncTaskUploadClassOBJ.execute();
     }
 
-    public class ImageProcessClass{
 
-        public String ImageHttpRequest(String requestURL,HashMap<String, String> PData) {
-
-            StringBuilder stringBuilder = new StringBuilder();
-
-            try {
-
-                URL url;
-                HttpURLConnection httpURLConnectionObject ;
-                OutputStream OutPutStream;
-                BufferedWriter bufferedWriterObject ;
-                BufferedReader bufferedReaderObject ;
-                int RC ;
-
-                url = new URL(requestURL);
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                httpURLConnectionObject = (HttpURLConnection) url.openConnection();
-
-                httpURLConnectionObject.setReadTimeout(19000);
-
-                httpURLConnectionObject.setConnectTimeout(19000);
-
-                httpURLConnectionObject.setRequestMethod("POST");
-
-                httpURLConnectionObject.setDoInput(true);
-
-                httpURLConnectionObject.setDoOutput(true);
-
-                OutPutStream = httpURLConnectionObject.getOutputStream();
-
-                bufferedWriterObject = new BufferedWriter(
-
-                        new OutputStreamWriter(OutPutStream, "UTF-8"));
-
-                bufferedWriterObject.write(bufferedWriterDataFN(PData));
-
-                bufferedWriterObject.flush();
-
-                bufferedWriterObject.close();
-
-                OutPutStream.close();
-
-                RC = httpURLConnectionObject.getResponseCode();
-
-                if (RC == HttpsURLConnection.HTTP_OK) {
-
-                    bufferedReaderObject = new BufferedReader(new InputStreamReader(httpURLConnectionObject.getInputStream()));
-
-
-                    stringBuilder = new StringBuilder();
-
-                    String RC2;
-
-                    while ((RC2 = bufferedReaderObject.readLine()) != null){
-
-                        stringBuilder.append(RC2);
-                    }
-                }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return stringBuilder.toString();
-        }
-
-        private String bufferedWriterDataFN(HashMap<String, String> HashMapParams) throws UnsupportedEncodingException {
-
-            StringBuilder stringBuilderObject;
-
-            stringBuilderObject = new StringBuilder();
-            for (java.util.Map.Entry<String, String> KEY : HashMapParams.entrySet()) {
-
-                if (check)
-
-                    check = false;
-                else
-                    stringBuilderObject.append("&");
-
-                stringBuilderObject.append(URLEncoder.encode(KEY.getKey(), "UTF-8"));
-
-                stringBuilderObject.append("=");
-
-                stringBuilderObject.append(URLEncoder.encode(KEY.getValue(), "UTF-8"));
-            }
-
-            return stringBuilderObject.toString();
-        }
-
-    }
 
     @Override
     public void onActivityResult(int RC, int RQC, Intent I) {
@@ -386,7 +351,11 @@ Toolbar toolbar;
             try {
 
                 bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), uri);
-                ImageUploadToServerFunction();
+
+
+                    ImageUploadToServerFunction();
+
+
 
 
 

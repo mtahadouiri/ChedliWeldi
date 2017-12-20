@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/default_toolbar" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+       >
+
+        <EditText
+            android:id="@+id/password"
+
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="3dp"
+            android:background="@color/transparent"
+            android:hint="add skills" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Add" />
+
+
+    </LinearLayout>
+
+    <me.gujun.android.taggroup.TagGroup
+        app:atg_borderColor="@color/grey_300"
+        app:atg_verticalSpacing="10dp"  android:layout_marginLeft="5dp"
+        app:atg_horizontalSpacing="10dp"
+        style="@style/TagGroup.Large"
+        app:atg_isAppendMode="true"
+
+        android:id="@+id/tags"  app:atg_backgroundColor="@color/grey_300" app:atg_textColor="@color/mtlcBlack" android:layout_height="wrap_content" android:layout_width="match_parent" />
+
+
+</LinearLayout>
