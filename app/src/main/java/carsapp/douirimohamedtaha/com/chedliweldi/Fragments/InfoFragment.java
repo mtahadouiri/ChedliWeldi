@@ -83,30 +83,7 @@ Toolbar toolbar;
         //Change R.layout.tab1 in you classes
         View v = inflater.inflate(R.layout.info, container, false);
 
-choose = (Button) v.findViewById(R.id.btnchoose);
-        upload = (Button) v.findViewById(R.id.btnupload);
 
-choose.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View view) {
-        Intent intent = new Intent();
-
-        intent.setType("image/*");
-
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-
-        startActivityForResult(Intent.createChooser(intent, "Select Image From Gallery"), 1);
-
-
-    }
-});
-
-                 upload.setOnClickListener(new View.OnClickListener() {
-                     @Override
-                     public void onClick(View view) {
-
-                     }
-                 });
 
 
       toolbar = (Toolbar) v.findViewById(R.id.toolbar);

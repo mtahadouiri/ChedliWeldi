@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "677675240662",
+    "firebase_url": "https://chedliweldi2.firebaseio.com",
+    "project_id": "chedliweldi2",
+    "storage_bucket": "chedliweldi2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:677675240662:android:0ee7f5dcb8ddc87f",
+        "android_client_info": {
+          "package_name": "carsapp.douirimohamedtaha.com.chedliweldi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "677675240662-ij2icu0f9th3jdelm2ikqolfvppdb13v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDrpubN62bSHI8aPUetttmP1Cyq5EKuxN0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -14,13 +14,106 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:text="hello" />
+            android:layout_height="wrap_content" android:textSize="15dp" android:text="to change your password please fill out these forms" />
 
-        <Button
-            android:layout_width="wrap_content" android:id="@+id/btnchoose"
-            android:layout_height="wrap_content" android:text="choose" />
-        <Button
-            android:layout_width="wrap_content" android:id="@+id/btnupload"
-            android:layout_height="wrap_content" android:text=" upload" />
+        <LinearLayout
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:background="@drawable/border"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/password"
+
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="3dp"
+                    android:background="@color/transparent"
+                    android:hint="current password" />
+
+
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="5dp" android:background="@color/transparent"/>
+
+
+
+            <LinearLayout
+                android:background="@drawable/border"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/newPassword"
+
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="3dp"
+                    android:background="@color/transparent"
+                    android:hint="new password" />
+
+
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="5dp" android:background="@color/transparent"/>
+
+            <LinearLayout
+                android:background="@drawable/border"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/confirmPassword"
+
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="3dp"
+                    android:background="@color/transparent"
+                    android:hint="confirm password" />
+
+
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="5dp" android:background="@color/transparent"/>
+
+
+            <Button
+                android:layout_width="300dp"
+                android:layout_height="wrap_content" android:text="change Password"
+                android:id="@+id/btnConfirm"
+
+
+                />
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </LinearLayout>
+
+
+
     </LinearLayout>
 </LinearLayout>
