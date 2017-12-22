@@ -255,6 +255,7 @@
 
             android:background="@color/grey_300" />
         <RelativeLayout
+            android:id="@+id/change_password_tab"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:background="@android:color/white">

@@ -26,11 +26,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import carsapp.douirimohamedtaha.com.chedliweldi.AppController;
-import carsapp.douirimohamedtaha.com.chedliweldi.Fragments.RequestFragment;
 import carsapp.douirimohamedtaha.com.chedliweldi.R;
 import carsapp.douirimohamedtaha.com.chedliweldi.adapters.RecycleItemClickListener;
 import carsapp.douirimohamedtaha.com.chedliweldi.adapters.RequestRecyclerViewAdapter;
@@ -40,22 +43,54 @@ public class RequestsActivity extends AppCompatActivity {
     RecyclerView offers ;
    RequestRecyclerViewAdapter adapter ;
  LinearLayoutManager layoutManager;
+ TextView description ;
+    TextView date ;
+    Button btnRequests ;
+
     String id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_request);
 
-       ;
+        super.onCreate(savedInstanceState);
+        Intent  k = getIntent();
+
+        setContentView(R.layout.activity_request);
+        description = (TextView) findViewById(R.id.txtDescription);
+        date = (TextView) findViewById(R.id.txtDate);
+        btnRequests = (Button) findViewById(R.id.btnRequests);
+
+
+        String description = k.getStringExtra("description");
+
+      this.description.setText(description);
+        id =k.getStringExtra("id");
+        int nbrRequests= k.getIntExtra("requests",0);
+        btnRequests.setText(nbrRequests+" requests");
+
+        String date =k.getStringExtra("date");
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
+        try {
+            Date d = dateFormatter.parse(date);
+            dateFormatter.applyPattern("E M 'at' h:m a");
+            date=dateFormatter.format(d);
+            this.date.setText(date);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
 
         offers = (RecyclerView) findViewById(R.id.recycler_view);
+
+
+
         layoutManager=new LinearLayoutManager(this);
         offers.setLayoutManager(layoutManager);
 
         offers.addOnItemTouchListener(new RecycleItemClickListener(this, offers, new RecycleItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, final int position) {
-                /*
+
                 Log.i(" dfs","sdf");
                 boolean wrapInScrollView = true;
                 final MaterialDialog n =  new MaterialDialog.Builder(RequestsActivity.this
@@ -67,7 +102,9 @@ public class RequestsActivity extends AppCompatActivity {
 
                 View v = n.getView();
                 final Button accept = (Button) v.findViewById(R.id.btnAccept);
+                final Button profil = (Button) v.findViewById(R.id.btnProfil);
                 final ImageView profilImage = (ImageView) v.findViewById(R.id.profileImage);
+
 
                 final TextView txtName = (TextView) v.findViewById(R.id.txtUserName);
 
@@ -95,19 +132,26 @@ public class RequestsActivity extends AppCompatActivity {
                         n.dismiss();
                     }
                 });
+                profil.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent i = new Intent(RequestsActivity.this,ProfilActivity.class);
+                        //   JSONObject jsonObject  =new JSONObject();
+                        // i.putExtra("json",jsonObject);
+                        try {
+                            ProfilActivity.user=requests.getJSONObject(position);
+                            startActivity(i);
+                        } catch (JSONException e) {
 
-                */
+                        }
+                    }
+                });
 
-                Intent i = new Intent(RequestsActivity.this,RequestProfilActivity.class);
-                //   JSONObject jsonObject  =new JSONObject();
-                // i.putExtra("json",jsonObject);
-                try {
-                    RequestProfilActivity.user=requests.getJSONObject(position);
-                    startActivity(i);
-                } catch (JSONException e) {
 
-                }
 
+                /*
+
+*/
             }
 
 
@@ -119,9 +163,8 @@ public class RequestsActivity extends AppCompatActivity {
         }));
 
 
-        Intent  k = getIntent();
 
-         id =k.getStringExtra("id");
+
 
           getRequests(id);
 
@@ -161,7 +204,7 @@ public class RequestsActivity extends AppCompatActivity {
                                 offers.getContext(),
                                 layoutManager.getOrientation()
                         );
-                        offers.addItemDecoration(mDividerItemDecoration);
+                      //  offers.addItemDecoration(mDividerItemDecoration);
                         adapter = new RequestRecyclerViewAdapter(RequestsActivity.this, requests);
                         offers.setAdapter(adapter);
                         Log.i("etat","success");

@@ -60,6 +60,8 @@ dependencies {
     compile 'com.github.d-max:spots-dialog:0.7@aar'
     compile 'com.google.firebase:firebase-core:11.6.2'
     compile 'com.google.firebase:firebase-messaging:11.6.2'
+    compile 'com.nex3z:notification-badge:0.3.0'
+
 
 
 

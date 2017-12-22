@@ -32,7 +32,7 @@ import com.etiennelawlor.imagegallery.library.adapters.ImageGalleryAdapter;
 import com.etiennelawlor.imagegallery.library.enums.PaletteColorType;
 import com.squareup.picasso.Picasso;
 
-import carsapp.douirimohamedtaha.com.chedliweldi.Fragments.MyOffersFragment;
+
 import carsapp.douirimohamedtaha.com.chedliweldi.Fragments.ParentMainFragment;
 import carsapp.douirimohamedtaha.com.chedliweldi.R;
 import me.gujun.android.taggroup.TagGroup;

@@ -12,7 +12,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -20,21 +19,15 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
-import com.alamkanak.weekview.WeekView;
 import com.alamkanak.weekview.WeekViewEvent;
-import com.alamkanak.weekview.WeekViewLoader;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
-import com.etiennelawlor.imagegallery.library.ImageGalleryFragment;
-import com.etiennelawlor.imagegallery.library.enums.PaletteColorType;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -50,11 +43,8 @@ import java.util.Map;
 import carsapp.douirimohamedtaha.com.chedliweldi.AppController;
 import carsapp.douirimohamedtaha.com.chedliweldi.Fragments.Login;
 import carsapp.douirimohamedtaha.com.chedliweldi.R;
-import carsapp.douirimohamedtaha.com.chedliweldi.adapters.MyOfferRecyclerViewAdapter;
-import carsapp.douirimohamedtaha.com.chedliweldi.adapters.OfferRecycleViewAdapter;
 import carsapp.douirimohamedtaha.com.chedliweldi.adapters.OnGoingOfferRecycleViewAdapter;
 import carsapp.douirimohamedtaha.com.chedliweldi.adapters.RecycleItemClickListener;
-import me.gujun.android.taggroup.TagGroup;
 
 public class OnGoingOfferActivity extends AppCompatActivity  implements   NavigationView.OnNavigationItemSelectedListener {
 
