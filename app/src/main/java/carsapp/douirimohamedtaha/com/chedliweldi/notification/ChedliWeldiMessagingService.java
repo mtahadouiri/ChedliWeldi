@@ -6,24 +6,14 @@ package carsapp.douirimohamedtaha.com.chedliweldi.notification;
 
 import android.app.Notification;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
-import carsapp.douirimohamedtaha.com.chedliweldi.Activities.LoginActivity;
-import carsapp.douirimohamedtaha.com.chedliweldi.Activities.SettingActivity;
-import carsapp.douirimohamedtaha.com.chedliweldi.Activities.SignUpActivity;
-import carsapp.douirimohamedtaha.com.chedliweldi.Activities.TestActivity;
-import carsapp.douirimohamedtaha.com.chedliweldi.Fragments.SignUp;
 import carsapp.douirimohamedtaha.com.chedliweldi.R;
 
 public class ChedliWeldiMessagingService extends FirebaseMessagingService {

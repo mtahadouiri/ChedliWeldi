@@ -70,7 +70,7 @@ public class ReviewRecycleViewAdapter extends RecyclerView.Adapter<ReviewRecycle
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             try {
                 Date date = format.parse(dateString);
-                SimpleDateFormat format2 = new SimpleDateFormat("E MM Y");
+                SimpleDateFormat format2 = new SimpleDateFormat("E MM y");
                customViewHolder.date.setText( format2.format(date));
 
                 System.out.println(date);

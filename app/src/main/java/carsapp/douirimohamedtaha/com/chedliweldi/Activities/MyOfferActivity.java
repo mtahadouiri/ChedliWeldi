@@ -1,20 +1,19 @@
 package carsapp.douirimohamedtaha.com.chedliweldi.Activities;
 
+/**
+ * Created by oussama_2 on 11/27/2017.
+ */
+
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.GridView;
+import android.widget.RelativeLayout;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -22,67 +21,75 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
+import com.etiennelawlor.imagegallery.library.ImageGalleryFragment;
+import com.etiennelawlor.imagegallery.library.enums.PaletteColorType;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import carsapp.douirimohamedtaha.com.chedliweldi.AppController;
-import carsapp.douirimohamedtaha.com.chedliweldi.Fragments.Login;
 import carsapp.douirimohamedtaha.com.chedliweldi.R;
-import carsapp.douirimohamedtaha.com.chedliweldi.adapters.MyOfferRecyclerViewAdapter;
-import carsapp.douirimohamedtaha.com.chedliweldi.adapters.RecycleItemClickListener;
+import carsapp.douirimohamedtaha.com.chedliweldi.adapters.OfferAdapter;
+import me.gujun.android.taggroup.TagGroup;
 
-public class MyOfferActivity extends AppCompatActivity {
+public class MyOfferActivity extends AppCompatActivity  {
 
-    RecyclerView offers ;
-   MyOfferRecyclerViewAdapter adapter ;
+    private static final String TAG = "MainActivity";
+    ImageGalleryFragment fragment;
+   LinearLayoutCompat linear ;
 
+
+    private PaletteColorType paletteColorType;
+    TagGroup tags;
+    RelativeLayout infoTab ;
+Button btn;
+    GridView grid;
     @Override
+
+
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.activity_my_offers);
-        initView();
-       ;
-
-        offers = (RecyclerView) findViewById(R.id.recycler_view);
-        offers.setLayoutManager(new LinearLayoutManager(this));
-
-          getOffers(LoginActivity.connectedUser);
-
-        offers.addOnItemTouchListener(new RecycleItemClickListener(this, offers, new RecycleItemClickListener.OnItemClickListener() {
+        setContentView(R.layout.my_offer);
+        //NotificationBadge  mBadge = (NotificationBadge) findViewById(R.id.badge);
+        //mBadge.setNumber(5);
+        grid =  (GridView) findViewById(R.id.grid);
+        grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(View view, final int position) {
-                Intent i = new Intent(MyOfferActivity.this,RequestsActivity.class);
-                final String  ff;
-                try {
-                    ff = off.getJSONObject(position).getString("id");
-                    i.putExtra("id",ff);
-                    startActivity(i);
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
+                Intent intent = new Intent(MyOfferActivity.this,RequestsActivity.class);
+
+                try {
+                    String ff = offers.getJSONObject(i).getString("id");
+                    String description =offers.getJSONObject(i).getString("description");
+                    String date =offers.getJSONObject(i).getString("start");
+                    int nbr =offers.getJSONObject(i).getInt("requests");
+                    intent.putExtra("id",ff);
+                    intent.putExtra("description",description);
+                    intent.putExtra("date",date);
+                    intent.putExtra("requests",nbr);
+                    startActivity(intent);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
-
-
             }
+        });
+        getOffers("4");
 
 
 
-            @Override
-            public void onItemLongClick(View view, int position) {
-                Log.i(" dfs","sdf");
-            }
-        }));
 
 
 
     }
-    JSONArray off;
+
+    JSONArray offers;
+
     private void getOffers(final String id_user) {
 
 
@@ -99,20 +106,27 @@ public class MyOfferActivity extends AppCompatActivity {
 
 
                 try {
-
-
-                     off = new JSONArray(response);
-
-
-
-
-                 Log.i("","");
+                    JSONObject jsonObject = new JSONObject(response);
+                    boolean d= jsonObject.getBoolean("error");
 
 
 
-                        adapter = new MyOfferRecyclerViewAdapter(MyOfferActivity.this, off);
-                        offers.setAdapter(adapter);
+                    if (d){
+                        Log.i("etat","failed");
+                    }
+                    else{
 
+                        offers = jsonObject.getJSONArray("offers");
+
+
+                        OfferAdapter adapter = new OfferAdapter(offers);
+
+                        grid.setAdapter(adapter);
+                        adapter.notifyDataSetChanged();
+
+
+                        Log.i("etat","success");
+                    }
 
 
                 } catch (JSONException e) {
@@ -154,123 +168,6 @@ public class MyOfferActivity extends AppCompatActivity {
 
 
     }
-
-    private DrawerLayout drawer;
-
-    private void initView() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main);
-        setSupportActionBar(toolbar);
-
-        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        //drawer.addDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        //  navigationView.setNavigationItemSelectedListener(this);
-        navigationView.setItemIconTintList(null);
-
-        Menu m = navigationView.getMenu();
-        //   MenuItem foo_menu_item=m.add("foo");
-
-        MenuItem myOffers = (MenuItem) m.findItem(R.id.nav_my_offers);
-
-
-        myOffers.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-
-                Intent i = new Intent(AppController.getContext(),MyOfferActivity.class);
-                startActivity(i);
-
-                return false;
-            }
-        });
-
-        MenuItem goingOffers = (MenuItem) m.findItem(R.id.on_going_offers);
-
-        MenuItem calendar = (MenuItem) m.findItem(R.id.calendar);
-
-
-
-        goingOffers.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-
-                Intent i = new Intent(AppController.getContext(),OnGoingOfferActivity.class);
-                startActivity(i);
-                return false;
-            }
-
-        });
-
-
-        calendar.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-
-                Intent i = new Intent(AppController.getContext(),CalendarActivity.class);
-                startActivity(i);
-                return false;
-            }
-
-        });
-
-
-        if(Login.type.equals("Babysitter")){
-            myOffers.setVisible(false);
-            goingOffers.setVisible(true);
-            calendar.setVisible(true);
-        }
-        else{
-            calendar.setVisible(false);
-            goingOffers.setVisible(false);
-        }
-
-
-        MenuItem settings = (MenuItem) m.findItem(R.id.nav_settings);
-
-
-        settings.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-
-                Intent i = new Intent(AppController.getContext(),SettingActivity.class);
-                startActivity(i);
-                return false;
-            }
-        });
-
-
-
-
-
-
-
-        View headerView = navigationView.getHeaderView(0);
-
-
-        LinearLayout nav_header = (LinearLayout) headerView.findViewById(R.id.nav_header);
-        nav_header.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(AppController.getContext(), MainActivity.class);
-                startActivity(intent);
-                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-                drawer.closeDrawer(GravityCompat.START);
-            }
-        });
-
-
-    }
-
-
-
 
 
 }

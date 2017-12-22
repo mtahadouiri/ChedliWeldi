@@ -10,7 +10,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import carsapp.douirimohamedtaha.com.chedliweldi.Activities.MyOfferActivity;
 import carsapp.douirimohamedtaha.com.chedliweldi.Fragments.AboutFragment;
-import carsapp.douirimohamedtaha.com.chedliweldi.Fragments.MyOffersFragment;
+
 import carsapp.douirimohamedtaha.com.chedliweldi.Fragments.OffersFragment;
 import carsapp.douirimohamedtaha.com.chedliweldi.Fragments.PhotosFragment;
 import carsapp.douirimohamedtaha.com.chedliweldi.Fragments.ReviewFragment;
@@ -42,8 +42,8 @@ public class ParentPager extends FragmentStatePagerAdapter {
                OffersFragment tab1 =  new OffersFragment();
                 return tab1;
             case 1:
-               MyOffersFragment tab2 =  new  MyOffersFragment();
-                return tab2;
+
+                return null;
             default:
                 return null;
         }

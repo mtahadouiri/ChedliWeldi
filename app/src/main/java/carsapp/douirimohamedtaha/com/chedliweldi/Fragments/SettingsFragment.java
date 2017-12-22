@@ -95,7 +95,7 @@ TagGroup tags;
 
 
 
-    String GetImageNameEditText="tt";
+    String GetImageNameEditText="my_offer";
 
     String ImageName = "image_name" ;
 
@@ -112,6 +112,7 @@ TextView fullName;
 RelativeLayout relativeLayout;
 Toolbar toolbar;
     RelativeLayout infoTab;
+    RelativeLayout passwordTab;
     RelativeLayout notificationTab;
     RelativeLayout managePhotosTab;
 
@@ -130,12 +131,11 @@ Toolbar toolbar;
         loading.hide();
 
         profileImg =(ImageView) v.findViewById(R.id.imageView4);
-       relativeLayout =(RelativeLayout) v.findViewById(R.id.relativeLayout);
+        relativeLayout =(RelativeLayout) v.findViewById(R.id.relativeLayout);
         skillsTab=(RelativeLayout) v.findViewById(R.id.manageSkills);
         managePhotosTab=(RelativeLayout) v.findViewById(R.id.managePhotos);
         notificationTab=(RelativeLayout) v.findViewById(R.id.notification_bar);
-
-
+        passwordTab=(RelativeLayout) v.findViewById(R.id.change_password_tab);
         relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -161,6 +161,8 @@ notificationTab.setOnClickListener(new View.OnClickListener() {
     }
 });
 
+
+
         skillsTab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -168,6 +170,20 @@ notificationTab.setOnClickListener(new View.OnClickListener() {
                         .beginTransaction()
                         .setCustomAnimations(R.animator.enter_from_right,R.animator.exit_to_left,R.animator.enter_from_left,R.animator.exit_to_right)
                         .replace(R.id.frame, new EditSkillsFragment(), "").addToBackStack("dff")
+
+
+                        .commit();
+            }
+        });
+
+
+        passwordTab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .setCustomAnimations(R.animator.enter_from_right,R.animator.exit_to_left,R.animator.enter_from_left,R.animator.exit_to_right)
+                        .replace(R.id.frame, new ChangePasswordFragment(), "").addToBackStack("dff")
 
 
                         .commit();
