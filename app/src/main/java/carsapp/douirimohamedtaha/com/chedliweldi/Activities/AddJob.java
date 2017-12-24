@@ -3,6 +3,8 @@ package carsapp.douirimohamedtaha.com.chedliweldi.Activities;
 import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
@@ -57,6 +59,8 @@ import java.util.TimeZone;
 import carsapp.douirimohamedtaha.com.chedliweldi.AppController;
 import carsapp.douirimohamedtaha.com.chedliweldi.R;
 
+import static carsapp.douirimohamedtaha.com.chedliweldi.Fragments.Login.PREFS_NAME;
+
 public class AddJob extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener, OnMapReadyCallback,LocationListener {
     private GoogleMap map;
     private MapView mapView;
@@ -66,6 +70,8 @@ public class AddJob extends AppCompatActivity implements TimePickerDialog.OnTime
     private Button addJob;
     private AppBarLayout appBarLayout;
     private LatLng position;
+    private int id;
+    private String date;
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("d MMMM yyyy", /*Locale.getDefault()*/Locale.ENGLISH);
     private final SimpleDateFormat dateFormatSQL = new SimpleDateFormat("yyyy-MM-dd", /*Locale.getDefault()*/Locale.ENGLISH);
 
@@ -79,6 +85,7 @@ public class AddJob extends AppCompatActivity implements TimePickerDialog.OnTime
     private LocationManager locationManager;
     private String provider;
     private SupportMapFragment mapFragment;
+    private SharedPreferences settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,6 +111,7 @@ public class AddJob extends AppCompatActivity implements TimePickerDialog.OnTime
         addJob = (Button) findViewById(R.id.btnAddJob);
         btnMorph = (MorphingButton) findViewById(R.id.morphing);
         morphToSquare(btnMorph, 0);
+        settings = this.getSharedPreferences(PREFS_NAME, 0);
 
         btnMorph.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,7 +119,7 @@ public class AddJob extends AppCompatActivity implements TimePickerDialog.OnTime
                 if ((title.getText().toString().trim().length()) <= 0) {
                     morphToFailure(btnMorph, integer(R.integer.mb_animation));
                 } else {
-                    AddJobPost(4, selectedDate, title.getText().toString(), descr.getText().toString(), timeFrom.getText().toString(), timeTo.getText().toString(),position);
+                    AddJobPost(Integer.parseInt(settings.getString("id",null)), selectedDate, title.getText().toString(), descr.getText().toString(), timeFrom.getText().toString(), timeTo.getText().toString(),position);
                 }
 
             }
@@ -193,6 +201,8 @@ public class AddJob extends AppCompatActivity implements TimePickerDialog.OnTime
                 response -> {
                     // response
                     Log.d("Response", response);
+                    id = Integer.parseInt(response);
+                    this.date = selectedDate;
                     morphToSuccess(btnMorph);
 
                 },
@@ -206,8 +216,8 @@ public class AddJob extends AppCompatActivity implements TimePickerDialog.OnTime
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("id", "" + parentId);
-                params.put("desc", descr);
                 params.put("date", date);
+                params.put("desc", descr);
                 params.put("from", from);
                 params.put("to", to);
                 params.put("title", title);
@@ -276,12 +286,16 @@ public class AddJob extends AppCompatActivity implements TimePickerDialog.OnTime
                 .height(dimen(R.dimen.mb_height_56))
                 .color(color(R.color.green_primary))
                 .colorPressed(color(R.color.green_primary_dark))
-                .icon(R.drawable.ic_check);
+                .icon(R.drawable.ic_right_arrow);
         btnMorph.morph(circle);
         btnMorph.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.d("morph", "succes click");
+                Intent i = new Intent(AddJob.this,CreateTaskListForJob.class);
+                i.putExtra("id",id);
+                i.putExtra("date",date);
+                startActivity(i);
             }
         });
     }
@@ -312,11 +326,15 @@ public class AddJob extends AppCompatActivity implements TimePickerDialog.OnTime
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+
         map=googleMap;
         if(checkLocationPermission()){
             googleMap.setMyLocationEnabled(true);
             map.setMyLocationEnabled(true);
         }
+        position =new LatLng(Double.parseDouble(settings.getString("altitude",null)),Double.parseDouble(settings.getString("longitude",null)));
+        googleMap.clear();
+        googleMap.addMarker(new MarkerOptions().position(position));
         googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
 
             @Override
@@ -368,7 +386,7 @@ public class AddJob extends AppCompatActivity implements TimePickerDialog.OnTime
                 // sees the explanation, try again to request the permission.
                 new AlertDialog.Builder(this)
                         .setTitle("Location permission")
-                        .setMessage("We need your permission to access your location")
+                        .setMessage("We need your permission to access your details")
                         .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
@@ -404,12 +422,12 @@ public class AddJob extends AppCompatActivity implements TimePickerDialog.OnTime
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
                     // permission was granted, yay! Do the
-                    // location-related task you need to do.
+                    // details-related task you need to do.
                     if (ContextCompat.checkSelfPermission(this,
                             Manifest.permission.ACCESS_FINE_LOCATION)
                             == PackageManager.PERMISSION_GRANTED) {
                         map.setMyLocationEnabled(true);
-                        //Request location updates:
+                        //Request details updates:
                         locationManager.requestLocationUpdates(provider, 400, 1, this);
                     }
 

@@ -37,10 +37,11 @@ import carsapp.douirimohamedtaha.com.chedliweldi.Entities.Babysitter;
 import carsapp.douirimohamedtaha.com.chedliweldi.Fragments.Feed;
 import carsapp.douirimohamedtaha.com.chedliweldi.Fragments.Login;
 import carsapp.douirimohamedtaha.com.chedliweldi.Fragments.Map;
+import carsapp.douirimohamedtaha.com.chedliweldi.Fragments.ParentProfil;
 import carsapp.douirimohamedtaha.com.chedliweldi.R;
 import carsapp.douirimohamedtaha.com.chedliweldi.Utils.FragmentAdapter;
 
-public class Home extends AppCompatActivity implements Feed.OnFragmentInteractionListener, Map.OnFragmentInteractionListener, NavigationView.OnNavigationItemSelectedListener {
+public class Home extends AppCompatActivity implements Feed.OnFragmentInteractionListener, Map.OnFragmentInteractionListener, NavigationView.OnNavigationItemSelectedListener,ParentProfil.OnFragmentInteractionListener {
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
     private DrawerLayout drawer;
@@ -70,19 +71,30 @@ public class Home extends AppCompatActivity implements Feed.OnFragmentInteractio
             }
         }
     };
+    private String name;
+    private String lastName;
+    private String imageUrl;
+    private String email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        //bmb = (BoomMenuButton) findViewById(R.id.bmb);
-        //bmb.setNormalColor(getResources().getColor(R.color.primary));
+        bmb = (BoomMenuButton) findViewById(R.id.bmb);
+        bmb.setNormalColor(getResources().getColor(R.color.primary));
 
         initView();
 
         initViewPager();
 
-      //  setUpBoomMenu();
+        setUpBoomMenu();
+
+      /*  Bundle inBundle = getIntent().getExtras();
+        name = inBundle.getString("name");
+        lastName = inBundle.getString("lastname");
+        imageUrl = inBundle.getString("imageUrl");
+        email = inBundle.getString("email");*/
+
     }
 
     private void setUpBoomMenu() {
@@ -112,7 +124,11 @@ public class Home extends AppCompatActivity implements Feed.OnFragmentInteractio
             @Override
             public void onBoomButtonClick(int index) {
                 Log.d("boomButtonAddJob","clicked");
-
+                Fragment parentProfile = new ParentProfil();
+                Bundle bundle = new Bundle();
+                bundle.putString("First time","no");
+                parentProfile.setArguments(bundle);
+                getSupportFragmentManager().beginTransaction().add(R.id.fl,parentProfile).addToBackStack("Home").commit();
             }
         });
 
@@ -241,7 +257,7 @@ public class Home extends AppCompatActivity implements Feed.OnFragmentInteractio
         nav_header.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(AppController.getContext(), MainActivity.class);
+                Intent intent = new Intent(Home.this, MainActivity.class);
                 startActivity(intent);
                 DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
                 drawer.closeDrawer(GravityCompat.START);
@@ -250,7 +266,6 @@ public class Home extends AppCompatActivity implements Feed.OnFragmentInteractio
 
 
     }
-
 
     public void initViewPager() {
         mTabLayout = (TabLayout) findViewById(R.id.tab_layout_main);

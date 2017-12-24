@@ -44,7 +44,7 @@ public class BabysitterRecyclerViewAdapter extends RecyclerView.Adapter<Babysitt
         holder.location.setText("10 km");
         holder.desc.setText(item.getDescr());
         Glide.with(mContext).load(AppController.IMAGE_SERVER_ADRESS+item.getImgURL())
-                //.thumbnail(0.5f)
+                .thumbnail(0.5f)
                 .crossFade()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(holder.image);       // holder.image.setImageBitmap(null);

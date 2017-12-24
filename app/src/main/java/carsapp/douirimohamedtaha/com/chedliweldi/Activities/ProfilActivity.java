@@ -1,8 +1,12 @@
 package carsapp.douirimohamedtaha.com.chedliweldi.Activities;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -34,40 +38,52 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class ProfilActivity extends AppCompatActivity {
 
-   public static  JSONObject user;
+    public static JSONObject user;
 
-   ImageView profileImage;
-   TextView fullName;
-   MaterialRatingBar rate;
-   Button accept ;
-   Button refuse;
-
+    ImageView profileImage;
+    TextView fullName;
+    MaterialRatingBar rate;
+    ImageView callBtn;
+    Button accept;
+    Button refuse;
+    private static final int PERMISSION_REQUEST_CODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
 
-       // makeJsonObjectRequest();
-      //  signUp("salima@gmail.com","sdsdf",1254259,"salima","reguez","adress","23-03-1998","1");
+        // makeJsonObjectRequest();
+        //  signUp("salima@gmail.com","sdsdf",1254259,"salima","reguez","adress","23-03-1998","1");
 
 
         setContentView(R.layout.profil);
         profileImage = (ImageView) findViewById(R.id.profileImage);
-        fullName=(TextView) findViewById(R.id.txtFullName);
-        rate =(MaterialRatingBar) findViewById(R.id.rate);
-        accept =(Button) findViewById(R.id.btnAccept);
-        refuse=(Button) findViewById(R.id.btnRefuse);
+        fullName = (TextView) findViewById(R.id.txtFullName);
+        rate = (MaterialRatingBar) findViewById(R.id.rate);
+        accept = (Button) findViewById(R.id.btnAccept);
+        refuse = (Button) findViewById(R.id.btnRefuse);
+        callBtn = (ImageView) findViewById(R.id.callBtn);
 
 
-        if(user !=null){
+        if (user != null) {
 
 
             try {
-                fullName.setText(user.getString("firstName")+" "+user.getString("lastName"));
-                Glide.with(this).load(AppController.IMAGE_SERVER_ADRESS+user.getString("photo")).transform(new AppController.CircleTransform(this)).into(profileImage);
+                fullName.setText(user.getString("firstName") + " " + user.getString("lastName"));
+                Glide.with(this).load(AppController.IMAGE_SERVER_ADRESS + user.getString("photo")).transform(new AppController.CircleTransform(this)).into(profileImage);
 
                 rate.setRating((float) user.getDouble("rate"));
+                callBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        try {
+                            callBabysitter(user.getString("phoneNumber"));
+                        } catch (JSONException e) {
+
+                        }
+                    }
+                });
             } catch (JSONException e) {
 
             }
@@ -75,9 +91,8 @@ public class ProfilActivity extends AppCompatActivity {
         }
 
 
-
         Intent i = getIntent();
-       // user= (JSONObject) i.getSerializableExtra("user");
+        // user= (JSONObject) i.getSerializableExtra("user");
 
         this.setFinishOnTouchOutside(true);
 
@@ -94,7 +109,7 @@ public class ProfilActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 try {
-                    respondToRequest("accepted",user.getString("id_request"));
+                    respondToRequest("accepted", user.getString("id_request"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -102,14 +117,27 @@ public class ProfilActivity extends AppCompatActivity {
         });
     }
 
+    private void callBabysitter(String phoneNumber) {
+        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phoneNumber));
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CALL_PHONE},
+                    PERMISSION_REQUEST_CODE);
+            return;
+        }
+        startActivity(intent);
+    }
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
-
-
-
-
 
 
     @Override
@@ -120,7 +148,7 @@ public class ProfilActivity extends AppCompatActivity {
     }
 
 
-    private void respondToRequest(final String respond , final String idRequest) {
+    private void respondToRequest(final String respond, final String idRequest) {
 
         Log.e("sdf", "uploadUser:  near volley new request ");
 
@@ -128,22 +156,20 @@ public class ProfilActivity extends AppCompatActivity {
         //  JSONObject jsonObj = new JSONObject(params);
 
 
-        String url = AppController.SERVER_ADRESS+"respondRequest";
-        StringRequest sr = new StringRequest(Request.Method.POST, url , new Response.Listener<String>() {
+        String url = AppController.SERVER_ADRESS + "respondRequest";
+        StringRequest sr = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
 
                 try {
                     JSONObject jsonObject = new JSONObject(response);
-                    boolean d= jsonObject.getBoolean("error");
+                    boolean d = jsonObject.getBoolean("error");
 
 
-
-                    if (d){
-                        Log.i("etat","failed");
-                    }
-                    else{
+                    if (d) {
+                        Log.i("etat", "failed");
+                    } else {
 
 
                         finish();
@@ -161,15 +187,15 @@ public class ProfilActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d("", "Error: " + error.getMessage());
-                Log.d("", ""+error.getMessage()+","+error.toString());
+                Log.d("", "" + error.getMessage() + "," + error.toString());
             }
-        }){
+        }) {
 
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String,String> headers = new HashMap<String, String>();
-                headers.put("respond",respond);
-                headers.put("id_request",idRequest);
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("respond", respond);
+                headers.put("id_request", idRequest);
                 //   headers.put("id_user",LoginActivity.connectedUser);
                 //  headers.put("abc", "value");
                 return headers;
@@ -177,14 +203,12 @@ public class ProfilActivity extends AppCompatActivity {
 
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String,String> headers = new HashMap<String, String>();
-                headers.put("Content-Type","application/x-www-form-urlencoded");
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/x-www-form-urlencoded");
                 //  headers.put("abc", "value");
                 return headers;
             }
         };
-
-
 
 
         // Adding request to request queue
@@ -192,10 +216,6 @@ public class ProfilActivity extends AppCompatActivity {
 
 
     }
-
-
-
-
 
 
 }

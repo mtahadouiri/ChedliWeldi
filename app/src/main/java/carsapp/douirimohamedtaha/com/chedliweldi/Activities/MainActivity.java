@@ -13,10 +13,11 @@ import java.util.List;
 
 import carsapp.douirimohamedtaha.com.chedliweldi.Entities.Babysitter;
 import carsapp.douirimohamedtaha.com.chedliweldi.Fragments.Login;
+import carsapp.douirimohamedtaha.com.chedliweldi.Fragments.ParentProfil;
 import carsapp.douirimohamedtaha.com.chedliweldi.R;
 import carsapp.douirimohamedtaha.com.chedliweldi.Fragments.SignUp;
 
-public class MainActivity extends AppCompatActivity  {
+public class MainActivity extends AppCompatActivity implements ParentProfil.OnFragmentInteractionListener {
     private FragmentManager fragmentManager;
     private Fragment fragment;
     public static List<Babysitter> bbySitters;
@@ -36,4 +37,8 @@ public class MainActivity extends AppCompatActivity  {
     }
 
 
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
 }

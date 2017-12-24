@@ -82,7 +82,7 @@ public class Feed extends Fragment {
             // Instantiate the RequestQueue.
 
         }
-       // getBabysiiters();
+        getBabysiiters();
     }
 
     @Override

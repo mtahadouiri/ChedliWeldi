@@ -125,6 +125,9 @@
     <color name="mtlcyellow">#f1c40f</color>
     <color name="mtlcblue">#4eafe7</color>
     <color name="mtlcblueLigh">#7ac2ec</color>
+    <color name="colorSliderBackground">#FF181821</color>
+    <color name="colorTextColor">#FFFFFFFF</color>
+    <color name="colorSwitchColor">#FF2371FA</color>
 
 
 

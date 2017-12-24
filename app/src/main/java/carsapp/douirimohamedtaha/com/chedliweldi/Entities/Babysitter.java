@@ -4,6 +4,8 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import carsapp.douirimohamedtaha.com.chedliweldi.AppController;
+
 /**
  * Created by PC on 16/11/2017.
  */
@@ -54,7 +56,7 @@ public class Babysitter {
     }
 
     public String getImgURL() {
-        return imgURL;
+        return AppController.IMAGE_SERVER_ADRESS+imgURL;
     }
 
     public void setImgURL(String imgURL) {
