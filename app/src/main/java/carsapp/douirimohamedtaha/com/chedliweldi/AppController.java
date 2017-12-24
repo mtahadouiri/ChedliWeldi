@@ -6,11 +6,16 @@ package carsapp.douirimohamedtaha.com.chedliweldi;
 
 
 import android.app.Application;
+import android.media.Image;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AppController extends Application {
 
@@ -21,9 +26,9 @@ public class AppController extends Application {
     public static String IMAGE_SERVER_ADRESS="http://192.168.137.1/images/";
     */
 
-    public static String SERVER_ADRESS="http://192.168.43.114/rest/v1/";
-    public static String TAHA_ADRESS="http://192.168.43.114/chedliweldi/";
-    public static String IMAGE_SERVER_ADRESS="http://192.168.43.114/images/";
+    public static String SERVER_ADRESS="http://192.168.1.11/rest/v1/";
+    public static String TAHA_ADRESS="http://192.168.1.11/chedliweldi/";
+    public static String IMAGE_SERVER_ADRESS="http://192.168.1.11/images/";
 
 
 

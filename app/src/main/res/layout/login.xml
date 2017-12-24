@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
     tools:ignore="MissingPrefix"
     xmlns:android="http://schemas.android.com/apk/res/android">
       <android.support.v7.widget.AppCompatImageView
@@ -95,7 +96,7 @@
                     android:layout_marginTop="5dp">
 
                     <android.support.v7.widget.AppCompatImageView
-                        android:layout_width="20dp"
+                        android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:layout_gravity="center"
                         android:scaleType="fitXY"
@@ -111,7 +112,7 @@
                         android:layout_gravity="center"
                         android:layout_marginLeft="5dp"
                         android:background="@android:color/transparent"
-                        android:hint="password"
+                        android:hint="Password"
                         android:inputType="textPassword"
                         android:textColor="@color/mtlcBlack" />
 
@@ -173,7 +174,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center">
 
-                <android.support.v7.widget.AppCompatImageView
+              <!--  <android.support.v7.widget.AppCompatImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:src="@drawable/fb" />
@@ -185,8 +186,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:text="Sign in with facebook"
-                    android:textColor="@android:color/white" />
+                    android:textColor="@android:color/white" />-->
+                <com.facebook.login.widget.LoginButton
+                    android:id="@+id/login_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
 
+                    android:src="@drawable/btn_fb"
+                     />
             </android.support.v7.widget.LinearLayoutCompat>
 
 
@@ -253,7 +260,7 @@
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="15dp"
             android:layout_marginEnd="25dp"
-            android:text="New her? Sign Up"
+            android:text="New here? Sign Up"
             android:textColor="@color/mtlcGrey" />
 
     </RelativeLayout>

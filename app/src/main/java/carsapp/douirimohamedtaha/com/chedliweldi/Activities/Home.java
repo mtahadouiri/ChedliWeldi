@@ -4,9 +4,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -15,7 +15,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -23,10 +22,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 
-import com.nightonke.boommenu.BoomButtons.BoomButton;
 import com.nightonke.boommenu.BoomButtons.HamButton;
 import com.nightonke.boommenu.BoomButtons.OnBMClickListener;
-import com.nightonke.boommenu.BoomButtons.SimpleCircleButton;
 import com.nightonke.boommenu.BoomMenuButton;
 
 import java.util.ArrayList;
@@ -35,10 +32,11 @@ import java.util.List;
 import carsapp.douirimohamedtaha.com.chedliweldi.Entities.Babysitter;
 import carsapp.douirimohamedtaha.com.chedliweldi.Fragments.Feed;
 import carsapp.douirimohamedtaha.com.chedliweldi.Fragments.Map;
+import carsapp.douirimohamedtaha.com.chedliweldi.Fragments.ParentProfil;
 import carsapp.douirimohamedtaha.com.chedliweldi.R;
 import carsapp.douirimohamedtaha.com.chedliweldi.Utils.FragmentAdapter;
 
-public class Home extends AppCompatActivity implements Feed.OnFragmentInteractionListener, Map.OnFragmentInteractionListener, NavigationView.OnNavigationItemSelectedListener {
+public class Home extends AppCompatActivity implements Feed.OnFragmentInteractionListener, Map.OnFragmentInteractionListener, NavigationView.OnNavigationItemSelectedListener,ParentProfil.OnFragmentInteractionListener {
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
     private DrawerLayout drawer;
@@ -68,6 +66,10 @@ public class Home extends AppCompatActivity implements Feed.OnFragmentInteractio
             }
         }
     };
+    private String name;
+    private String lastName;
+    private String imageUrl;
+    private String email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +83,13 @@ public class Home extends AppCompatActivity implements Feed.OnFragmentInteractio
         initViewPager();
 
         setUpBoomMenu();
+
+      /*  Bundle inBundle = getIntent().getExtras();
+        name = inBundle.getString("name");
+        lastName = inBundle.getString("lastname");
+        imageUrl = inBundle.getString("imageUrl");
+        email = inBundle.getString("email");*/
+
     }
 
     private void setUpBoomMenu() {
@@ -110,7 +119,11 @@ public class Home extends AppCompatActivity implements Feed.OnFragmentInteractio
             @Override
             public void onBoomButtonClick(int index) {
                 Log.d("boomButtonAddJob","clicked");
-
+                Fragment parentProfile = new ParentProfil();
+                Bundle bundle = new Bundle();
+                bundle.putString("First time","no");
+                parentProfile.setArguments(bundle);
+                getSupportFragmentManager().beginTransaction().add(R.id.fl,parentProfile).addToBackStack("Home").commit();
             }
         });
 

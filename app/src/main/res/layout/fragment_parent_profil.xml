@@ -1,0 +1,73 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="carsapp.douirimohamedtaha.com.chedliweldi.Fragments.ParentProfil">
+
+    <!-- TODO: Update blank fragment layout -->
+    <android.support.design.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:fitsSystemWindows="true"
+        android:background="@color/grey_50">
+
+        <android.support.design.widget.AppBarLayout
+            android:layout_height="192dp"
+            android:layout_width="match_parent"
+            android:theme="@style/AppTheme.AppBarOverlay">
+
+            <android.support.design.widget.CollapsingToolbarLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:contentScrim="?attr/colorPrimary"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+                <ImageView
+                    android:id="@+id/place_image"
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/greenpentagonalbackground"
+                    app:layout_collapseMode="parallax"
+                    app:layout_collapseParallaxMultiplier="0.7" />
+
+                <com.mikhaellopez.circularimageview.CircularImageView
+                    android:id="@+id/profImg"
+                    android:layout_gravity="center"
+                    android:layout_width="140dp"
+                    android:layout_height="140dp"
+                    android:src="@drawable/redhead"
+                    app:civ_border_color="#EEEEEE"
+                    app:civ_border_width="4dp"
+                    app:civ_shadow="true"
+                    app:civ_shadow_color="#8BC34A"
+                    app:civ_shadow_radius="10" />
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/tool_bar"
+                    android:theme="@style/Base.ThemeOverlay.AppCompat.Dark"
+                    android:layout_height="?attr/actionBarSize"
+                    android:layout_width="match_parent"
+                    android:elevation="4dp"
+                    app:layout_collapseMode="pin"/>
+
+            </android.support.design.widget.CollapsingToolbarLayout>
+        </android.support.design.widget.AppBarLayout>
+
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" >
+
+            <include layout="@layout/profile_details_parent" />
+        </android.support.v4.widget.NestedScrollView>
+
+
+    </android.support.design.widget.CoordinatorLayout>
+
+
+</FrameLayout>

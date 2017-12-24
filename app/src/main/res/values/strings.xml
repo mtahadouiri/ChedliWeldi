@@ -73,4 +73,10 @@
     <string name="action_stop">Stop</string>
     <string name="hello_world">Hello world!</string>
 
+
+    <string name="facebook_app_id">320882858414112</string>
+    <string name="fb_login_protocol_scheme">fb320882858414112</string>
+    <string name="location">Location</string>
+    <string name="details">Details</string>
+
 </resources>

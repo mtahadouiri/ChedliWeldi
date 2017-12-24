@@ -17,6 +17,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
+import com.facebook.CallbackManager;
 
 
 import org.json.JSONException;
@@ -46,7 +47,6 @@ public class LoginActivity extends AppCompatActivity {
 
 
    public static  String connectedUser="4";
-
 
 
     public void validateLogin(String email ,String password){
@@ -80,11 +80,6 @@ public class LoginActivity extends AppCompatActivity {
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
-
-
-
-
-
 
 
 }

@@ -1,19 +1,17 @@
 package carsapp.douirimohamedtaha.com.chedliweldi.Fragments;
 
-import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Debug;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -25,17 +23,26 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.etiennelawlor.imagegallery.library.ImageGalleryFragment;
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.*;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import carsapp.douirimohamedtaha.com.chedliweldi.Activities.Home;
-import carsapp.douirimohamedtaha.com.chedliweldi.Activities.LoginActivity;
 import carsapp.douirimohamedtaha.com.chedliweldi.Activities.MainActivity;
 import carsapp.douirimohamedtaha.com.chedliweldi.Activities.MyOfferActivity;
 import carsapp.douirimohamedtaha.com.chedliweldi.Activities.OfferListActivity;
@@ -43,12 +50,10 @@ import carsapp.douirimohamedtaha.com.chedliweldi.Activities.SignUpActivity;
 import carsapp.douirimohamedtaha.com.chedliweldi.AppController;
 import carsapp.douirimohamedtaha.com.chedliweldi.R;
 import carsapp.douirimohamedtaha.com.chedliweldi.Utils.BabySittersJSONParser;
-import me.gujun.android.taggroup.TagGroup;
-import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class Login extends Fragment {
 
+    public static final String PREFS_NAME = "user";
     @Bind(R.id.btnNext)
     Button btnSignIn ;
     @Bind(R.id.etEmail)
@@ -58,6 +63,17 @@ public class Login extends Fragment {
     @Bind(R.id.txtSignUp)
     TextView txtSignUp ;
     public static  String connectedUser="4";
+    private CallbackManager callbackManager;
+    private LoginButton loginButton;
+    private String TAG = "LoginFB";
+    private String userId;
+    private URL profilePicture;
+    private String firstName;
+    private String lastName;
+    private String emailTxT;
+    private String birthday;
+    private String gender;
+
     public void validateLogin(String email ,String password){
 
 
@@ -72,8 +88,95 @@ public class Login extends Fragment {
         //Change R.layout.tab1 in you classes
         View v = inflater.inflate(R.layout.login, container, false);
         ButterKnife.bind(this,v);
+        callbackManager = CallbackManager.Factory.create();
 
 
+        loginButton = (LoginButton)v.findViewById(R.id.login_button);
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LoginManager.getInstance().logInWithReadPermissions(getActivity(), Arrays.asList("public_profile"));
+            }
+        });
+        loginButton.setReadPermissions("email");
+        // If using in a fragment
+        loginButton.setFragment(this);
+
+        // Callback registration
+        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                // App code
+                GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
+                    @Override
+                    public void onCompleted(JSONObject object, GraphResponse response) {
+                        Log.e(TAG,object.toString());
+                        Log.e(TAG,response.toString());
+
+                        try {
+                            userId = object.getString("id");
+                            try {
+                                profilePicture = new URL("https://graph.facebook.com/" + userId + "/picture?width=500&height=500");
+                            } catch (MalformedURLException e) {
+                                Log.e(TAG,e.toString());
+                            }
+                            if(object.has("first_name"))
+                                firstName = object.getString("first_name");
+                            if(object.has("last_name"))
+                                lastName = object.getString("last_name");
+                            if (object.has("email"))
+                                emailTxT = object.getString("email");
+                            if (object.has("birthday"))
+                                birthday = object.getString("birthday");
+                            if (object.has("gender"))
+                                gender = object.getString("gender");
+                            // We need an Editor object to make preference changes.
+                            // All objects are from android.context.Context
+                            SharedPreferences settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
+                            SharedPreferences.Editor editor = settings.edit();
+                            editor.putString("name", firstName);
+                            editor.putString("lastname", lastName);
+                            editor.putString("email", emailTxT);
+                            editor.putString("birthday", birthday);
+                            editor.putString("imageUrl", profilePicture.toString());
+                            Log.e("Birthday",""+birthday);
+                            Log.e("name",""+firstName);
+                            Log.e("Birthday",""+birthday);
+                            // Commit the edits!
+                            editor.commit();
+
+                            uploadFbUser(firstName,lastName,emailTxT,profilePicture);
+
+                            Intent main = new Intent(getActivity(),Home.class);
+                            main.putExtra("name",firstName);
+                            main.putExtra("lastname",lastName);
+                            main.putExtra("email",emailTxT);
+                            main.putExtra("imageUrl",profilePicture.toString());
+                            startActivity(main);
+                            //finish();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                //Here we put the requested fields to be returned from the JSONObject
+                Bundle parameters = new Bundle();
+                parameters.putString("fields", "id, first_name, last_name, email, birthday, gender");
+                request.setParameters(parameters);
+                request.executeAsync();
+            }
+
+            @Override
+            public void onCancel() {
+                // App code
+            }
+
+            @Override
+            public void onError(FacebookException exception) {
+                // App code
+                Log.e("FbException",exception.toString());
+            }
+        });
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -266,7 +369,6 @@ public class Login extends Fragment {
 
 
 
-
     private void getBabysiiters() {
         RequestQueue queue = Volley.newRequestQueue(getContext());
         String url =  AppController.TAHA_ADRESS+"getBabysitters.php";
@@ -292,5 +394,147 @@ public class Login extends Fragment {
     }
 
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        //Check if already logged in
+        boolean loggedIn = AccessToken.getCurrentAccessToken()!=null;
+        if (loggedIn){
+            Log.d("Token",""+loggedIn);
+
+            GraphRequest request = GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
+                @Override
+                public void onCompleted(JSONObject object, GraphResponse response) {
+                    Log.e(TAG,object.toString());
+                    Log.e(TAG,response.toString());
+
+                    try {
+                        userId = object.getString("id");
+                        try {
+                            profilePicture = new URL("https://graph.facebook.com/" + userId + "/picture?width=500&height=500");
+                        } catch (MalformedURLException e) {
+                            Log.e(TAG,e.toString());
+                        }
+                        if(object.has("first_name"))
+                            firstName = object.getString("first_name");
+                        if(object.has("last_name"))
+                            lastName = object.getString("last_name");
+                        if (object.has("email"))
+                            emailTxT = object.getString("email");
+                        if (object.has("birthday"))
+                            birthday = object.getString("birthday");
+                        if (object.has("gender"))
+                            gender = object.getString("gender");
+
+                        checkFbuser(emailTxT);
+/*
+                        Intent main = new Intent(getActivity(),Home.class);
+                        main.putExtra("name",firstName);
+                        main.putExtra("lastname",lastName);
+                        main.putExtra("email",emailTxT);
+                        main.putExtra("imageUrl",profilePicture.toString());
+                        startActivity(main);*/
+
+                        //finish();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+
+
+            //Here we put the requested fields to be returned from the JSONObject
+            Bundle parameters = new Bundle();
+            parameters.putString("fields", "id, first_name, last_name, email, birthday, gender");
+            request.setParameters(parameters);
+            request.executeAsync();
+        }
+    }
+
+    private void checkFbuser(String emailTxT) {
+        RequestQueue queue = Volley.newRequestQueue(getContext());
+        String url = AppController.TAHA_ADRESS + "getUserByEmail.php?email="+emailTxT;
+        StringRequest postRequest = new StringRequest(Request.Method.GET, url,
+                response -> {
+                    // response
+                    Log.d("checkFbuser", response);
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        if(jsonObject.getString("status").equals("found")){
+                            // We need an Editor object to make preference changes.
+                            // All objects are from android.context.Context
+                            SharedPreferences settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
+                            SharedPreferences.Editor editor = settings.edit();
+                            editor.putString("name", jsonObject.getString("firstname"));
+                            editor.putString("id", jsonObject.getString("id"));
+                            editor.putString("lastname", jsonObject.getString("lastname"));
+                            editor.putString("email", jsonObject.getString("email"));
+                            editor.putString("birthday", jsonObject.getString("birthdate"));
+                            editor.putString("altitude", jsonObject.getString("altitude"));
+                            editor.putString("longitude", jsonObject.getString("longitude"));
+                            editor.putString("phoneNumber", jsonObject.getString("phoneNumber"));
+                            editor.putString("imageUrl", profilePicture.toString());
+                            // Commit the edits!
+                            editor.commit();
+                            Intent main = new Intent(getActivity(),Home.class);
+                            startActivity(main);
+                        }else {
+                            uploadFbUser(firstName,lastName,emailTxT,profilePicture);
+                        }
+                    } catch (JSONException e) {
+
+                        Log.e("JSON",e.toString());
+                    }
+
+                },
+                error -> {
+                    // error
+                    Log.d("Error.checkFbuser", error.toString());
+                }
+        );
+        queue.add(postRequest);
+    }
+
+    private void uploadFbUser(String firstName, String lastName, String emailTxT, URL profilePicture) {
+        RequestQueue queue = Volley.newRequestQueue(getContext());
+        String url = AppController.TAHA_ADRESS + "fbuser.php";
+        StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+                response -> {
+                    // response
+                    Fragment parentProfile = new ParentProfil();
+
+                    getActivity().getSupportFragmentManager().beginTransaction().add(R.id.container,parentProfile).commit();
+                },
+                error -> {
+                    // error
+                }
+        ) {
+            @Override
+            protected java.util.Map<String, String> getParams() {
+                java.util.Map<String, String> params = new HashMap<String, String>();
+                params.put("name", "" + firstName);
+                params.put("lastname", lastName);
+                params.put("email", emailTxT);
+               // params.put("birthday", birthday);
+                params.put("imageUrl", profilePicture.toString());
+                Log.d("Params", params.values().toString());
+                return params;
+            }
+        };
+        queue.add(postRequest);
+    }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        //accessTokenTracker.stopTracking();
+    }
 }
