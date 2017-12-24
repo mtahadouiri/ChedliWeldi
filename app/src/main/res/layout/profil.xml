@@ -40,13 +40,13 @@
                     android:src="@drawable/man" android:id="@+id/profileImage" />
 
 
-
                 <android.support.v7.widget.AppCompatImageView
 
-                    android:layout_gravity="center"
+                    android:id="@+id/callBtn"
                     android:layout_width="32dp"
-                    android:layout_marginLeft="25dp"
                     android:layout_height="32dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="25dp"
                     android:src="@drawable/phone" />
 
 
