@@ -9,6 +9,7 @@
     android:padding="12dp"
     >
 
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
@@ -27,7 +28,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
         android:textSize="20dp"
-        android:text="Created Offers" />
+        android:text="On going Offers" />
 
 
 </RelativeLayout>

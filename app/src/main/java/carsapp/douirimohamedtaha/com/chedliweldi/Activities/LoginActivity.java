@@ -23,6 +23,7 @@ import com.facebook.CallbackManager;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -60,7 +61,8 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_holder);
-
+        Bundle b = getIntent().getExtras();
+          ArrayList<String> m = b.getStringArrayList("data");
 
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
 

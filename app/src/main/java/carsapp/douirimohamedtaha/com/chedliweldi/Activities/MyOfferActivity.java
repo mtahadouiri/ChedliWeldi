@@ -1,10 +1,19 @@
 package carsapp.douirimohamedtaha.com.chedliweldi.Activities;
 
+/**
+ * Created by oussama_2 on 11/27/2017.
+ */
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.GridView;
+import android.widget.RelativeLayout;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -12,38 +21,74 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
+import com.etiennelawlor.imagegallery.library.ImageGalleryFragment;
+import com.etiennelawlor.imagegallery.library.enums.PaletteColorType;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import carsapp.douirimohamedtaha.com.chedliweldi.AppController;
 import carsapp.douirimohamedtaha.com.chedliweldi.R;
-import carsapp.douirimohamedtaha.com.chedliweldi.adapters.MyOfferRecyclerViewAdapter;
+import carsapp.douirimohamedtaha.com.chedliweldi.adapters.OfferAdapter;
+import me.gujun.android.taggroup.TagGroup;
 
-public class MyOfferActivity extends AppCompatActivity {
+public class MyOfferActivity extends AppCompatActivity  {
 
-    RecyclerView offers ;
-   MyOfferRecyclerViewAdapter adapter ;
+    private static final String TAG = "MainActivity";
+    ImageGalleryFragment fragment;
+   LinearLayoutCompat linear ;
 
+
+    private PaletteColorType paletteColorType;
+    TagGroup tags;
+    RelativeLayout infoTab ;
+Button btn;
+    GridView grid;
     @Override
+
+
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_offers);
+        setContentView(R.layout.my_offer);
+        //NotificationBadge  mBadge = (NotificationBadge) findViewById(R.id.badge);
+        //mBadge.setNumber(5);
+        grid =  (GridView) findViewById(R.id.grid);
+        grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-       ;
+                Intent intent = new Intent(MyOfferActivity.this,RequestsActivity.class);
 
-        offers = (RecyclerView) findViewById(R.id.recycler_view);
-        offers.setLayoutManager(new LinearLayoutManager(this));
+                try {
+                    String ff = offers.getJSONObject(i).getString("id");
+                    String description =offers.getJSONObject(i).getString("description");
+                    String date =offers.getJSONObject(i).getString("start");
+                    int nbr =offers.getJSONObject(i).getInt("requests");
+                    intent.putExtra("id",ff);
+                    intent.putExtra("description",description);
+                    intent.putExtra("date",date);
+                    intent.putExtra("requests",nbr);
+                    startActivity(intent);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        getOffers("4");
 
-          getOffers(LoginActivity.connectedUser);
+
 
 
 
 
     }
+
+    JSONArray offers;
 
     private void getOffers(final String id_user) {
 
@@ -61,20 +106,27 @@ public class MyOfferActivity extends AppCompatActivity {
 
 
                 try {
-
-
-                    JSONArray off = new JSONArray(response);
-
-
-
-
-                 Log.i("","");
+                    JSONObject jsonObject = new JSONObject(response);
+                    boolean d= jsonObject.getBoolean("error");
 
 
 
-                        adapter = new MyOfferRecyclerViewAdapter(MyOfferActivity.this, off);
-                        offers.setAdapter(adapter);
+                    if (d){
+                        Log.i("etat","failed");
+                    }
+                    else{
 
+                        offers = jsonObject.getJSONArray("offers");
+
+
+                        OfferAdapter adapter = new OfferAdapter(offers);
+
+                        grid.setAdapter(adapter);
+                        adapter.notifyDataSetChanged();
+
+
+                        Log.i("etat","success");
+                    }
 
 
                 } catch (JSONException e) {

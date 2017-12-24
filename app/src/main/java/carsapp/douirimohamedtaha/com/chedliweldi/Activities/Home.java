@@ -4,9 +4,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -15,6 +15,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -22,15 +23,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.nightonke.boommenu.BoomButtons.BoomButton;
 import com.nightonke.boommenu.BoomButtons.HamButton;
 import com.nightonke.boommenu.BoomButtons.OnBMClickListener;
+import com.nightonke.boommenu.BoomButtons.SimpleCircleButton;
 import com.nightonke.boommenu.BoomMenuButton;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import carsapp.douirimohamedtaha.com.chedliweldi.AppController;
 import carsapp.douirimohamedtaha.com.chedliweldi.Entities.Babysitter;
 import carsapp.douirimohamedtaha.com.chedliweldi.Fragments.Feed;
+import carsapp.douirimohamedtaha.com.chedliweldi.Fragments.Login;
 import carsapp.douirimohamedtaha.com.chedliweldi.Fragments.Map;
 import carsapp.douirimohamedtaha.com.chedliweldi.Fragments.ParentProfil;
 import carsapp.douirimohamedtaha.com.chedliweldi.R;
@@ -161,10 +166,93 @@ public class Home extends AppCompatActivity implements Feed.OnFragmentInteractio
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        //  navigationView.setNavigationItemSelectedListener(this);
         navigationView.setItemIconTintList(null);
 
+        Menu m = navigationView.getMenu();
+        //   MenuItem foo_menu_item=m.add("foo");
+
+        MenuItem myOffers = (MenuItem) m.findItem(R.id.nav_my_offers);
+
+
+        myOffers.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+
+                Intent i = new Intent(AppController.getContext(),MyOfferActivity.class);
+                startActivity(i);
+
+                return false;
+            }
+        });
+
+        MenuItem goingOffers = (MenuItem) m.findItem(R.id.on_going_offers);
+
+        MenuItem calendar = (MenuItem) m.findItem(R.id.calendar);
+
+
+
+        goingOffers.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+
+                Intent i = new Intent(AppController.getContext(),OnGoingOfferActivity.class);
+                startActivity(i);
+                return false;
+            }
+
+        });
+
+
+        calendar.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+
+                Intent i = new Intent(AppController.getContext(),CalendarActivity.class);
+                startActivity(i);
+                return false;
+            }
+
+        });
+
+
+        if(Login.type.equals("Babysitter")){
+            myOffers.setVisible(false);
+            goingOffers.setVisible(true);
+            calendar.setVisible(true);
+        }
+        else{
+            calendar.setVisible(false);
+            goingOffers.setVisible(false);
+        }
+
+
+        MenuItem settings = (MenuItem) m.findItem(R.id.nav_settings);
+
+
+        settings.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+
+                Intent i = new Intent(AppController.getContext(),SettingActivity.class);
+                startActivity(i);
+                return false;
+            }
+        });
+
+
+
+
+
+
+
         View headerView = navigationView.getHeaderView(0);
+
+
         LinearLayout nav_header = (LinearLayout) headerView.findViewById(R.id.nav_header);
         nav_header.setOnClickListener(new View.OnClickListener() {
             @Override

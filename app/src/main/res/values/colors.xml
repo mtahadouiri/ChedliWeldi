@@ -115,6 +115,10 @@
     <color name="mtlcOrange">#f9671e</color>
     <color name="mtlcGrey">#8c939b</color>
     <color name="mtlcGrey2">#d1d3d6</color>
+    <color name="offerColor">#64798a</color>
+    <color name="mtlcGreySoft">#e7e7e7</color>
+    <color name="shadow">#66000000</color>
+
     <color name="mtlcBlack">#3d3d3d</color>
     <color name="mtlcgreen">#2ecc71</color>
     <color name="mtlcred">#e74c3c</color>
@@ -126,4 +130,9 @@
     <color name="colorSwitchColor">#FF2371FA</color>
 
 
+
+    <color name="event_color_01">#59dbe0</color>
+    <color name="event_color_02">#f57f68</color>
+    <color name="event_color_03">#87d288</color>
+    <color name="event_color_04">#f8b552</color>
 </resources>

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:id="@+id/item"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"  android:clipChildren="false"
+    android:clipToPadding="false" >
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+
+
+        >
+
+
+        <View
+            android:id="@+id/view2"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:background="@android:color/white" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/view2"
+            android:id="@+id/relativeLayout5">
+
+            <ImageView
+                android:alpha="0.8"
+                android:id="@+id/imageView14"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                app:srcCompat="@drawable/time" />
+
+            <View
+                android:layout_width="2dp"
+                android:layout_height="80dp"
+                android:layout_below="@id/imageView14"
+                android:layout_marginTop="2dp"
+                android:alpha="0.5"
+                android:layout_centerHorizontal="true"
+                android:background="@android:color/black" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/hours"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="3dp"
+            android:layout_toEndOf="@+id/relativeLayout5"
+            android:alpha="0.8"
+            android:text="10 00 AM"
+            android:textSize="15dp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+
+            android:orientation="horizontal"
+            android:id="@+id/linearLayout5">
+
+            <ImageView
+ android:layout_gravity="center"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_marginRight="5dp"
+
+                app:srcCompat="@drawable/calendar" />
+
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Thirsday Nov 2017"
+                android:textSize="15dp" />
+
+
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/txtFullName"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/linearLayout5"
+            android:layout_marginStart="11dp"
+            android:layout_marginTop="12dp"
+            android:textSize="20dp"
+            android:layout_toEndOf="@+id/relativeLayout5"
+            android:text="Mission by kamrima" />
+
+        <LinearLayout
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtFullName"
+            android:layout_toEndOf="@+id/relativeLayout5"
+            android:orientation="horizontal">
+
+            <ImageView
+
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+
+                app:srcCompat="@drawable/circle" />
+
+            <TextView
+                android:layout_marginLeft="2dp"
+                android:textSize="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="you have 3 tasks" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/photo"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignBottom="@+id/relativeLayout5"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="27dp"
+            app:srcCompat="@drawable/man" />
+
+
+    </RelativeLayout>
+
+
+</LinearLayout>

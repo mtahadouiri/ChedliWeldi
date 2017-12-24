@@ -11,18 +11,11 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 
-import com.bumptech.glide.Glide;
-import com.etiennelawlor.imagegallery.library.ImageGalleryFragment;
-import com.etiennelawlor.imagegallery.library.activities.FullScreenImageGalleryActivity;
-import com.etiennelawlor.imagegallery.library.activities.ImageGalleryActivity;
-import com.etiennelawlor.imagegallery.library.adapters.FullScreenImageGalleryAdapter;
-import com.etiennelawlor.imagegallery.library.adapters.ImageGalleryAdapter;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import com.squareup.picasso.Picasso;
-
+import carsapp.douirimohamedtaha.com.chedliweldi.Activities.ProfilActivity;
 import carsapp.douirimohamedtaha.com.chedliweldi.R;
 import carsapp.douirimohamedtaha.com.chedliweldi.adapters.ProfilePager;
 
@@ -54,9 +47,18 @@ public class TabsFragment extends Fragment implements TabLayout.OnTabSelectedLis
         //Initializing viewPager
         viewPager = (ViewPager) v.findViewById(R.id.pager);
         viewPager.setOffscreenPageLimit(3);
-
+        ProfilActivity profil = (ProfilActivity) getActivity();
         //Creating our pager adapter
-        ProfilePager adapter = new ProfilePager(getActivity().getSupportFragmentManager(), tabLayout.getTabCount());
+        JSONObject d = profil.user;
+        String id="4";
+        String about ="What is Lorem Ipsum? Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s ";
+        try {
+          id =d.getString("id");
+          about=d.getString("about");
+        } catch (JSONException e) {
+
+        }
+        ProfilePager adapter = new ProfilePager(getActivity().getSupportFragmentManager(), tabLayout.getTabCount(),id,about);
 
         //Adding adapter to pager
         viewPager.setAdapter(adapter);
@@ -90,6 +92,7 @@ public class TabsFragment extends Fragment implements TabLayout.OnTabSelectedLis
     @Override
     public void onPageSelected(int position) {
         tabLayout.getTabAt(position).select();
+       PhotosFragment.removeAppBar();
     }
 
     @Override
@@ -97,5 +100,9 @@ public class TabsFragment extends Fragment implements TabLayout.OnTabSelectedLis
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
 
+    }
 }

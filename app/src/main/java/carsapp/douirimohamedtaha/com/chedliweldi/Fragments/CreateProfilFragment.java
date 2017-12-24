@@ -17,10 +17,12 @@ import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
 
 import org.json.JSONException;
@@ -32,11 +34,16 @@ import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import carsapp.douirimohamedtaha.com.chedliweldi.Activities.Home;
 import carsapp.douirimohamedtaha.com.chedliweldi.Activities.LoginActivity;
+import carsapp.douirimohamedtaha.com.chedliweldi.Activities.MainActivity;
+import carsapp.douirimohamedtaha.com.chedliweldi.Activities.MyOfferActivity;
 import carsapp.douirimohamedtaha.com.chedliweldi.Activities.OfferListActivity;
+import carsapp.douirimohamedtaha.com.chedliweldi.Activities.ParentMainActivity;
 import carsapp.douirimohamedtaha.com.chedliweldi.Activities.SignUpActivity;
 import carsapp.douirimohamedtaha.com.chedliweldi.AppController;
 import carsapp.douirimohamedtaha.com.chedliweldi.R;
+import carsapp.douirimohamedtaha.com.chedliweldi.Utils.BabySittersJSONParser;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -122,7 +129,7 @@ boolean maleChecked=false;
             public void onClick(View view) {
                 SignUpActivity s = (SignUpActivity) getActivity();
 
-  signUp(s.email,s.password,Integer.parseInt(phoneNumber.getText().toString()),firstName.getText().toString(),lastName.getText().toString(),adress.getText().toString(),birthDate.getText().toString(),String.valueOf(s.type));
+  signUp(s.email,s.password,Integer.parseInt(phoneNumber.getText().toString()),firstName.getText().toString(),lastName.getText().toString(),adress.getText().toString(),birthDate.getText().toString(),s.type);
 
             }
         });
@@ -266,9 +273,21 @@ boolean maleChecked=false;
                     else{
                         Log.i("etat","success");
                         String ff=jsonObject.getString("user_id");
-                       LoginActivity.connectedUser=jsonObject.getString("user_id");
-                        Intent i = new Intent(getActivity(),OfferListActivity.class);
-                        startActivity(i);
+
+
+
+                        Login.connectedUser=ff;
+                        SignUpActivity s = (SignUpActivity) getActivity();
+                        Login.type=s.type;
+                        if(Login.type.equals("Babysitter")){
+                            showListoffers();
+                            //  showParentMain();
+                        }
+                        else {
+                            getBabysiiters();
+                        }
+
+
 
                     }
 
@@ -331,4 +350,44 @@ boolean maleChecked=false;
                  }, mYear, mMonth, mDay);
          datePickerDialog.show();
      }
+
+    void showMyoffer(){
+        Intent i = new Intent(getActivity(),MyOfferActivity.class);
+        startActivity(i);
+    }
+
+    void showListoffers(){
+        Intent i = new Intent(getActivity(),OfferListActivity.class);
+        startActivity(i);
+    }
+
+    private void getBabysiiters() {
+        RequestQueue queue = Volley.newRequestQueue(getContext());
+        String url =  AppController.TAHA_ADRESS+"getBabysitters.php";
+// Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // Display the first 500 characters of the response string.
+                        MainActivity.bbySitters= BabySittersJSONParser.parseData(response);
+                        Intent i = new Intent(getContext(), Home.class);
+                        startActivity(i);
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("Error",""+ error.getMessage());
+            }
+        });
+// Add the request to the RequestQueue.
+        queue.add(stringRequest);
+    }
+
+
+    public void showParentMain(){
+        Intent i = new Intent(getActivity(),ParentMainActivity.class);
+        startActivity(i);
+    }
 }
