@@ -4,6 +4,7 @@ package carsapp.douirimohamedtaha.com.chedliweldi.Fragments;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
+import com.basgeekball.awesomevalidation.AwesomeValidation;
+import com.basgeekball.awesomevalidation.utility.RegexTemplate;
 
 
 import org.json.JSONException;
@@ -30,6 +33,8 @@ import butterknife.ButterKnife;
 import carsapp.douirimohamedtaha.com.chedliweldi.Activities.SignUpActivity;
 import carsapp.douirimohamedtaha.com.chedliweldi.AppController;
 import carsapp.douirimohamedtaha.com.chedliweldi.R;
+
+import static com.basgeekball.awesomevalidation.ValidationStyle.BASIC;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -91,7 +96,7 @@ public class CreateAccountFragment extends Fragment {
 
 
 
-
+    AwesomeValidation mAwesomeValidation;
 
 
     @Override
@@ -100,12 +105,19 @@ public class CreateAccountFragment extends Fragment {
 
         View v =inflater.inflate(R.layout.ssign_up2, container, false);
         ButterKnife.bind(this,v);
-
-
+        mAwesomeValidation = new AwesomeValidation(BASIC);
+        mAwesomeValidation.addValidation(email, RegexTemplate.NOT_EMPTY,"please enter an email adress");
+        mAwesomeValidation.addValidation(email, Patterns.EMAIL_ADDRESS,"please enter a valid email adress");
+        mAwesomeValidation.addValidation(password, RegexTemplate.NOT_EMPTY,"please enter a password");
+        mAwesomeValidation.addValidation(retypePassword, RegexTemplate.NOT_EMPTY,"please verify your password");
+        mAwesomeValidation.addValidation(password,retypePassword,"password mismatch");
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            validateEmail(email.getText().toString());
+                if(mAwesomeValidation.validate()){
+                    validateEmail(email.getText().toString());
+                }
+
 
 
             }

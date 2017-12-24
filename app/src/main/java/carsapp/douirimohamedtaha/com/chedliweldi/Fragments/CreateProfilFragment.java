@@ -1,6 +1,7 @@
 package carsapp.douirimohamedtaha.com.chedliweldi.Fragments;
 
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,6 +24,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.basgeekball.awesomevalidation.AwesomeValidation;
+import com.basgeekball.awesomevalidation.utility.RegexTemplate;
 
 
 import org.json.JSONException;
@@ -44,6 +47,8 @@ import carsapp.douirimohamedtaha.com.chedliweldi.Activities.SignUpActivity;
 import carsapp.douirimohamedtaha.com.chedliweldi.AppController;
 import carsapp.douirimohamedtaha.com.chedliweldi.R;
 import carsapp.douirimohamedtaha.com.chedliweldi.Utils.BabySittersJSONParser;
+
+import static com.basgeekball.awesomevalidation.ValidationStyle.BASIC;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -114,7 +119,7 @@ public class CreateProfilFragment extends Fragment {
     ImageView imgFemale ;
 
 boolean maleChecked=false;
-
+    AwesomeValidation mAwesomeValidation;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -122,15 +127,31 @@ boolean maleChecked=false;
 
         View v =inflater.inflate(R.layout.sign_up3, container, false);
         ButterKnife.bind(this,v);
+        mAwesomeValidation = new AwesomeValidation(BASIC);
+        mAwesomeValidation.addValidation(phoneNumber,RegexTemplate.NOT_EMPTY,"please enter a phone number");
+        mAwesomeValidation.addValidation(adress,RegexTemplate.NOT_EMPTY,"please enter an adress");
+        mAwesomeValidation.addValidation(phoneNumber,RegexTemplate.TELEPHONE,"please enter a valid phone number");
+        mAwesomeValidation.addValidation(firstName,"[a-zA-Z\\s]+","please enter a valid name");
+        mAwesomeValidation.addValidation(lastName,"[a-zA-Z\\s]+","please enter a valid name");
+        mAwesomeValidation.addValidation(lastName,"[a-zA-Z\\s]+","please enter a valid name");
+        mAwesomeValidation.addValidation(birthDate,"[0-9]{2}\\[0-9]{2}\\[0-9]{4}","please enter a valid date");
 
 
+        //
         create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SignUpActivity s = (SignUpActivity) getActivity();
+            /*
 
-  signUp(s.email,s.password,Integer.parseInt(phoneNumber.getText().toString()),firstName.getText().toString(),lastName.getText().toString(),adress.getText().toString(),birthDate.getText().toString(),s.type);
 
+
+
+*/
+          if(   mAwesomeValidation.validate()){
+              SignUpActivity s = (SignUpActivity) getActivity();
+              signUp(s.email,s.password,Integer.parseInt(phoneNumber.getText().toString()),firstName.getText().toString(),lastName.getText().toString(),adress.getText().toString(),birthDate.getText().toString(),s.type);
+
+          };
             }
         });
 

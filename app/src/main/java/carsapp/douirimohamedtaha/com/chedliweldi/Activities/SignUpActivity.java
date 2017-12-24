@@ -24,6 +24,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import carsapp.douirimohamedtaha.com.chedliweldi.AppController;
 import carsapp.douirimohamedtaha.com.chedliweldi.Fragments.ChooseTypeFragment;
+import carsapp.douirimohamedtaha.com.chedliweldi.Fragments.CreateProfilFragment;
 import carsapp.douirimohamedtaha.com.chedliweldi.R;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -75,7 +76,7 @@ public class SignUpActivity extends AppCompatActivity {
 
        getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.Fragcontainer,new ChooseTypeFragment()).commit();
 
-
+    //    getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.Fragcontainer,new CreateProfilFragment()).commit();
 
 
 
