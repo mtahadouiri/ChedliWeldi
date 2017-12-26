@@ -1,8 +1,8 @@
 package carsapp.douirimohamedtaha.com.chedliweldi.Entities;
 
+import com.stfalcon.chatkit.commons.models.IUser;
+
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
 
 import carsapp.douirimohamedtaha.com.chedliweldi.AppController;
 
@@ -10,7 +10,7 @@ import carsapp.douirimohamedtaha.com.chedliweldi.AppController;
  * Created by PC on 16/11/2017.
  */
 
-public class Babysitter {
+public class Babysitter implements IUser {
     private String firstName,lastName,imgURL,email,descr;
     private Date birthDate;
     private float altitude,longitude;
@@ -31,8 +31,18 @@ public class Babysitter {
         this.id = id;
     }
 
-    public int getId() {
-        return id;
+    public String getId() {
+        return String.valueOf(id);
+    }
+
+    @Override
+    public String getName() {
+        return firstName+" "+lastName;
+    }
+
+    @Override
+    public String getAvatar() {
+        return imgURL;
     }
 
     public void setId(int id) {

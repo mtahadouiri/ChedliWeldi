@@ -6,7 +6,6 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -23,10 +22,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 
-import com.nightonke.boommenu.BoomButtons.BoomButton;
 import com.nightonke.boommenu.BoomButtons.HamButton;
 import com.nightonke.boommenu.BoomButtons.OnBMClickListener;
-import com.nightonke.boommenu.BoomButtons.SimpleCircleButton;
 import com.nightonke.boommenu.BoomMenuButton;
 
 import java.util.ArrayList;
@@ -37,11 +34,12 @@ import carsapp.douirimohamedtaha.com.chedliweldi.Entities.Babysitter;
 import carsapp.douirimohamedtaha.com.chedliweldi.Fragments.Feed;
 import carsapp.douirimohamedtaha.com.chedliweldi.Fragments.Login;
 import carsapp.douirimohamedtaha.com.chedliweldi.Fragments.Map;
+import carsapp.douirimohamedtaha.com.chedliweldi.Fragments.Chat;
 import carsapp.douirimohamedtaha.com.chedliweldi.Fragments.ParentProfil;
 import carsapp.douirimohamedtaha.com.chedliweldi.R;
 import carsapp.douirimohamedtaha.com.chedliweldi.Utils.FragmentAdapter;
 
-public class Home extends AppCompatActivity implements Feed.OnFragmentInteractionListener, Map.OnFragmentInteractionListener, NavigationView.OnNavigationItemSelectedListener,ParentProfil.OnFragmentInteractionListener {
+public class Home extends AppCompatActivity implements Feed.OnFragmentInteractionListener, Map.OnFragmentInteractionListener, NavigationView.OnNavigationItemSelectedListener,ParentProfil.OnFragmentInteractionListener,Chat.OnFragmentInteractionListener {
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
     private DrawerLayout drawer;
@@ -85,7 +83,7 @@ public class Home extends AppCompatActivity implements Feed.OnFragmentInteractio
 
         initView();
 
-        initViewPager();
+        //initViewPager();
 
         setUpBoomMenu();
 
@@ -179,10 +177,12 @@ public class Home extends AppCompatActivity implements Feed.OnFragmentInteractio
 
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
-
+/*
                 Intent i = new Intent(AppController.getContext(),MyOfferActivity.class);
                 startActivity(i);
-
+*/
+                Fragment MessageFragment = new Chat();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fl,MessageFragment).addToBackStack("Home").commit();
                 return false;
             }
         });
