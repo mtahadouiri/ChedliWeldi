@@ -61,8 +61,7 @@ public class ProfilActivity extends AppCompatActivity {
         profileImage = (ImageView) findViewById(R.id.profileImage);
         fullName = (TextView) findViewById(R.id.txtFullName);
         rate = (MaterialRatingBar) findViewById(R.id.rate);
-        accept = (Button) findViewById(R.id.btnAccept);
-        refuse = (Button) findViewById(R.id.btnRefuse);
+
         callBtn = (ImageView) findViewById(R.id.callBtn);
 
 
@@ -97,24 +96,7 @@ public class ProfilActivity extends AppCompatActivity {
         this.setFinishOnTouchOutside(true);
 
         getSupportFragmentManager().beginTransaction().replace(R.id.frame, new TabsFragment()).commit();
-        refuse.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
 
-        accept.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                try {
-                    respondToRequest("accepted", user.getString("id_request"));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
     }
 
     private void callBabysitter(String phoneNumber) {

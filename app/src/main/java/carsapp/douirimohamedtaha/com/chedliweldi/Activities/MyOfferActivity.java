@@ -21,8 +21,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
-import com.etiennelawlor.imagegallery.library.ImageGalleryFragment;
-import com.etiennelawlor.imagegallery.library.enums.PaletteColorType;
+
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,11 +38,11 @@ import me.gujun.android.taggroup.TagGroup;
 public class MyOfferActivity extends AppCompatActivity  {
 
     private static final String TAG = "MainActivity";
-    ImageGalleryFragment fragment;
+
    LinearLayoutCompat linear ;
 
 
-    private PaletteColorType paletteColorType;
+
     TagGroup tags;
     RelativeLayout infoTab ;
 Button btn;

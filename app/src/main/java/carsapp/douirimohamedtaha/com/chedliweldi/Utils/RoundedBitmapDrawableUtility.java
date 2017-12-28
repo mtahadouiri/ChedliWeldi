@@ -8,7 +8,7 @@ import android.graphics.RectF;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 
-import com.etiennelawlor.imagegallery.library.utilities.DisplayUtility;
+
 
 /**
  * Created by oussama_2 on 12/5/2017.

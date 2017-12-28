@@ -30,7 +30,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
-import com.etiennelawlor.imagegallery.library.ImageGalleryFragment;
+
 
 import org.json.JSONException;
 import org.json.JSONObject;

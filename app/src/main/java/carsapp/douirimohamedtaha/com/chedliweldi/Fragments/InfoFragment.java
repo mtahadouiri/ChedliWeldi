@@ -23,7 +23,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.etiennelawlor.imagegallery.library.ImageGalleryFragment;
+
 
 
 import java.io.BufferedReader;
@@ -51,7 +51,7 @@ import me.gujun.android.taggroup.TagGroup;
 //Our class extending fragment
 public class InfoFragment extends Fragment {
 TagGroup tags;
-    ImageGalleryFragment fragment;
+
     LinearLayout t;
     //Overriden method onCreateView
 Button choose;
