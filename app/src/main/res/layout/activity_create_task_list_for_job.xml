@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="carsapp.douirimohamedtaha.com.chedliweldi.Fragments.ParentProfil">
+    tools:context="carsapp.com.esprit.chedliweldi.Fragments.ParentProfil">
 
     <!-- TODO: Update blank fragment layout -->
     <android.support.design.widget.CoordinatorLayout

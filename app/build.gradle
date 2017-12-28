@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 27
     defaultConfig {
-        applicationId "carsapp.douirimohamedtaha.com.chedliweldi"
+        applicationId "com.esprit.chedliweldi"
         minSdkVersion 21
         targetSdkVersion 27
         multiDexEnabled true
