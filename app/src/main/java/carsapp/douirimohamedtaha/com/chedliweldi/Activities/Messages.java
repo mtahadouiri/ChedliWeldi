@@ -1,19 +1,19 @@
 package carsapp.douirimohamedtaha.com.chedliweldi.Activities;
 
+import android.content.Intent;
 import android.net.Uri;
-import android.os.Debug;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.ImageView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.squareup.picasso.Picasso;
+import com.stfalcon.chatkit.commons.models.IDialog;
 import com.stfalcon.chatkit.dialogs.DialogsList;
 import com.stfalcon.chatkit.dialogs.DialogsListAdapter;
 import com.stfalcon.chatkit.utils.DateFormatter;
@@ -28,23 +28,21 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
-import java.util.TimeZone;
 
 import carsapp.douirimohamedtaha.com.chedliweldi.AppController;
 import carsapp.douirimohamedtaha.com.chedliweldi.Entities.Babysitter;
 import carsapp.douirimohamedtaha.com.chedliweldi.Entities.Dialog;
 import carsapp.douirimohamedtaha.com.chedliweldi.Entities.Message;
-import carsapp.douirimohamedtaha.com.chedliweldi.Fragments.Chat;
+import carsapp.douirimohamedtaha.com.chedliweldi.Fragments.Login_taha;
 import carsapp.douirimohamedtaha.com.chedliweldi.R;
-import carsapp.douirimohamedtaha.com.chedliweldi.Utils.BabySittersJSONParser;
-import carsapp.douirimohamedtaha.com.chedliweldi.Utils.BabysitterRecyclerViewAdapter;
 
-public class Messages extends AppCompatActivity implements Chat.OnFragmentInteractionListener{
+import static carsapp.douirimohamedtaha.com.chedliweldi.AppController.IMAGE_SERVER_ADRESS;
+import static carsapp.douirimohamedtaha.com.chedliweldi.AppController.SERVER_ADRESS;
+
+public class Messages extends AppCompatActivity {
     private Dialog dialog;
     private Message message;
-    private Chat.OnFragmentInteractionListener mListener;
     private DialogsList dialogsListView;
     private List<Dialog> dialogs;
     private List<Message> messages;
@@ -55,9 +53,11 @@ public class Messages extends AppCompatActivity implements Chat.OnFragmentIntera
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_messages);
-
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main);
+        toolbar.setTitle("Messages");
+        setSupportActionBar(toolbar);
         dialogs=new ArrayList<>();
-        message = new Message("0",new Babysitter("Taha", "Douiri", "https://scontent.ftun5-1.fna.fbcdn.net/v/t1.0-9/16425772_10210635995528840_4542581271681303557_n.jpg?oh=412d980a5d28bff28ba8436d778df384&oe=5AC2463A", "tsaassou@gmail.com", "", null, 0,0, 5),"Hellp");
+       // message = new Message("0",new Babysitter("Taha", "Douiri", "https://scontent.ftun5-1.fna.fbcdn.net/v/t1.0-9/16425772_10210635995528840_4542581271681303557_n.jpg?oh=412d980a5d28bff28ba8436d778df384&oe=5AC2463A", "tsaassou@gmail.com", "", null, 0,0, 5),"Hellp");
 
         dialogsListView = (DialogsList)findViewById(R.id.dialogsList);
         getDialogs(30);
@@ -70,14 +70,13 @@ public class Messages extends AppCompatActivity implements Chat.OnFragmentIntera
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                 response -> {
                     // response
-                    Log.d("Response", response);
                     try {
                         JSONArray dialogsJsonArray = new JSONArray(response);
                         for (int i = 0; i < dialogsJsonArray.length(); i++) {
                             babysitters=new ArrayList<>();
                             JSONObject obj = dialogsJsonArray.getJSONObject(i);
                             Dialog dialog = new Dialog();
-                            dialog.setId(obj.getString("id"));
+                            dialog.setId(obj.getString("sender_id"));
                             dialog.setDialogName(obj.getString("fullname"));
                             dialog.setDialogPhoto(obj.getString("photoUrl"));
                             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -95,7 +94,7 @@ public class Messages extends AppCompatActivity implements Chat.OnFragmentIntera
                         dialogsListAdapter = new DialogsListAdapter(new com.stfalcon.chatkit.commons.ImageLoader() {
                             @Override
                             public void loadImage(ImageView imageView, String url) {
-                                Picasso.with(Messages.this).load("http://192.168.1.5/images/"+url).into(imageView);
+                                Picasso.with(Messages.this).load(IMAGE_SERVER_ADRESS+url).into(imageView);
 
                             }
                         });
@@ -114,7 +113,15 @@ public class Messages extends AppCompatActivity implements Chat.OnFragmentIntera
                         dialogsListAdapter.setItems(dialogs);
                         dialogsListView.setAdapter(dialogsListAdapter,false);
                         dialogsListAdapter.notifyDataSetChanged();
-                        Log.d("Dialogs",""+dialogs.size());
+                        dialogsListAdapter.setOnDialogClickListener(new DialogsListAdapter.OnDialogClickListener() {
+                            @Override
+                            public void onDialogClick(IDialog dialog) {
+                                Intent i = new Intent(Messages.this,ChatRoom.class);
+                                i.putExtra("fullName",dialog.getDialogName());
+                                i.putExtra("id",dialog.getId());
+                                startActivity(i);
+                            }
+                        });
                     } catch (JSONException e) {
 
                     } catch (ParseException e) {
@@ -132,16 +139,10 @@ public class Messages extends AppCompatActivity implements Chat.OnFragmentIntera
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("id", "" + id);
-                Log.d("Params", params.values().toString());
                 return params;
             }
         };
         queue.add(postRequest);
         return dialogs;
-    }
-
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-        
     }
 }

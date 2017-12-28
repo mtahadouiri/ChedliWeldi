@@ -95,8 +95,8 @@ public class Feed extends Fragment {
         rv.setHasFixedSize(true);
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
         rv.setItemAnimator(new DefaultItemAnimator());
-        adapter=new BabysitterRecyclerViewAdapter(MainActivity.bbySitters,getContext());
-        rv.setAdapter(adapter);
+        /*adapter=new BabysitterRecyclerViewAdapter(MainActivity.bbySitters,getContext());
+        rv.setAdapter(adapter);*/
         return v;
     }
 

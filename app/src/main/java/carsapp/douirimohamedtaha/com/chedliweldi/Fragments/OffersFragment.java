@@ -75,7 +75,6 @@ public class OffersFragment extends Fragment {
     private void getOffers() {
 
 
-        Log.e("sdf", "uploadUser:  near volley new request ");
 
 
         //  JSONObject jsonObj = new JSONObject(params);
@@ -142,7 +141,6 @@ public class OffersFragment extends Fragment {
     private void sendRequest(final String id_user, final String id_offer) {
 
 
-        Log.e("sdf", "uploadUser:  near volley new request ");
 
 
         //  JSONObject jsonObj = new JSONObject(params);

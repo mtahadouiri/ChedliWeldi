@@ -78,5 +78,6 @@
     <string name="fb_login_protocol_scheme">fb320882858414112</string>
     <string name="location">Location</string>
     <string name="details">Details</string>
+    <string name="hint_enter_a_message">Enter a message</string>
 
 </resources>

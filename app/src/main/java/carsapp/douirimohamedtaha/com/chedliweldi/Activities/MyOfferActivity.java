@@ -93,7 +93,6 @@ Button btn;
     private void getOffers(final String id_user) {
 
 
-        Log.e("sdf", "uploadUser:  near volley new request ");
 
 
         //  JSONObject jsonObj = new JSONObject(params);

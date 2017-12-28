@@ -34,12 +34,11 @@ import carsapp.douirimohamedtaha.com.chedliweldi.Entities.Babysitter;
 import carsapp.douirimohamedtaha.com.chedliweldi.Fragments.Feed;
 import carsapp.douirimohamedtaha.com.chedliweldi.Fragments.Login;
 import carsapp.douirimohamedtaha.com.chedliweldi.Fragments.Map;
-import carsapp.douirimohamedtaha.com.chedliweldi.Fragments.Chat;
 import carsapp.douirimohamedtaha.com.chedliweldi.Fragments.ParentProfil;
 import carsapp.douirimohamedtaha.com.chedliweldi.R;
 import carsapp.douirimohamedtaha.com.chedliweldi.Utils.FragmentAdapter;
 
-public class Home extends AppCompatActivity implements Feed.OnFragmentInteractionListener, Map.OnFragmentInteractionListener, NavigationView.OnNavigationItemSelectedListener,ParentProfil.OnFragmentInteractionListener,Chat.OnFragmentInteractionListener {
+public class Home extends AppCompatActivity implements Feed.OnFragmentInteractionListener, Map.OnFragmentInteractionListener, NavigationView.OnNavigationItemSelectedListener,ParentProfil.OnFragmentInteractionListener {
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
     private DrawerLayout drawer;
@@ -83,7 +82,7 @@ public class Home extends AppCompatActivity implements Feed.OnFragmentInteractio
 
         initView();
 
-        //initViewPager();
+        initViewPager();
 
         setUpBoomMenu();
 
@@ -105,7 +104,6 @@ public class Home extends AppCompatActivity implements Feed.OnFragmentInteractio
         boomButtonProfile.listener(new OnBMClickListener() {
             @Override
             public void onBoomButtonClick(int index) {
-                Log.d("BoomButtonProfile","clicked");
                 Intent i = new Intent(Home.this,AddJob.class);
                 startActivity(i);
             }
@@ -121,7 +119,6 @@ public class Home extends AppCompatActivity implements Feed.OnFragmentInteractio
         boomButtonAddJob.listener(new OnBMClickListener() {
             @Override
             public void onBoomButtonClick(int index) {
-                Log.d("boomButtonAddJob","clicked");
                 Fragment parentProfile = new ParentProfil();
                 Bundle bundle = new Bundle();
                 bundle.putString("First time","no");
@@ -180,9 +177,11 @@ public class Home extends AppCompatActivity implements Feed.OnFragmentInteractio
 /*
                 Intent i = new Intent(AppController.getContext(),MyOfferActivity.class);
                 startActivity(i);
-*/
-                Fragment MessageFragment = new Chat();
-                getSupportFragmentManager().beginTransaction().replace(R.id.fl,MessageFragment).addToBackStack("Home").commit();
+
+            /*    Fragment MessageFragment = new Chat();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fl,MessageFragment).addToBackStack("Home").commit();*/
+                Intent i = new Intent(AppController.getContext(),Messages.class);
+                startActivity(i);
                 return false;
             }
         });

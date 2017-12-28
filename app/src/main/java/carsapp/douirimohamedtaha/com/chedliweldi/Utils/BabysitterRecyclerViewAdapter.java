@@ -2,6 +2,7 @@ package carsapp.douirimohamedtaha.com.chedliweldi.Utils;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,12 +11,16 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import carsapp.douirimohamedtaha.com.chedliweldi.Activities.Messages;
 import carsapp.douirimohamedtaha.com.chedliweldi.AppController;
 import carsapp.douirimohamedtaha.com.chedliweldi.Entities.Babysitter;
 import carsapp.douirimohamedtaha.com.chedliweldi.R;
+
+import static carsapp.douirimohamedtaha.com.chedliweldi.AppController.IMAGE_SERVER_ADRESS;
 
 /**
  * Created by PC on 16/11/2017.
@@ -43,12 +48,7 @@ public class BabysitterRecyclerViewAdapter extends RecyclerView.Adapter<Babysitt
         holder.name.setText(item.getFirstName()+" "+item.getLastName());
         holder.location.setText("10 km");
         holder.desc.setText(item.getDescr());
-        Glide.with(mContext).load(AppController.IMAGE_SERVER_ADRESS+item.getImgURL())
-                .thumbnail(0.5f)
-                .crossFade()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(holder.image);       // holder.image.setImageBitmap(null);
-
+        Picasso.with(mContext).load(item.getImgURL()).into(holder.image);
         holder.itemView.setTag(item);
     }
 

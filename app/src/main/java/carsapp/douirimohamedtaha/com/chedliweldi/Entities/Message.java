@@ -1,5 +1,7 @@
 package carsapp.douirimohamedtaha.com.chedliweldi.Entities;
 
+import android.support.annotation.NonNull;
+
 import com.stfalcon.chatkit.commons.models.IMessage;
 import com.stfalcon.chatkit.commons.models.MessageContentType;
 
@@ -10,7 +12,7 @@ import java.util.Date;
  * Created by Taha on 25/12/2017.
  */
 
-public class Message implements IMessage,
+public class Message implements Comparable<Message>,IMessage,
         MessageContentType.Image, /*this is for default image messages implementation*/
         MessageContentType /*and this one is for custom content type (in this case - voice message)*/ {
 
@@ -30,6 +32,10 @@ public class Message implements IMessage,
         this.text = text;
         this.user = user;
         this.createdAt = createdAt;
+    }
+
+    public Message() {
+
     }
 
     @Override
@@ -81,6 +87,11 @@ public class Message implements IMessage,
         this.voice = voice;
     }
 
+    @Override
+    public int compareTo(@NonNull Message message) {
+        return getCreatedAt().compareTo(message.getCreatedAt());
+    }
+
     public static class Image {
 
         private String url;
@@ -88,6 +99,18 @@ public class Message implements IMessage,
         public Image(String url) {
             this.url = url;
         }
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setUser(Babysitter user) {
+        this.user = user;
+    }
+
+    public Image getImage() {
+        return image;
     }
 
     public static class Voice {

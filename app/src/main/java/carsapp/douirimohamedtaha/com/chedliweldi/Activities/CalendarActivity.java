@@ -66,7 +66,6 @@ public class CalendarActivity extends AppCompatActivity   {
     private void getDates(final String idUser) {
 
 
-        Log.e("sdf", "uploadUser:  near volley new request ");
 
 
         //  JSONObject jsonObj = new JSONObject(params);
@@ -182,7 +181,6 @@ JSONArray JsonEvents ;
     private void getCalendar(final String idUser,final String date) {
 
 
-        Log.e("sdf", "uploadUser:  near volley new request ");
 
 
         //  JSONObject jsonObj = new JSONObject(params);

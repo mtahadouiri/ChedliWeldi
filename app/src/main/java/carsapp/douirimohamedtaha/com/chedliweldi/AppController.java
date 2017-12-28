@@ -38,9 +38,9 @@ public class AppController extends Application {
     public static String IMAGE_SERVER_ADRESS="http://192.168.137.1/images/";
     */
 
-    public static String SERVER_ADRESS="http://192.168.1.5/rest/v1/";
-    public static String TAHA_ADRESS="http://192.168.1.5/chedliweldi/";
-    public static String IMAGE_SERVER_ADRESS="http://192.168.1.5/images/";
+    public static String SERVER_ADRESS="http://192.168.1.8/rest/v1/";
+    public static String TAHA_ADRESS="http://192.168.1.8/chedliweldi/";
+    public static String IMAGE_SERVER_ADRESS="http://192.168.1.8/images/";
 
 /*
     public static String SERVER_ADRESS="http://10.0.2.2/rest/v1/";

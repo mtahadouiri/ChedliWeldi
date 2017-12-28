@@ -11,7 +11,7 @@ import carsapp.douirimohamedtaha.com.chedliweldi.AppController;
  */
 
 public class Babysitter implements IUser {
-    private String firstName,lastName,imgURL,email,descr;
+    private String firstName,lastName,imgURL,email,descr,phone;
     private Date birthDate;
     private float altitude,longitude;
     private int id;
@@ -28,6 +28,13 @@ public class Babysitter implements IUser {
         this.birthDate = birthDate;
         this.altitude = altitude;
         this.longitude = longitude;
+        this.id = id;
+    }
+
+    public Babysitter(String firstName, String lastName, String imgURL, int id) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.imgURL = imgURL;
         this.id = id;
     }
 
@@ -113,6 +120,14 @@ public class Babysitter implements IUser {
         this.longitude = longitude;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
     @Override
     public String toString() {
         return "Babysitter{" +
@@ -121,6 +136,7 @@ public class Babysitter implements IUser {
                 ", imgURL='" + imgURL + '\'' +
                 ", email='" + email + '\'' +
                 ", descr='" + descr + '\'' +
+                ", phone='" + phone + '\'' +
                 ", birthDate=" + birthDate +
                 ", altitude=" + altitude +
                 ", longitude=" + longitude +
