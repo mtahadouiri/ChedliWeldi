@@ -8,7 +8,7 @@
     android:layout_marginEnd="8dp"
     android:layout_marginStart="8dp"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    tools:context="carsapp.douirimohamedtaha.com.chedliweldi.Fragments.ParentProfil">
+    tools:context="com.esprit.chedliweldi.Fragments.ParentProfil">
 
         <LinearLayout
             android:layout_width="match_parent"
