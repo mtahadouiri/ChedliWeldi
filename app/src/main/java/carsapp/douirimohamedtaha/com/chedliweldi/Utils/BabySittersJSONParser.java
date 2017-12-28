@@ -35,13 +35,13 @@ public class BabySittersJSONParser {
                 babysitter.setLastName(obj.getString("lastname"));
                 babysitter.setLongitude((float) obj.getDouble("longitude"));
                 babysitter.setAltitude((float) obj.getDouble("altitude"));
-                Log.d("dfd",obj.getString("birthdate"));
                 babysitter.setBirthDate(Date.valueOf(obj.getString("birthdate")));
                 babysitter.setEmail(obj.getString("email"));
                 babysitter.setImgURL(obj.getString("image"));
                 babysitter.setDescr(obj.getString("descr"));
                 babysitters.add(babysitter);
             }
+
             return babysitters;
 
         }

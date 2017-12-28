@@ -1,6 +1,7 @@
 package carsapp.douirimohamedtaha.com.chedliweldi.Fragments;
 
 import android.content.Context;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -20,8 +21,10 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
+import carsapp.douirimohamedtaha.com.chedliweldi.Activities.Home;
 import carsapp.douirimohamedtaha.com.chedliweldi.Activities.MainActivity;
 import carsapp.douirimohamedtaha.com.chedliweldi.AppController;
 import carsapp.douirimohamedtaha.com.chedliweldi.Entities.Babysitter;
@@ -140,7 +143,7 @@ public class Feed extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    private void getBabysiiters() {
+    public List<Babysitter> getBabysiiters() {
         RequestQueue queue = Volley.newRequestQueue(getContext());
         String url = AppController.TAHA_ADRESS+"getBabysitters.php";
 // Request a string response from the provided URL.
@@ -151,9 +154,6 @@ public class Feed extends Fragment {
                         // Display the first 500 characters of the response string.
                         babysitters= BabySittersJSONParser.parseData(response);
                         MainActivity.bbySitters=babysitters;
-                        adapter=new BabysitterRecyclerViewAdapter(babysitters,getContext());
-                        rv.setAdapter(adapter);
-
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -163,6 +163,32 @@ public class Feed extends Fragment {
         });
 // Add the request to the RequestQueue.
         queue.add(stringRequest);
+        return babysitters;
+    }
+
+    public void filtreBabysitters(List<Babysitter> babysitters) {
+
+        List<Babysitter> bb = new ArrayList<>();
+        Log.d("Babysitters",babysitters.size()+"");
+        Iterator<Babysitter> iter = babysitters.iterator();
+
+
+        for (Babysitter b :
+                babysitters) {
+            Location mallLoc = new Location("");
+            mallLoc.setLatitude(b.getAltitude());
+            mallLoc.setLongitude(b.getLongitude());
+
+            Log.d("Distance"," "+(mallLoc.distanceTo(Home.getUserLocation())/1000));
+            if ((mallLoc.distanceTo(Home.getUserLocation())/1000) < Home.getMinDistance() || (mallLoc.distanceTo(Home.getUserLocation())/1000) > Home.getMaxDistance()) {
+                bb.add(b);
+            }
+        }
+        babysitters.removeAll(bb);
+        adapter=new BabysitterRecyclerViewAdapter(babysitters,getContext());
+        adapter.notifyDataSetChanged();
+        rv.setAdapter(adapter);
+
     }
 
 }

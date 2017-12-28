@@ -1,11 +1,14 @@
 package carsapp.douirimohamedtaha.com.chedliweldi.Fragments;
 
+import android.Manifest;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -113,13 +116,13 @@ public class ParentProfil extends Fragment implements OnMapReadyCallback {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v= inflater.inflate(R.layout.fragment_parent_profil, container, false);
-        toolbar =(Toolbar)v.findViewById(R.id.tool_bar);
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        View v = inflater.inflate(R.layout.fragment_parent_profil, container, false);
+        toolbar = (Toolbar) v.findViewById(R.id.tool_bar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         toolbar.setTitle("");
 
 // Set Selected Change Listener
-        StickySwitch stickySwitch = (StickySwitch)v.findViewById(R.id.sticky_switch);
+        StickySwitch stickySwitch = (StickySwitch) v.findViewById(R.id.sticky_switch);
         stickySwitch.setOnSelectedChangeListener(new StickySwitch.OnSelectedChangeListener() {
             @Override
             public void onSelectedChange(@NotNull StickySwitch.Direction direction, @NotNull String text) {
@@ -131,28 +134,28 @@ public class ParentProfil extends Fragment implements OnMapReadyCallback {
                         getChildFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        firstName=(TextView)v.findViewById(R.id.txtFirstName);
-        lastName=(TextView)v.findViewById(R.id.txtLastName);
-        CIN=(TextView)v.findViewById(R.id.txtCIN);
-        bDate=(TextView)v.findViewById(R.id.txtDate);
-        eMail=(TextView)v.findViewById(R.id.txtEmail);
-        phoneNumber=(TextView)v.findViewById(R.id.txtPhoneNumber);
-        profilePic =(ImageView)v.findViewById(R.id.profImg);
+        firstName = (TextView) v.findViewById(R.id.txtFirstName);
+        lastName = (TextView) v.findViewById(R.id.txtLastName);
+        CIN = (TextView) v.findViewById(R.id.txtCIN);
+        bDate = (TextView) v.findViewById(R.id.txtDate);
+        eMail = (TextView) v.findViewById(R.id.txtEmail);
+        phoneNumber = (TextView) v.findViewById(R.id.txtPhoneNumber);
+        profilePic = (ImageView) v.findViewById(R.id.profImg);
 
         settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
-        firstName.setText(settings.getString("name",null));
-        lastName.setText(settings.getString("lastname",null));
-        eMail.setText(settings.getString("email",null));
-        if(mParam1!=null){
-            phoneNumber.setText(settings.getString("phoneNumber",null));
-            bDate.setText(settings.getString("birthday",null));
+        firstName.setText(settings.getString("name", null));
+        lastName.setText(settings.getString("lastname", null));
+        eMail.setText(settings.getString("email", null));
+        if (mParam1 != null) {
+            phoneNumber.setText(settings.getString("phoneNumber", null));
+            bDate.setText(settings.getString("birthday", null));
         }
 
         myCalendar = Calendar.getInstance();
         DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
 
             @Override
-            public void onDateSet(DatePicker datePicker,int year, int monthOfYear,int dayOfMonth) {
+            public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
                 myCalendar.set(Calendar.YEAR, year);
                 myCalendar.set(Calendar.MONTH, monthOfYear);
                 myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
@@ -160,7 +163,7 @@ public class ParentProfil extends Fragment implements OnMapReadyCallback {
             }
         };
 
-        bDate.setOnClickListener(new View.OnClickListener(){
+        bDate.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -170,14 +173,11 @@ public class ParentProfil extends Fragment implements OnMapReadyCallback {
                         myCalendar.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
-        Glide.with(getContext()).load(settings.getString("imageUrl",null))
+        Glide.with(getContext()).load(settings.getString("imageUrl", null))
                 //.thumbnail(0.5f)
                 .crossFade()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(profilePic);       // holder.image.setImageBitmap(null);
-
-
-
 
 
         return v;
@@ -209,17 +209,40 @@ public class ParentProfil extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        if (settings.getString("long", null) != null) {
+            if (m != null) {
+                m.setPosition(new LatLng(Double.parseDouble(settings.getString("lat", null)), Double.parseDouble(settings.getString("long", null))));
+            } else {
+                m = googleMap.addMarker(new MarkerOptions()
+                        .position(new LatLng(Double.parseDouble(settings.getString("lat", null)), Double.parseDouble(settings.getString("long", null))))
+                        .title("Home"));
+            }
+        }
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        googleMap.setMyLocationEnabled(true);
             googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
                 @Override
                 public void onMapClick(LatLng latLng) {
                     if(m!=null){
                         m.setPosition(latLng);
+
                     }else
                     {
-                        m = mMap.addMarker(new MarkerOptions()
+                        m = googleMap.addMarker(new MarkerOptions()
                                 .position(latLng)
                                 .title("Home"));
                     }
+                    settings.edit().putString("lat",latLng.latitude+"").apply();
+                    settings.edit().putString("long",latLng.longitude+"").apply();
                 }
             });
     }
@@ -286,6 +309,8 @@ public class ParentProfil extends Fragment implements OnMapReadyCallback {
                     params.put("email", eMail.getText().toString());
                     params.put("date", bDate.getText().toString());
                     params.put("numtel", phoneNumber.getText().toString());
+                     params.put("alt",settings.getString("lat",null)+"");
+                     params.put("long", settings.getString("long",null)+"");
                  //   params.put("cin", CIN.getText().toString());
                     params.put("imageUrl", settings.getString("imageUrl",null));
                     Log.d("Params", params.values().toString());

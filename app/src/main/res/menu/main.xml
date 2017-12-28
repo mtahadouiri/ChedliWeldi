@@ -4,7 +4,8 @@
     <item
         android:id="@+id/action_menu_main_1"
         android:orderInCategory="1"
-        android:title="About"
-        app:showAsAction="never" />
+        android:icon="@drawable/ic_filter"
+        android:title="Filter"
+        app:showAsAction="always" />
 
 </menu>
