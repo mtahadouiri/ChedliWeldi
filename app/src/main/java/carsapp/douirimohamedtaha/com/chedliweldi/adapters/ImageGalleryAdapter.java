@@ -9,10 +9,13 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.etiennelawlor.imagegallery.library.utilities.DisplayUtility;
+
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+
+import carsapp.douirimohamedtaha.com.chedliweldi.R;
+import carsapp.douirimohamedtaha.com.chedliweldi.Utils.DisplayUtility;
 
 /**
  * Created by etiennelawlor on 8/20/15.
@@ -55,7 +58,7 @@ public class ImageGalleryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(com.etiennelawlor.imagegallery.library.R.layout.image_thumbnail, viewGroup, false);
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.image_thumbnail, viewGroup, false);
         v.setLayoutParams(getGridItemLayoutParams(v));
 
         return new ImageViewHolder(v);
@@ -134,8 +137,8 @@ public class ImageGalleryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         public ImageViewHolder(final View view) {
             super(view);
 
-            imageView = (ImageView) view.findViewById(com.etiennelawlor.imagegallery.library.R.id.iv);
-            frameLayout = (FrameLayout) view.findViewById(com.etiennelawlor.imagegallery.library.R.id.fl);
+            imageView = (ImageView) view.findViewById(R.id.iv);
+            frameLayout = (FrameLayout) view.findViewById(R.id.fl);
         }
         // endregion
     }

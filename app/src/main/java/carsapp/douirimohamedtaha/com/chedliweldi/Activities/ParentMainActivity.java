@@ -26,10 +26,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
-import com.etiennelawlor.imagegallery.library.ImageGalleryFragment;
-import com.etiennelawlor.imagegallery.library.adapters.FullScreenImageGalleryAdapter;
-import com.etiennelawlor.imagegallery.library.adapters.ImageGalleryAdapter;
-import com.etiennelawlor.imagegallery.library.enums.PaletteColorType;
+
 import com.squareup.picasso.Picasso;
 
 

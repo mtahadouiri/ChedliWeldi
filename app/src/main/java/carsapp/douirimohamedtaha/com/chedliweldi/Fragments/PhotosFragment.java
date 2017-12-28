@@ -5,6 +5,7 @@ package carsapp.douirimohamedtaha.com.chedliweldi.Fragments;
  */
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,7 +13,9 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutCompat;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,11 +30,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
-import com.etiennelawlor.imagegallery.library.ImageGalleryFragment;
-import com.etiennelawlor.imagegallery.library.activities.FullScreenImageGalleryActivity;
-import com.etiennelawlor.imagegallery.library.activities.ImageGalleryActivity;
-import com.etiennelawlor.imagegallery.library.adapters.FullScreenImageGalleryAdapter;
-import com.etiennelawlor.imagegallery.library.adapters.ImageGalleryAdapter;
+
 
 import com.squareup.picasso.Picasso;
 
@@ -41,8 +40,12 @@ import org.json.JSONObject;
 
 import java.util.*;
 
+import carsapp.douirimohamedtaha.com.chedliweldi.Activities.FullScreenImageGalleryActivity;
 import carsapp.douirimohamedtaha.com.chedliweldi.AppController;
 import carsapp.douirimohamedtaha.com.chedliweldi.R;
+import carsapp.douirimohamedtaha.com.chedliweldi.Utils.DisplayUtility;
+import carsapp.douirimohamedtaha.com.chedliweldi.adapters.ImageGalleryAdapter;
+import carsapp.douirimohamedtaha.com.chedliweldi.adapters.RecycleItemClickListener;
 import carsapp.douirimohamedtaha.com.chedliweldi.adapters.ReviewRecycleViewAdapter;
 
 /**
@@ -50,8 +53,7 @@ import carsapp.douirimohamedtaha.com.chedliweldi.adapters.ReviewRecycleViewAdapt
  */
 
 //Our class extending fragment
-public class PhotosFragment extends Fragment implements ImageGalleryAdapter.ImageThumbnailLoader, FullScreenImageGalleryAdapter.FullScreenImageLoader {
-   public static ImageGalleryFragment fragment;
+public class PhotosFragment extends Fragment  {
     LinearLayoutCompat linear ;
 
 
@@ -75,17 +77,7 @@ public class PhotosFragment extends Fragment implements ImageGalleryAdapter.Imag
         //Change R.layout.tab1 in you classes
         View v= inflater.inflate(R.layout.photos, container, false);
 
-
-
-
-
-
-        ImageGalleryActivity.setImageThumbnailLoader(this);
-
-        ImageGalleryFragment.setImageThumbnailLoader(this);
-        FullScreenImageGalleryActivity.setFullScreenImageLoader(PhotosFragment.this);
-
-
+        recyclerView =(RecyclerView) v.findViewById(R.id.rv);
 
 
       getPhotos(id);
@@ -94,36 +86,6 @@ public class PhotosFragment extends Fragment implements ImageGalleryAdapter.Imag
         return  v;
     }
 
-    @Override
-    public void loadFullScreenImage(final ImageView iv, String imageUrl, int width, final LinearLayout bglinearLayout) {
-
-
-
-        Picasso.with(iv.getContext())
-                .load(imageUrl)
-                .resize(width, 0)
-                .into(iv);
-        //  Glide.with(iv.getContext()).load(imageUrl).into(iv);
-
-    }
-
-    static LinearLayout tmp;
-    @Override
-    public void loadImageThumbnail(ImageView iv, String imageUrl, int dimension) {
-
-
-        Picasso.with(iv.getContext())
-                .load(imageUrl)
-                .resize(dimension, dimension)
-                .centerCrop()
-                .into(iv); Glide.with(iv.getContext()).load(imageUrl).into(iv); Glide.with(iv.getContext()).load(imageUrl).into(iv);
-
-
-
-
-
-
-    }
 
     @Override
     public void onResume() {
@@ -133,7 +95,7 @@ public class PhotosFragment extends Fragment implements ImageGalleryAdapter.Imag
 
 
     }
-
+    ArrayList<String> photos = new ArrayList();
     private void getPhotos(final String idUser) {
 
 
@@ -158,22 +120,14 @@ public class PhotosFragment extends Fragment implements ImageGalleryAdapter.Imag
                     if (d){
 
 
-                        ArrayList<String> i = new ArrayList();
-                        i.add("https://cdn.pixabay.com/photo/2016/06/18/17/42/image-1465348_960_720.jpg");
-                        i.add("https://cdn.pixabay.com/photo/2016/11/03/04/02/ancient-1793421_960_720.jpg");
-                        i.add("https://cdn.pixabay.com/photo/2016/11/03/04/02/ancient-1793421_960_720.jpg");
-                        Bundle bundle = new Bundle();
-                        bundle.putStringArrayList(ImageGalleryActivity.KEY_IMAGES, i);
-                        fragment = new ImageGalleryFragment();
-                        fragment.setArguments(bundle);
 
-                        getChildFragmentManager()
-                                .beginTransaction()
-                                .replace(R.id.photosL, fragment, "wcc")
-                                .commit();
+                        photos.add("https://cdn.pixabay.com/photo/2016/06/18/17/42/image-1465348_960_720.jpg");
+                        photos.add("https://cdn.pixabay.com/photo/2016/11/03/04/02/ancient-1793421_960_720.jpg");
+                        photos.add("https://cdn.pixabay.com/photo/2016/11/03/04/02/ancient-1793421_960_720.jpg");
+
                     }
                     else{
-                       ArrayList<String> photos = new ArrayList<>();
+
                        JSONArray photosJson = jsonObject.getJSONArray("photos");
                        for (  int i =0 ;i<photosJson.length();i++){
                          JSONObject photo = photosJson.getJSONObject(i);
@@ -181,18 +135,10 @@ public class PhotosFragment extends Fragment implements ImageGalleryAdapter.Imag
 
                            photos.add(AppController.IMAGE_SERVER_ADRESS+photo.getString("photo"));
                        }
-                        Bundle bundle = new Bundle();
-                        bundle.putStringArrayList(ImageGalleryActivity.KEY_IMAGES, photos);
-                        fragment = new ImageGalleryFragment();
-                        fragment.setArguments(bundle);
 
-
-                        getChildFragmentManager()
-                                .beginTransaction()
-                                .replace(R.id.photosL, fragment, "wcc")
-                                .commit();
 
                     }
+                    setUpRecyclerView();
 
 
 
@@ -241,56 +187,46 @@ public class PhotosFragment extends Fragment implements ImageGalleryAdapter.Imag
 
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-/*
-
-        if(tmp==null){
-
-            View m = super.getView();
-            tmp = (LinearLayout) m;
 
 
-            tmp.setBackgroundColor(Color.BLACK);
+   RecyclerView recyclerView;
+    ImageGalleryAdapter imageGalleryAdapter;
 
-            LinearLayout tmpe = (LinearLayout) tmp.getChildAt(1);
-            Log.i("","");
-            AppBarLayout dd  = (AppBarLayout) tmpe.getChildAt(0);
-            Log.i("","");
-
-            AppBarLayout dd  = (AppBarLayout) tmp.getChildAt(0);
-            dd.setExpanded(false, false);
-            dd.setVisibility(View.GONE);
-
-            Log.i("","");
+    private void setUpRecyclerView() {
+        int numOfColumns;
+        if (DisplayUtility.isInLandscapeMode(getActivity())) {
+            numOfColumns = 4;
+        } else {
+            numOfColumns = 3;
         }
 
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), numOfColumns));
+        imageGalleryAdapter = new ImageGalleryAdapter(getContext(), photos);
+        recyclerView.setAdapter(imageGalleryAdapter);
+        recyclerView.addOnItemTouchListener(new RecycleItemClickListener(getContext(),recyclerView, new RecycleItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, final int position) {
 
-        }
-        */
-    }
-
-
-    public static void removeAppBar(){
-        if(tmp==null){
-
-
-            tmp = (LinearLayout) fragment.getView();
-
-
+                Intent i = new Intent(getActivity(), FullScreenImageGalleryActivity.class);
+                i.putStringArrayListExtra(FullScreenImageGalleryActivity.KEY_IMAGES,photos);
+                i.putExtra(FullScreenImageGalleryActivity.KEY_POSITION,position);
+                startActivity(i);
 
 
 
-            AppBarLayout dd  = (AppBarLayout) tmp.getChildAt(0);
-            Log.i("","");
+            }
 
 
-            dd.setExpanded(false, false);
-            dd.setVisibility(View.GONE);
 
-            Log.i("","");
-        }
+            @Override
+            public void onItemLongClick(View view, int position) {
+                Log.i(" dfs","sdf");
+            }
+        }));
+
+
+
+
     }
 
     @Nullable
@@ -300,9 +236,5 @@ public class PhotosFragment extends Fragment implements ImageGalleryAdapter.Imag
         return super.getView();
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        tmp=null;
-    }
+
 }
