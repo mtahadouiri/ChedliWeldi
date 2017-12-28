@@ -94,10 +94,6 @@
             <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
 
         </activity>
 
@@ -118,6 +114,13 @@
 
         </activity>
 
+        <activity android:name=".Activities.FullScreenImageGalleryActivity">
+
+
+
+
+        </activity>
+
 
         <activity android:name=".Activities.SettingActivity"     >
 
@@ -130,6 +133,10 @@
 
         <activity android:name=".Activities.MyOfferActivity"     >
 
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
 
 
 
@@ -177,7 +184,11 @@
 
         <activity
             android:name=".Activities.MapsActivity"
-            android:label="@string/title_activity_maps" />        <activity android:name=".Activities.ProfilActivity" />
+            android:label="@string/title_activity_maps" />
+
+
+
+
        <activity android:name=".Activities.AddJob" />
 
         <meta-data

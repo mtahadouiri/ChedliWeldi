@@ -40,7 +40,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
-import com.etiennelawlor.imagegallery.library.ImageGalleryFragment;
+
 import com.wang.avi.AVLoadingIndicatorView;
 
 
@@ -81,7 +81,7 @@ import static android.app.Activity.RESULT_OK;
 //Our class extending fragment
 public class SettingsFragment extends Fragment {
 TagGroup tags;
-    ImageGalleryFragment fragment;
+
     boolean check = true;
     Button choose;
     Button upload;

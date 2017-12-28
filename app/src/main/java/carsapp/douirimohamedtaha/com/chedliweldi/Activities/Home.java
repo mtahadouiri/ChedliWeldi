@@ -80,14 +80,14 @@ public class Home extends AppCompatActivity implements Feed.OnFragmentInteractio
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        bmb = (BoomMenuButton) findViewById(R.id.bmb);
-        bmb.setNormalColor(getResources().getColor(R.color.primary));
+       // bmb = (BoomMenuButton) findViewById(R.id.bmb);
+        //bmb.setNormalColor(getResources().getColor(R.color.primary));
 
         initView();
 
         initViewPager();
 
-        setUpBoomMenu();
+      //  setUpBoomMenu();
 
       /*  Bundle inBundle = getIntent().getExtras();
         name = inBundle.getString("name");

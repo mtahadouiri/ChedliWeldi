@@ -92,7 +92,7 @@ public class TabsFragment extends Fragment implements TabLayout.OnTabSelectedLis
     @Override
     public void onPageSelected(int position) {
         tabLayout.getTabAt(position).select();
-       PhotosFragment.removeAppBar();
+
     }
 
     @Override

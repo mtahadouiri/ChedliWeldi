@@ -5,6 +5,7 @@ package carsapp.douirimohamedtaha.com.chedliweldi.Fragments;
  */
 
 import android.app.ProgressDialog;
+import android.content.ClipData;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -43,12 +44,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import carsapp.douirimohamedtaha.com.chedliweldi.Activities.FullScreenImageGalleryActivity;
 import carsapp.douirimohamedtaha.com.chedliweldi.AppController;
 import carsapp.douirimohamedtaha.com.chedliweldi.R;
 import carsapp.douirimohamedtaha.com.chedliweldi.Utils.DisplayUtility;
 import carsapp.douirimohamedtaha.com.chedliweldi.Utils.ImageProcessClass;
 import carsapp.douirimohamedtaha.com.chedliweldi.Utils.RoundedBitmapDrawableUtility;
 import carsapp.douirimohamedtaha.com.chedliweldi.adapters.ImageGalleryAdapter;
+import carsapp.douirimohamedtaha.com.chedliweldi.adapters.RecycleItemClickListener;
 import dmax.dialog.SpotsDialog;
 
 import static android.app.Activity.RESULT_OK;
@@ -84,10 +87,14 @@ Toolbar toolbar;
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent chooseIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                chooseIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+              //  Intent chooseIntent = new Intent(Intent.EXTRA_ALLOW_MULTIPLE, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                //chooseIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+                intent.setAction(Intent.ACTION_GET_CONTENT);
 
-                startActivityForResult(chooseIntent, 2);
+                startActivityForResult(intent, 2);
             }
         });
 
@@ -106,7 +113,9 @@ Toolbar toolbar;
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 2 && resultCode == RESULT_OK && data != null && data.getData() != null){
-            int numberOfImages = data.getClipData().getItemCount();
+            ClipData d= data.getClipData();
+
+            int numberOfImages= d.getItemCount();
             for (int i = 0; i < numberOfImages; i++) {
                 try {
                     images = new ArrayList<>();
@@ -145,9 +154,35 @@ Toolbar toolbar;
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), numOfColumns));
         imageGalleryAdapter = new ImageGalleryAdapter(getContext(), photos);
         recyclerView.setAdapter(imageGalleryAdapter);
-          // imageGalleryAdapter.notifyDataSetChanged();
+        recyclerView.addOnItemTouchListener(new RecycleItemClickListener(getContext(),recyclerView, new RecycleItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, final int position) {
+
+                Intent i = new Intent(getActivity(), FullScreenImageGalleryActivity.class);
+                i.putStringArrayListExtra(FullScreenImageGalleryActivity.KEY_IMAGES,photos);
+                i.putExtra(FullScreenImageGalleryActivity.KEY_POSITION,position);
+                startActivity(i);
+
+
+
+            }
+
+
+
+            @Override
+            public void onItemLongClick(View view, int position) {
+                Log.i(" dfs","sdf");
+            }
+        }));
+
+
+
 
     }
+
+          // imageGalleryAdapter.notifyDataSetChanged();
+
+
 
     private  void refreshRecyleView(List<String>photos){
 this.photos.clear();
