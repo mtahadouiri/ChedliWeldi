@@ -1,5 +1,7 @@
 package com.esprit.chedliweldi.Entities;
 
+import com.stfalcon.chatkit.commons.models.IUser;
+
 import java.sql.Date;
 
 import com.esprit.chedliweldi.AppController;
@@ -8,8 +10,8 @@ import com.esprit.chedliweldi.AppController;
  * Created by PC on 16/11/2017.
  */
 
-public class Babysitter {
-    private String firstName,lastName,imgURL,email,descr;
+public class Babysitter implements IUser {
+    private String firstName,lastName,imgURL,email,descr,phone;
     private Date birthDate;
     private float altitude,longitude;
     private int id;
@@ -29,8 +31,25 @@ public class Babysitter {
         this.id = id;
     }
 
-    public int getId() {
-        return id;
+    public Babysitter(String firstName, String lastName, String imgURL, int id) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.imgURL = imgURL;
+        this.id = id;
+    }
+
+    public String getId() {
+        return String.valueOf(id);
+    }
+
+    @Override
+    public String getName() {
+        return firstName+" "+lastName;
+    }
+
+    @Override
+    public String getAvatar() {
+        return imgURL;
     }
 
     public void setId(int id) {
@@ -101,6 +120,14 @@ public class Babysitter {
         this.longitude = longitude;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
     @Override
     public String toString() {
         return "Babysitter{" +
@@ -109,6 +136,7 @@ public class Babysitter {
                 ", imgURL='" + imgURL + '\'' +
                 ", email='" + email + '\'' +
                 ", descr='" + descr + '\'' +
+                ", phone='" + phone + '\'' +
                 ", birthDate=" + birthDate +
                 ", altitude=" + altitude +
                 ", longitude=" + longitude +

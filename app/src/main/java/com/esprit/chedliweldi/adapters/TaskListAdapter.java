@@ -25,7 +25,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHo
 
     private List<Task> items;
     private Context mContext;
-    public static List<Drawable> lstImages=new ArrayList<>();
+    public List<Drawable> lstImages=new ArrayList<>();
 
     public TaskListAdapter(List<Task> items, Context context) {
         this.items = items;

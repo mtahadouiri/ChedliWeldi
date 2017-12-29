@@ -1,6 +1,7 @@
 package com.esprit.chedliweldi.Utils;
 
 import android.content.Context;
+import android.location.Location;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,12 +9,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import com.esprit.chedliweldi.AppController;
+import com.esprit.chedliweldi.Activities.Home;
 import com.esprit.chedliweldi.Entities.Babysitter;
 import com.esprit.chedliweldi.R;
 
@@ -28,7 +28,7 @@ public class BabysitterRecyclerViewAdapter extends RecyclerView.Adapter<Babysitt
 
     public BabysitterRecyclerViewAdapter(List<Babysitter> items, Context context) {
         this.items = items;
-        this.mContext=context;
+        this.mContext = context;
     }
 
     @Override
@@ -40,15 +40,13 @@ public class BabysitterRecyclerViewAdapter extends RecyclerView.Adapter<Babysitt
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Babysitter item = items.get(position);
-        holder.name.setText(item.getFirstName()+" "+item.getLastName());
-        holder.location.setText("10 km");
+        holder.name.setText(item.getFirstName() + " " + item.getLastName());
+        Location mallLoc = new Location("");
+        mallLoc.setLatitude(item.getAltitude());
+        mallLoc.setLongitude(item.getLongitude());
+        holder.location.setText((mallLoc.distanceTo(Home.getUserLocation())/ 1000)+" km");
         holder.desc.setText(item.getDescr());
-        Glide.with(mContext).load(AppController.IMAGE_SERVER_ADRESS+item.getImgURL())
-                .thumbnail(0.5f)
-                .crossFade()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(holder.image);       // holder.image.setImageBitmap(null);
-
+        Picasso.with(mContext).load(item.getImgURL()).into(holder.image);
         holder.itemView.setTag(item);
     }
 
@@ -78,9 +76,11 @@ public class BabysitterRecyclerViewAdapter extends RecyclerView.Adapter<Babysitt
             super(itemView);
             image = (ImageView) itemView.findViewById(R.id.profImg);
             name = (TextView) itemView.findViewById(R.id.tv_card_main_3_title);
-            location=(TextView)itemView.findViewById(R.id.tv_card_main3_subtitle);
-            desc = (TextView)itemView.findViewById(R.id.tv_card_main3_details);
+            location = (TextView) itemView.findViewById(R.id.tv_card_main3_subtitle);
+            desc = (TextView) itemView.findViewById(R.id.tv_card_main3_details);
 
         }
     }
+
+
 }

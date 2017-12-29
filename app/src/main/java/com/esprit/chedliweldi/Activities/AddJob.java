@@ -193,7 +193,7 @@ public class AddJob extends AppCompatActivity implements TimePickerDialog.OnTime
         String lati = "" + position.latitude;
         String longi = ""+position.longitude;
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = AppController.TAHA_ADRESS + "AddJob.php";
+        String url = AppController.TAHA_ADRESS + "AddJob";
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                 response -> {
                     // response

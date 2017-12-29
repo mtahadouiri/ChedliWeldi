@@ -56,8 +56,7 @@ public class CreateTaskListForJob extends AppCompatActivity {
         rv.setLayoutManager(new LinearLayoutManager(this));
         rv.setItemAnimator(new DefaultItemAnimator());
         adapter=new TaskListAdapter(taskList,this);
-        rv.setAdapter(adapter);
-        fab = (FloatingActionButton)findViewById(R.id.fab);
+        rv.setAdapter(adapter);fab = (FloatingActionButton)findViewById(R.id.fab);
         fabDone = (FloatingActionButton)findViewById(R.id.fabDone);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,7 +113,7 @@ public class CreateTaskListForJob extends AppCompatActivity {
 
     private void addTaskToServer(int id,String taskName, String taskDetails, String taskTime) {
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = AppController.TAHA_ADRESS + "AddTask.php";
+        String url = AppController.TAHA_ADRESS + "AddTask";
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                 response -> {
                     // response

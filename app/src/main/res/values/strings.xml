@@ -78,5 +78,37 @@
     <string name="fb_login_protocol_scheme">fb320882858414112</string>
     <string name="location">Location</string>
     <string name="details">Details</string>
+    <string name="hint_enter_a_message">Enter a message</string>
+
+    <string name="title">Choose distance</string>
+    <string name="tickStart">Tick Start = 5</string>
+    <string name="tickEnd">Tick End = 10</string>
+    <string name="tickInterval">Tick Interval = 1</string>
+    <string name="tickHeight">Tick Height = 24</string>
+    <string name="barWeight">Bar Weight = 2</string>
+    <string name="barColor">Bar Color = #CCCCCC</string>
+    <string name="connectingLineWeight">Connecting Line Weight = 4</string>
+    <string name="connectingLineColor">Connecting Line Color = #3F51B5</string>
+    <string name="thumbRadius">Pin Size = 30</string>
+    <string name="selectorBoundarySize">Selector Boundary Size = 1</string>
+    <string name="selectorBoundaryColor">Selector Boundary Color = #3F51B5</string>
+    <string name="thumbColorNormal">Pin Color = #3F51B5</string>
+    <string name="selectorColorNormal">Selector Color = #3F51B5</string>
+    <string name="tickColorNormal">Tick Color = #000000</string>
+    <string name="textColorNormal">Text Color = #ffffff</string>
+    <string name="confirmNewColor">New</string>
+    <string name="confirmDefaultColor">Default</string>
+    <string name="colorPickerTitle">Select a Color</string>
+    <string name="resetThumbColors">Reset Thumb Colors</string>
+    <string name="leftIndexValue">0</string>
+    <string name="leftIndex">Min distance</string>
+    <string name="rightIndexValue">100</string>
+    <string name="rightIndex">Max distance</string>
+    <string name="indexSet">Set By Index</string>
+    <string name="valueSet">Set By Value</string>
+    <string name="toggle_range">Range/Seek</string>
+    <string name="color_picker_default_title">Select a Color</string>
+    <string name="color_swatch_description">Color</string>
+    <string name="color_swatch_description_selected">Color selected</string>
 
 </resources>

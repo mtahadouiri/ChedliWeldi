@@ -1,32 +1,49 @@
 package com.esprit.chedliweldi.Activities;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.appyvet.materialrangebar.RangeBar;
 import com.nightonke.boommenu.BoomButtons.HamButton;
 import com.nightonke.boommenu.BoomButtons.OnBMClickListener;
 import com.nightonke.boommenu.BoomMenuButton;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.esprit.chedliweldi.AppController;
@@ -38,7 +55,12 @@ import com.esprit.chedliweldi.Fragments.ParentProfil;
 import com.esprit.chedliweldi.R;
 import com.esprit.chedliweldi.Utils.FragmentAdapter;
 
-public class Home extends AppCompatActivity implements Feed.OnFragmentInteractionListener, Map.OnFragmentInteractionListener, NavigationView.OnNavigationItemSelectedListener,ParentProfil.OnFragmentInteractionListener {
+import static com.esprit.chedliweldi.AppController.getContext;
+import static com.esprit.chedliweldi.Fragments.Login.PREFS_NAME;
+
+public class Home extends AppCompatActivity implements LocationListener, Feed.OnFragmentInteractionListener, Map.OnFragmentInteractionListener, NavigationView.OnNavigationItemSelectedListener, ParentProfil.OnFragmentInteractionListener {
+    private static final long MIN_TIME_BW_UPDATES = 0;
+    private static final float MIN_DISTANCE_CHANGE_FOR_UPDATES = 0;
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
     private DrawerLayout drawer;
@@ -47,7 +69,7 @@ public class Home extends AppCompatActivity implements Feed.OnFragmentInteractio
     private HamButton.Builder boomButtonAddJob;
 
     public String resp;
-    public List<Babysitter> babysitters=new ArrayList<>();
+    public List<Babysitter> babysitters = new ArrayList<>();
 
     private static boolean isShowPageStart = true;
     private final int MESSAGE_SHOW_DRAWER_LAYOUT = 0x001;
@@ -72,19 +94,118 @@ public class Home extends AppCompatActivity implements Feed.OnFragmentInteractio
     private String lastName;
     private String imageUrl;
     private String email;
+    private LocationManager locationManager;
+    private String provider;
+    private Location mLastLocation;
+    private boolean isGPSEnabled;
+    private boolean isNetworkEnabled;
+    private boolean canGetLocation;
+    private static Location location;
+    private double latitude;
+    private double longitude;
+    private RangeBar rangebar;
+    private static int minDist,maxDist;
+    private Feed feed;
+    private Map map;
+
+    public static int getMinDistance() {
+        return minDist;
+    }
+
+    public static int getMaxDistance() {
+        return maxDist;
+    }
+    public static Location getUserLocation(){
+        return location;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-       // bmb = (BoomMenuButton) findViewById(R.id.bmb);
-        //bmb.setNormalColor(getResources().getColor(R.color.primary));
+        bmb = (BoomMenuButton) findViewById(R.id.bmb);
+        bmb.setNormalColor(getResources().getColor(R.color.primary));
+        minDist=0;
+        maxDist=100;
+        locationManager = (LocationManager) this
+                .getSystemService(Context.LOCATION_SERVICE);
+
+        // getting GPS status
+        isGPSEnabled = locationManager
+                .isProviderEnabled(LocationManager.GPS_PROVIDER);
+
+        // getting network status
+        isNetworkEnabled = locationManager
+                .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+
+        if (!isGPSEnabled && !isNetworkEnabled) {
+            // no network provider is enabled
+        } else {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 0);
+                return;
+            } else {
+                this.canGetLocation = true;
+                if (isNetworkEnabled) {
+                    locationManager.requestLocationUpdates(
+                            LocationManager.NETWORK_PROVIDER,
+                            MIN_TIME_BW_UPDATES,
+                            MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
+                    Log.d("activity", "LOC Network Enabled");
+                    if (locationManager != null) {
+                        location = locationManager
+                                .getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                        if (location != null) {
+                            Log.d("activity", "LOC by Network");
+                            latitude = location.getLatitude();
+                            longitude = location.getLongitude();
+                            Log.d("NETWORK_PROVIDER", "sd");
+                            Log.d("latitude", "Here : " + latitude);
+                            Log.d("longitude", "Here : " + longitude);
+
+                        }
+                    }
+                }
+                // if GPS Enabled get lat/long using GPS Services
+                if (isGPSEnabled) {
+                    if (location == null) {
+                        locationManager.requestLocationUpdates(
+                                LocationManager.GPS_PROVIDER,
+                                MIN_TIME_BW_UPDATES,
+                                MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
+                        Log.d("activity", "RLOC: GPS Enabled");
+                        if (locationManager != null) {
+                            location = locationManager
+                                    .getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                            if (location != null) {
+                                Log.d("activity", "RLOC: loc by GPS");
+
+                                latitude = location.getLatitude();
+                                longitude = location.getLongitude();
+                                Log.d("GPS_PROVIDER", "sd");
+                                Log.d("latitude", "Here : " + latitude);
+                                Log.d("longitude", "Here : " + longitude);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
 
         initView();
-
+        feed = new Feed();
+        map=new Map();
         initViewPager();
 
-      //  setUpBoomMenu();
+        setUpBoomMenu();
 
       /*  Bundle inBundle = getIntent().getExtras();
         name = inBundle.getString("name");
@@ -93,6 +214,7 @@ public class Home extends AppCompatActivity implements Feed.OnFragmentInteractio
         email = inBundle.getString("email");*/
 
     }
+
 
     private void setUpBoomMenu() {
         boomButtonProfile = new HamButton.Builder()
@@ -104,8 +226,7 @@ public class Home extends AppCompatActivity implements Feed.OnFragmentInteractio
         boomButtonProfile.listener(new OnBMClickListener() {
             @Override
             public void onBoomButtonClick(int index) {
-                Log.d("BoomButtonProfile","clicked");
-                Intent i = new Intent(Home.this,AddJob.class);
+                Intent i = new Intent(Home.this, AddJob.class);
                 startActivity(i);
             }
         });
@@ -120,12 +241,11 @@ public class Home extends AppCompatActivity implements Feed.OnFragmentInteractio
         boomButtonAddJob.listener(new OnBMClickListener() {
             @Override
             public void onBoomButtonClick(int index) {
-                Log.d("boomButtonAddJob","clicked");
                 Fragment parentProfile = new ParentProfil();
                 Bundle bundle = new Bundle();
-                bundle.putString("First time","no");
+                bundle.putString("First time", "no");
                 parentProfile.setArguments(bundle);
-                getSupportFragmentManager().beginTransaction().add(R.id.fl,parentProfile).addToBackStack("Home").commit();
+                getSupportFragmentManager().beginTransaction().add(R.id.fl, parentProfile).addToBackStack("Home").commit();
             }
         });
 
@@ -138,7 +258,7 @@ public class Home extends AppCompatActivity implements Feed.OnFragmentInteractio
         bmb.addBuilder(boomButtonProfile);
 
         boomButtonAddJob = new HamButton.Builder()
-               // .normalImageRes(R.drawable.profilee)
+                // .normalImageRes(R.drawable.profilee)
                 .normalTextRes(R.string.dummy_content)
                 .subNormalTextRes(R.string.title_activity_sign_up)
                 .normalColorRes(R.color.primary_dark);
@@ -176,10 +296,14 @@ public class Home extends AppCompatActivity implements Feed.OnFragmentInteractio
 
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
-
+/*
                 Intent i = new Intent(AppController.getContext(),MyOfferActivity.class);
                 startActivity(i);
 
+            /*    Fragment MessageFragment = new Chat();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fl,MessageFragment).addToBackStack("Home").commit();*/
+                Intent i = new Intent(getContext(), Messages.class);
+                startActivity(i);
                 return false;
             }
         });
@@ -189,13 +313,12 @@ public class Home extends AppCompatActivity implements Feed.OnFragmentInteractio
         MenuItem calendar = (MenuItem) m.findItem(R.id.calendar);
 
 
-
         goingOffers.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
 
-                Intent i = new Intent(AppController.getContext(),OnGoingOfferActivity.class);
+                Intent i = new Intent(getContext(), OnGoingOfferActivity.class);
                 startActivity(i);
                 return false;
             }
@@ -208,7 +331,7 @@ public class Home extends AppCompatActivity implements Feed.OnFragmentInteractio
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
 
-                Intent i = new Intent(AppController.getContext(),CalendarActivity.class);
+                Intent i = new Intent(getContext(), CalendarActivity.class);
                 startActivity(i);
                 return false;
             }
@@ -216,12 +339,11 @@ public class Home extends AppCompatActivity implements Feed.OnFragmentInteractio
         });
 
 
-        if(Login.type.equals("Babysitter")){
+        if (Login.type.equals("Babysitter")) {
             myOffers.setVisible(false);
             goingOffers.setVisible(true);
             calendar.setVisible(true);
-        }
-        else{
+        } else {
             calendar.setVisible(false);
             goingOffers.setVisible(false);
         }
@@ -235,16 +357,11 @@ public class Home extends AppCompatActivity implements Feed.OnFragmentInteractio
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
 
-                Intent i = new Intent(AppController.getContext(),SettingActivity.class);
+                Intent i = new Intent(getContext(), SettingActivity.class);
                 startActivity(i);
                 return false;
             }
         });
-
-
-
-
-
 
 
         View headerView = navigationView.getHeaderView(0);
@@ -271,13 +388,14 @@ public class Home extends AppCompatActivity implements Feed.OnFragmentInteractio
         List<String> titles = new ArrayList<>();
         titles.add(getString(R.string.tab_title_main_1));
         titles.add(getString(R.string.tab_title_main_2));
+
         mTabLayout.addTab(mTabLayout.newTab().setText(titles.get(0)));
         mTabLayout.addTab(mTabLayout.newTab().setText(titles.get(1)));
         //mTabLayout.addTab(mTabLayout.newTab().setText(titles.get(2)));
 
         List<Fragment> fragments = new ArrayList<>();
-        fragments.add(new Feed());
-        fragments.add(new Map());
+        fragments.add(feed);
+        fragments.add(map);
 
         mViewPager.setOffscreenPageLimit(2);
 
@@ -319,12 +437,11 @@ public class Home extends AppCompatActivity implements Feed.OnFragmentInteractio
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-       /* switch (item.getItemId()) {
+        switch (item.getItemId()) {
             case R.id.action_menu_main_1:
-                Intent intent = new Intent(this, AboutActivity.class);
-                startActivity(intent);
+                handleDial();
                 break;
-        }*/
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -393,6 +510,137 @@ public class Home extends AppCompatActivity implements Feed.OnFragmentInteractio
         } catch (PackageManager.NameNotFoundException e) {
             return false;
         }
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        Log.d("onLocationChanged", "sd");
+        Log.d("latitude", "Here : " + latitude);
+        Log.d("longitude", "Here : " + longitude);
+        feed.filtreBabysitters(feed.getBabysiiters());
+       // map.populateMap();
+        updateLocation(latitude+"",longitude+"");
+    }
+    private void updateLocation(String lat,String longi) {
+        RequestQueue queue = Volley.newRequestQueue(getContext());
+        String url = AppController.TAHA_ADRESS + "updateLocation";
+        StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+                response -> {
+                    // response
+                    Log.d("Response", response);
+
+                },
+                error -> {
+                    // error
+                    Log.d("Error.Response", error.toString());
+                }
+        ) {
+            @Override
+            protected java.util.Map<String, String> getParams() {
+                java.util.Map<String, String> params = new HashMap<String, String>();
+                params.put("alt",lat);
+                params.put("long", longi);
+                params.put("email", Home.this.getSharedPreferences(PREFS_NAME, 0).getString("email",null));
+                Log.d("Params", params.values().toString());
+
+                return params;
+            }
+        };
+        queue.add(postRequest);
+    }
+
+    @Override
+    public void onStatusChanged(String s, int i, Bundle bundle) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String s) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String s) {
+
+    }
+
+    public void handleDial() {
+        // Sets fonts for all
+//        Typeface font = Typeface.createFromAsset(getAssets(), "Roboto-Thin.ttf");
+////        ViewGroup root = (ViewGroup) findViewById(R.id.mylayout);
+////        setFont(root, font);
+
+        // Gets the buttons references for the buttons
+        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
+        final View dialogView = inflater.inflate(R.layout.filter_dialog, null);
+        dialogBuilder.setView(dialogView);
+
+        //Sets the buttons to bold.
+//        barColor.setTypeface(font, Typeface.BOLD);
+//        connectingLineColor.setTypeface(font, Typeface.BOLD);
+//        pinColor.setTypeface(font, Typeface.BOLD);
+
+        // Gets the RangeBar
+        rangebar = (RangeBar) dialogView.findViewById(R.id.rangebar1);
+
+
+        // Setting Index Values -------------------------------
+
+        // Gets the index value TextViews
+        final EditText leftIndexValue = (EditText) dialogView.findViewById(R.id.leftIndexValue);
+        final EditText rightIndexValue = (EditText) dialogView.findViewById(R.id.rightIndexValue);
+        if(minDist>=0 && maxDist>=0){
+            rangebar.setLeft(minDist);
+            rangebar.setRight(maxDist);
+            leftIndexValue.setText("" + minDist);
+            rightIndexValue.setText("" + maxDist);
+        }
+        // Sets the display values of the indices
+        rangebar.setOnRangeBarChangeListener(new RangeBar.OnRangeBarChangeListener() {
+            @Override
+            public void onRangeChangeListener(RangeBar rangeBar, int leftPinIndex,
+                                              int rightPinIndex, String leftPinValue, String rightPinValue) {
+                leftIndexValue.setText("" + leftPinIndex);
+                minDist=leftPinIndex;
+                rightIndexValue.setText("" + rightPinIndex);
+                maxDist=rightPinIndex;
+            }
+
+        });
+        Button btnDone =(Button)dialogView.findViewById(R.id.btnDone);
+
+        final AlertDialog b = dialogBuilder.create();
+
+        btnDone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                feed.filtreBabysitters(feed.getBabysiiters());
+                map.populateMap();
+                b.dismiss();
+            }
+        });
+
+        b.show();
+
+
+        // Sets the indices themselves upon input from the user
+
+        // Setting Number Attributes -------------------------------
+
+        // Sets tickStart
+
+        // Sets tickEnd
+
+        // Setting Color Attributes---------------------------------
+
+    }
+
+    private int getValueInDP(int value) {
+        int valueInDp = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+                value,
+                getResources().getDisplayMetrics());
+        return valueInDp;
     }
 
 }

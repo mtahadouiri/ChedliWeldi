@@ -4,7 +4,6 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -141,8 +140,14 @@ public class Map extends Fragment implements OnMapReadyCallback {
         // manager.
        // mMap.setOnMarkerClickListener(mClusterManager);
 
+        populateMap();
+        mMap.setOnCameraIdleListener(mClusterManager);
+        mMap.setOnMarkerClickListener(mClusterManager);
+
+    }
+
+    public void populateMap() {
         for (Babysitter b: MainActivity.bbySitters) {
-            Log.d("Marker",b.toString());
             Marker m = mMap.addMarker(new MarkerOptions()
                     .position(new LatLng(b.getAltitude(),b.getLongitude()))
                     .title("Perth"));
@@ -151,9 +156,6 @@ public class Map extends Fragment implements OnMapReadyCallback {
             MyItem offsetItem = new MyItem(m.getPosition());
             mClusterManager.addItem(offsetItem);
         }
-        mMap.setOnCameraIdleListener(mClusterManager);
-        mMap.setOnMarkerClickListener(mClusterManager);
-
     }
 
    /* @Override

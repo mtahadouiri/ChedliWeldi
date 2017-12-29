@@ -148,7 +148,7 @@ public class Login_taha extends Fragment {
 
     private void getBabysiiters() {
         RequestQueue queue = Volley.newRequestQueue(getContext());
-        String url =  AppController.TAHA_ADRESS+"getBabysitters.php";
+        String url =  AppController.TAHA_ADRESS+"getBabysitters";
 // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {

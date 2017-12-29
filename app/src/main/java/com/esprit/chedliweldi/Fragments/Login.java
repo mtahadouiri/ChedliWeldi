@@ -114,9 +114,6 @@ public class Login extends Fragment {
                 GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
                     @Override
                     public void onCompleted(JSONObject object, GraphResponse response) {
-                        Log.e(TAG,object.toString());
-                        Log.e(TAG,response.toString());
-
                         try {
                             userId = object.getString("id");
                             try {
@@ -143,9 +140,6 @@ public class Login extends Fragment {
                             editor.putString("email", emailTxT);
                             editor.putString("birthday", birthday);
                             editor.putString("imageUrl", profilePicture.toString());
-                            Log.e("Birthday",""+birthday);
-                            Log.e("name",""+firstName);
-                            Log.e("Birthday",""+birthday);
                             // Commit the edits!
                             editor.commit();
 
@@ -209,7 +203,6 @@ public class Login extends Fragment {
     private void login(final String email , final String password) {
 
 
-        Log.e("sdf", "uploadUser:  near volley new request ");
 
         java.util.Map<String, String> params = new HashMap<String, String>();
         params.put("email", "sdfsd");
@@ -269,7 +262,6 @@ public class Login extends Fragment {
 
         }, error -> {
             VolleyLog.d("", "Error: " + error.getMessage());
-            Log.d("", ""+error.getMessage()+","+error.toString());
         }){
             @Override
             protected java.util.Map<String,String> getParams(){
@@ -316,7 +308,6 @@ public class Login extends Fragment {
     private void signUp(String email , String password,int phoneNumber,String firstName,String lastName ,String adress ,String birthDate,String type ) {
 
 
-        Log.e("sdf", "uploadUser:  near volley new request ");
 
         final java.util.Map<String, String> params = new HashMap<String, String>();
         params.put("email", email);
@@ -393,7 +384,7 @@ public class Login extends Fragment {
 
     private void getBabysiiters() {
         RequestQueue queue = Volley.newRequestQueue(getContext());
-        String url =  AppController.TAHA_ADRESS+"getBabysitters.php";
+        String url =  AppController.TAHA_ADRESS+"getBabysitters";
 // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
@@ -428,13 +419,11 @@ public class Login extends Fragment {
         //Check if already logged in
         boolean loggedIn = AccessToken.getCurrentAccessToken()!=null;
         if (loggedIn){
-            Log.d("Token",""+loggedIn);
 
             GraphRequest request = GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
                 @Override
                 public void onCompleted(JSONObject object, GraphResponse response) {
-                    Log.e(TAG,object.toString());
-                    Log.e(TAG,response.toString());
+
 
                     try {
                         userId = object.getString("id");
@@ -482,11 +471,10 @@ public class Login extends Fragment {
 
     private void checkFbuser(String emailTxT) {
         RequestQueue queue = Volley.newRequestQueue(getContext());
-        String url = AppController.TAHA_ADRESS + "getUserByEmail.php?email="+emailTxT;
+        String url = AppController.TAHA_ADRESS + "getUserByEmail?email="+emailTxT;
         StringRequest postRequest = new StringRequest(Request.Method.GET, url,
                 response -> {
                     // response
-                    Log.d("checkFbuser", response);
                     try {
                         JSONObject jsonObject = new JSONObject(response);
                         if(jsonObject.getString("status").equals("found")){
@@ -526,7 +514,7 @@ public class Login extends Fragment {
 
     private void uploadFbUser(String firstName, String lastName, String emailTxT, URL profilePicture) {
         RequestQueue queue = Volley.newRequestQueue(getContext());
-        String url = AppController.TAHA_ADRESS + "fbuser.php";
+        String url = AppController.TAHA_ADRESS + "fbuser";
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                 response -> {
                     // response
