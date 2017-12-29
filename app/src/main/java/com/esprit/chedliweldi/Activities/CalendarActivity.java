@@ -203,8 +203,6 @@ JSONArray JsonEvents ;
                         events.setAdapter(adapter);
                         adapter.notifyDataSetChanged();
                         Log.i("etat","success");
-                        Log.i("etat","success");
-
                     }
 
 
