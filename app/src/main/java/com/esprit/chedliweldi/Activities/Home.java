@@ -123,7 +123,7 @@ public class Home extends AppCompatActivity implements LocationListener, Feed.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        bmb = (BoomMenuButton) findViewById(R.id.bmb);
+       bmb = (BoomMenuButton) findViewById(R.id.bmb);
         bmb.setNormalColor(getResources().getColor(R.color.primary));
         minDist=0;
         maxDist=100;

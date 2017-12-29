@@ -316,6 +316,10 @@ public class OfferListActivity extends AppCompatActivity {
         });
 
 
+
+
+
+
     }
 
 

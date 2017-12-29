@@ -25,6 +25,7 @@ import com.esprit.chedliweldi.Fragments.ParentMainFragment;
 import com.esprit.chedliweldi.Fragments.ParentMapFragment;
 import com.esprit.chedliweldi.Fragments.ParentProfil;
 import com.esprit.chedliweldi.R;
+import com.esprit.chedliweldi.Utils.DrawerInitializer;
 import com.esprit.chedliweldi.Utils.FragmentAdapter;
 import com.nightonke.boommenu.BoomButtons.HamButton;
 import com.nightonke.boommenu.BoomButtons.OnBMClickListener;
@@ -38,27 +39,17 @@ public class BabySitterMainActivity extends AppCompatActivity implements Navigat
 
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
-
-
-
-
     @Override
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.baby_sitter_main);
-        initView();
+       //initView();
+
+      //  initView(this);
+        DrawerInitializer.initView(this);
         initViewPager();
-
         setUpBoomMenu();
-
-
-
-
-
-
     }
-
 
     private void setUpBoomMenu() {
         BoomMenuButton bmb;
@@ -161,7 +152,7 @@ public class BabySitterMainActivity extends AppCompatActivity implements Navigat
 
     private DrawerLayout drawer;
     private void initView() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main);
+        Toolbar toolbar = (Toolbar)  findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -189,6 +180,35 @@ public class BabySitterMainActivity extends AppCompatActivity implements Navigat
 
     }
 
+    private void initView(AppCompatActivity activity) {
+
+        Toolbar toolbar = (Toolbar)   activity.findViewById(R.id.toolbar_main);
+        setSupportActionBar(toolbar);
+
+       DrawerLayout  drawer = (DrawerLayout) activity. findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                activity, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        //drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setItemIconTintList(null);
+
+        View headerView = navigationView.getHeaderView(0);
+        LinearLayout nav_header = (LinearLayout) headerView.findViewById(R.id.nav_header);
+        nav_header.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(BabySitterMainActivity.this, MainActivity.class);
+                startActivity(intent);
+                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                drawer.closeDrawer(GravityCompat.START);
+            }
+        });
+
+
+    }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
