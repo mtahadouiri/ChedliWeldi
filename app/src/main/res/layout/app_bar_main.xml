@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.Home">
+    tools:context=".Activities.BabySitterMainActivity"
+    >
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -37,15 +38,15 @@
 
 
 
-  <com.nightonke.boommenu.BoomMenuButton
-      android:id="@+id/bmb"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      app:bmb_buttonEnum="ham"
-      app:bmb_piecePlaceEnum="piecePlace_ham_4"
-      app:bmb_buttonPlaceEnum="buttonPlace_ham_4"
-      app:layout_anchor="@+id/view_pager_main"
-      app:layout_anchorGravity="right|bottom" />
+
+    <com.nightonke.boommenu.BoomMenuButton
+        android:id="@+id/bmb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:bmb_buttonEnum="simpleCircle"
+        app:bmb_piecePlaceEnum="piecePlace_dot_9_1"
+        app:bmb_buttonPlaceEnum="buttonPlace_sc_9_1"
+        />
 
 
 </android.support.design.widget.CoordinatorLayout>

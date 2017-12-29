@@ -29,32 +29,13 @@ import me.gujun.android.taggroup.TagGroup;
 
 //Our class extending fragment
 public class InfoFragment extends Fragment {
-TagGroup tags;
 
-    LinearLayout t;
-    //Overriden method onCreateView
+
+
 Button choose;
-Button upload;
+
 Toolbar toolbar;
-    Bitmap bitmap;
 
-    boolean check = true;
-
-    Button SelectImageGallery, UploadImageServer;
-
-    ImageView imageView;
-
-    EditText imageName;
-
-    ProgressDialog progressDialog ;
-
-    String GetImageNameEditText="tt";
-
-    String ImageName = "image_name" ;
-
-    String ImagePath = "image_path" ;
-
-    String ServerUploadPath ="https://androidjsonblog.000webhostapp.com/img_upload_to_server.php" ;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 

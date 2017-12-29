@@ -420,6 +420,11 @@ public class Home extends AppCompatActivity implements LocationListener, Feed.On
         });
     }
 
+
+
+
+
+
     @Override
     public void onBackPressed() {
         if (drawer.isDrawerOpen(GravityCompat.START)) {
