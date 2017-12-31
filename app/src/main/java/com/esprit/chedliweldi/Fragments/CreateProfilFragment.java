@@ -36,10 +36,11 @@ import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+
+import com.esprit.chedliweldi.Activities.BabySitterMainActivity;
 import com.esprit.chedliweldi.Activities.Home;
 import com.esprit.chedliweldi.Activities.MainActivity;
 import com.esprit.chedliweldi.Activities.MyOfferActivity;
-import com.esprit.chedliweldi.Activities.OfferListActivity;
 import com.esprit.chedliweldi.Activities.ParentMainActivity;
 import com.esprit.chedliweldi.Activities.SignUpActivity;
 import com.esprit.chedliweldi.AppController;
@@ -376,7 +377,7 @@ boolean maleChecked=false;
     }
 
     void showListoffers(){
-        Intent i = new Intent(getActivity(),OfferListActivity.class);
+        Intent i = new Intent(getActivity(),BabySitterMainActivity.class);
         startActivity(i);
     }
 

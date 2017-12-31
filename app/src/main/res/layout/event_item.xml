@@ -31,6 +31,7 @@ android:layout_marginLeft="15dp"
             android:layout_height="match_parent" android:orientation="horizontal">
 
             <View
+                android:id="@+id/bar"
                 android:layout_width="7dp"
                 android:layout_height="match_parent"
                 android:background="@color/mtlcOrange"

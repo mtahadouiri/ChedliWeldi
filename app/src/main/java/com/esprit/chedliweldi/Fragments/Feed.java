@@ -21,6 +21,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -180,11 +182,20 @@ public class Feed extends Fragment {
             mallLoc.setLongitude(b.getLongitude());
 
             Log.d("Distance"," "+(mallLoc.distanceTo(Home.getUserLocation())/1000));
+            b.setDistance(mallLoc.distanceTo(Home.getUserLocation())/1000);
             if ((mallLoc.distanceTo(Home.getUserLocation())/1000) < Home.getMinDistance() || (mallLoc.distanceTo(Home.getUserLocation())/1000) > Home.getMaxDistance()) {
                 bb.add(b);
             }
         }
         babysitters.removeAll(bb);
+        Collections.sort(babysitters, new Comparator<Babysitter>() {
+            @Override
+            public int compare(Babysitter babysitter, Babysitter t1) {
+
+                return Float.compare(babysitter.getDistance(),t1.getDistance());
+            }
+        });
+
         adapter=new BabysitterRecyclerViewAdapter(babysitters,getContext());
         adapter.notifyDataSetChanged();
         rv.setAdapter(adapter);

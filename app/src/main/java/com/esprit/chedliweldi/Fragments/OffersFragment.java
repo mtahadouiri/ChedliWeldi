@@ -51,7 +51,7 @@ public class OffersFragment extends Fragment {
 
         //Returning the layout file after inflating
         //Change R.layout.tab1 in you classes
-        View v = inflater.inflate(R.layout.activity_offer_list, container, false);
+        View v = inflater.inflate(R.layout.offer_list, container, false);
 
         offers = (RecyclerView)v. findViewById(R.id.recycler_view);
         offers.setLayoutManager(new LinearLayoutManager(getContext()));

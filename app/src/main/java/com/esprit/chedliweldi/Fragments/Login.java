@@ -22,6 +22,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.esprit.chedliweldi.Activities.BabySitterMainActivity;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -44,7 +45,6 @@ import butterknife.ButterKnife;
 import com.esprit.chedliweldi.Activities.Home;
 import com.esprit.chedliweldi.Activities.MainActivity;
 import com.esprit.chedliweldi.Activities.MyOfferActivity;
-import com.esprit.chedliweldi.Activities.OfferListActivity;
 import com.esprit.chedliweldi.Activities.ParentMainActivity;
 import com.esprit.chedliweldi.Activities.SignUpActivity;
 import com.esprit.chedliweldi.AppController;
@@ -75,13 +75,10 @@ public class Login extends Fragment {
     private String gender;
 
 
-    //public static String type="Babysitter";
-    public static String type="Parent";
+   // public static String type="Babysitter";
+  public static String type="Parent";
 
     public void validateLogin(String email ,String password){
-
-
-
 
     }
 
@@ -296,7 +293,7 @@ public class Login extends Fragment {
     }
 
     void showListoffers(){
-        Intent i = new Intent(getActivity(),OfferListActivity.class);
+        Intent i = new Intent(getActivity(),BabySitterMainActivity.class);
         startActivity(i);
     }
 

@@ -12,6 +12,7 @@ import java.util.List;
 import com.esprit.chedliweldi.Entities.Babysitter;
 import com.esprit.chedliweldi.Fragments.SettingsFragment;
 import com.esprit.chedliweldi.R;
+import com.esprit.chedliweldi.Utils.DrawerInitializer;
 
 public class SettingActivity extends AppCompatActivity  {
     private FragmentManager fragmentManager;
@@ -21,7 +22,8 @@ public class SettingActivity extends AppCompatActivity  {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_settings);
+     //   DrawerInitializer.initView(this);
 
 
 

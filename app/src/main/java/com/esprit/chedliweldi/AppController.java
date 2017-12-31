@@ -12,12 +12,26 @@ import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.text.TextUtils;
+import android.util.Log;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
+import com.esprit.chedliweldi.Activities.OnGoingOfferActivity;
+import com.esprit.chedliweldi.adapters.OnGoingOfferRecycleViewAdapter;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class AppController extends Application {
 
@@ -123,4 +137,84 @@ public class AppController extends Application {
         @Override public String getId() {
             return getClass().getName();
         }
-    }   }
+    }
+
+    public static void registerToken(final String id,final String token ) {
+
+
+        String url = AppController.SERVER_ADRESS+"registerAndroidToken";
+        StringRequest sr = new StringRequest(Request.Method.POST, url , new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    boolean d= jsonObject.getBoolean("error");
+
+
+
+                    if (d){
+
+                        Log.i("etat","failed");
+                    }
+                    else{
+
+
+
+
+
+                        Log.i("etat","success");
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d("", "Error: " + error.getMessage());
+                Log.d("", ""+error.getMessage()+","+error.toString());
+            }
+        }){
+
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String,String> headers = new HashMap<String, String>();
+                headers.put("Content-Type","application/x-www-form-urlencoded");
+                //  headers.put("abc", "value");
+                return headers;
+            }
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> headers = new HashMap<String, String>();
+                headers.put("user_id",id);
+                headers.put("token",token);
+                //  headers.put("abc", "value");
+                return headers;
+            }
+
+
+
+
+        };
+
+
+
+
+        // Adding request to request queue
+        AppController.getInstance().addToRequestQueue(sr);
+
+
+    }
+
+
+
+}
+
+
+

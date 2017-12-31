@@ -15,6 +15,7 @@ public class Babysitter implements IUser {
     private Date birthDate;
     private float altitude,longitude;
     private int id;
+    private float distance;
 
     public Babysitter() {
     }
@@ -142,5 +143,13 @@ public class Babysitter implements IUser {
                 ", longitude=" + longitude +
                 ", id=" + id +
                 '}';
+    }
+
+    public float getDistance() {
+        return distance;
+    }
+
+    public void setDistance(float distance) {
+        this.distance = distance;
     }
 }

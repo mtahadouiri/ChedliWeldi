@@ -32,6 +32,7 @@ import java.util.Map;
 
 import com.esprit.chedliweldi.AppController;
 import com.esprit.chedliweldi.R;
+import com.esprit.chedliweldi.Utils.DrawerInitializer;
 import com.esprit.chedliweldi.adapters.OfferAdapter;
 import me.gujun.android.taggroup.TagGroup;
 
@@ -53,9 +54,18 @@ Button btn;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.my_offer);
+        setContentView(R.layout.activity_myoffers);
         //NotificationBadge  mBadge = (NotificationBadge) findViewById(R.id.badge);
         //mBadge.setNumber(5);
+        DrawerInitializer.initView(this);
+        DrawerInitializer.setUpBoomMenu(this);
+
+           Intent k = getIntent();
+        String i =k.getStringExtra("id_request");
+        String f =k.getStringExtra("id_offer");
+
+
+
         grid =  (GridView) findViewById(R.id.grid);
         grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

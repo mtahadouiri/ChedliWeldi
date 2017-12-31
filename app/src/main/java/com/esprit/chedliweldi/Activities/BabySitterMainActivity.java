@@ -46,6 +46,7 @@ public class BabySitterMainActivity extends AppCompatActivity implements Navigat
        //initView();
 
       //  initView(this);
+
         DrawerInitializer.initView(this);
         initViewPager();
         setUpBoomMenu();

@@ -60,7 +60,7 @@ public class RequestFragment extends Fragment {
 
         //Returning the layout file after inflating
         //Change R.layout.tab1 in you classes
-        View v = inflater.inflate(R.layout.activity_request, container, false);
+        View v = inflater.inflate(R.layout.request, container, false);
         String id = getArguments().getString("id");
         offers = (RecyclerView) v. findViewById(R.id.recycler_view);
         layoutManager=new LinearLayoutManager(getContext());

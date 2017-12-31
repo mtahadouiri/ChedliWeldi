@@ -23,6 +23,12 @@
 
 
         <item
+            android:id="@+id/message"
+            android:icon="@drawable/ic_fullscreen_black_24dp"
+            android:title="Messages" />
+
+
+        <item
             android:id="@+id/nav_bottom_navigation"
             android:icon="@drawable/ic_more_horiz_black_24dp"
             android:title="hmmm" />

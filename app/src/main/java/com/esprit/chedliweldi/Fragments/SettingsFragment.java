@@ -11,6 +11,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
@@ -19,6 +21,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -89,10 +93,11 @@ TextView fullName;
 RelativeLayout relativeLayout;
 Toolbar toolbar;
     RelativeLayout infoTab;
+    FrameLayout fr;
     RelativeLayout passwordTab;
     RelativeLayout notificationTab;
     RelativeLayout managePhotosTab;
-
+ ImageButton btnBack;
     RelativeLayout skillsTab;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -104,16 +109,22 @@ Toolbar toolbar;
    loading = (AVLoadingIndicatorView) v.findViewById(R.id.loading);
    mask=(ImageView) v.findViewById(R.id.mask);
    fullName= (TextView) v.findViewById(R.id.textView7);
-
+    btnBack = (ImageButton) v.findViewById(R.id.btnBack);
         loading.hide();
-
+    btnBack.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View view) {
+        getActivity().finish();
+    }
+});
         profileImg =(ImageView) v.findViewById(R.id.imageView4);
         relativeLayout =(RelativeLayout) v.findViewById(R.id.relativeLayout);
+        fr =(FrameLayout) v.findViewById(R.id.fr);
         skillsTab=(RelativeLayout) v.findViewById(R.id.manageSkills);
         managePhotosTab=(RelativeLayout) v.findViewById(R.id.managePhotos);
         notificationTab=(RelativeLayout) v.findViewById(R.id.notification_bar);
         passwordTab=(RelativeLayout) v.findViewById(R.id.change_password_tab);
-        relativeLayout.setOnClickListener(new View.OnClickListener() {
+        fr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mask.setVisibility(View.VISIBLE);
@@ -253,6 +264,27 @@ notificationTab.setOnClickListener(new View.OnClickListener() {
 
 
 
+
+    void initToolbar(View v){
+
+        Toolbar toolbar = (Toolbar) v.findViewById(R.id.toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+
+
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getFragmentManager().popBackStack();
+            }
+        });
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setTitle("sdfsfd");
+        }
+
+    }
 
     public void ImageUploadToServerFunction(){
 
