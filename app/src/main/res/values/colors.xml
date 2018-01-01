@@ -113,6 +113,9 @@
     <color name="colorAccent">#FF4081</color>
     <color name="colorGreyLight">#ecf0f1</color>
     <color name="mtlcOrange">#f9671e</color>
+    <color name="mtlcYellow">#f1c40f</color>
+
+
     <color name="mtlcGrey">#8c939b</color>
     <color name="mtlcGrey2">#d1d3d6</color>
     <color name="offerColor">#64798a</color>

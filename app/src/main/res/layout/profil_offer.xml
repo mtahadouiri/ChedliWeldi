@@ -91,17 +91,80 @@
         android:layout_width="match_parent"
         android:background="@color/colorGreyLight"
         android:layout_height="0dp"  android:layout_weight="5" android:gravity="center" android:orientation="vertical" >
+        <LinearLayout
+            android:elevation="20dp"
+
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_marginLeft="3dp"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </LinearLayout>
 
 
-        <LinearLayout android:layout_gravity="center" android:gravity="center"
-            android:background="@color/colorGreyLight"
-            android:layout_width="150dp"
-            android:layout_height="150dp">
+            <LinearLayout
+                android:layout_marginLeft="3dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            <android.support.v7.widget.AppCompatTextView android:layout_gravity="center"
-                android:layout_width="wrap_content" android:alpha="0.8"
-                android:layout_height="wrap_content"  android:text="Parent details"/>
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp" android:src="@drawable/info_black" />
+                <TextView
+                    android:id="@+id/txtDescription"
+                    android:layout_marginLeft="3dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"   android:text="i neeed a baby sitter as soon as possible for my daughter sabrina " android:textSize="15dp" />
+
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_marginLeft="3dp"
+                android:gravity="center_vertical"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp" android:src="@drawable/time" />
+
+                <TextView
+                    android:id="@+id/txtDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="3dp"
+                    android:text="thursday 21 2017 at 15 am "
+
+                    android:textSize="15dp" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:text="Tasks" />
+
+          <android.support.v7.widget.RecyclerView
+              android:id="@+id/rv"
+              android:layout_width="match_parent"
+              android:layout_height="fill_parent"></android.support.v7.widget.RecyclerView>
+
         </LinearLayout>
+
+
+
+
     </LinearLayout>
 
     <android.support.v7.widget.AppCompatButton

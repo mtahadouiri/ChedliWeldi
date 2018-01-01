@@ -4,7 +4,6 @@ package com.esprit.chedliweldi.Fragments;
  * Created by oussama_2 on 12/1/2017.
  */
 
-import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,83 +12,101 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
-
+import com.esprit.chedliweldi.AppController;
+import com.esprit.chedliweldi.R;
+import com.esprit.chedliweldi.adapters.DisplayTaskListAdapter;
+import com.esprit.chedliweldi.adapters.PrivateOfferRecycleViewAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.*;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.HashMap;
 
-import com.esprit.chedliweldi.Activities.BabySitterMainActivity;
-import com.esprit.chedliweldi.Activities.Home;
-import com.esprit.chedliweldi.Activities.LoginActivity;
-import com.esprit.chedliweldi.AppController;
-import com.esprit.chedliweldi.Entities.Babysitter;
-import com.esprit.chedliweldi.R;
-import com.esprit.chedliweldi.Utils.BabysitterRecyclerViewAdapter;
-import com.esprit.chedliweldi.adapters.OfferRecycleViewAdapter;
+import me.gujun.android.taggroup.TagGroup;
 
 /**
  * Created by Belal on 2/3/2016.
  */
 
 //Our class extending fragment
-public class OffersFragment extends Fragment {
+public class TaskFragment extends Fragment {
 
-    RecyclerView offers ;
-    List<JSONObject> data;
-    OfferRecycleViewAdapter adapter ;
-
-
-
+    RecyclerView recyclerview;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         //Returning the layout file after inflating
         //Change R.layout.tab1 in you classes
-        View v = inflater.inflate(R.layout.offer_list, container, false);
 
-        offers = (RecyclerView)v. findViewById(R.id.recycler_view);
-        offers.setLayoutManager(new LinearLayoutManager(getContext()));
+        View v = inflater.inflate(R.layout.task, container, false);
+        recyclerview = (RecyclerView) v.findViewById(R.id.rv);
+        recyclerview.setLayoutManager(new LinearLayoutManager(getContext()));
+        String id=getArguments().getString("id");
+
+        getTasks(id);
+
+
+
+        //  DisplayTaskListAdapter adapter = new DisplayTaskListAdapter();
+
+
+        
+
+
+
+
+
+
+
+
 
 
 
         return v;
     }
+LinearLayout tmp;
+    @Override
+    public void onResume() {
+        super.onResume();
 
-
-
-
-
-
-
-    public void refreshAdapter(List<JSONObject>data){
-        this.data=data;
-        adapter = new OfferRecycleViewAdapter(getActivity(), data);
-        offers.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
+        
     }
 
 
-    private void sendRequest(final String id_user, final String id_offer) {
+
+    public static TaskFragment newInstance(String idUser) {
+        TaskFragment fragment = new TaskFragment();
+        Bundle args = new Bundle();
+        args.putString("id", idUser);
 
 
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+
+
+    private void getTasks(final String idUser) {
+
+
+        Log.e("sdf", "uploadUser:  near volley new request ");
 
 
         //  JSONObject jsonObj = new JSONObject(params);
 
 
-        String url = AppController.SERVER_ADRESS+"sendRequest";
+        String url = AppController.SERVER_ADRESS+"getTasks";
         StringRequest sr = new StringRequest(Request.Method.POST, url , new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -102,16 +119,18 @@ public class OffersFragment extends Fragment {
 
 
                     if (d){
-                        Log.i("etat","failed");
+
+
                     }
                     else{
-                        MaterialDialog dialog = new MaterialDialog.Builder(getActivity())
-                                .title("request send")
-                                .content("the request has been sent successfully")
-                                .positiveText("ok")
-                                .show();
 
-                        Log.i("etat","success");
+                        JSONArray tasks = jsonObject.getJSONArray("tasks");
+
+                      DisplayTaskListAdapter adapter = new DisplayTaskListAdapter(tasks);
+                      recyclerview.setAdapter(adapter);
+
+
+
                     }
 
 
@@ -132,15 +151,14 @@ public class OffersFragment extends Fragment {
             @Override
             protected java.util.Map<String, String> getParams() throws AuthFailureError {
                 java.util.Map<String,String> headers = new HashMap<String, String>();
-
-                headers.put("id_user", LoginActivity.connectedUser);
-                headers.put("id_offer", id_offer);
+                headers.put("user_id",idUser);
+                //  headers.put("abc", "value");
                 return headers;
             }
 
             @Override
             public java.util.Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String,String> headers = new HashMap<String, String>();
+                java.util.Map<String,String> headers = new HashMap<String, String>();
                 headers.put("Content-Type","application/x-www-form-urlencoded");
                 //  headers.put("abc", "value");
                 return headers;
@@ -155,11 +173,6 @@ public class OffersFragment extends Fragment {
 
 
     }
-
-
-
-
-
 
 
 
