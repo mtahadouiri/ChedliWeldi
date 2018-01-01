@@ -14,7 +14,7 @@
         <item
             android:id="@+id/on_going_offers"
             android:icon="@drawable/ic_fullscreen_black_24dp"
-            android:title="on going offers" />
+            android:title="Ongoing offers" />
 
         <item
             android:id="@+id/calendar"
@@ -23,9 +23,9 @@
 
 
         <item
-            android:id="@+id/nav_bottom_navigation"
+            android:id="@+id/On_Going_Parent"
             android:icon="@drawable/ic_more_horiz_black_24dp"
-            android:title="hmmm" />
+            android:title="On Going" />
         <item
             android:id="@+id/nav_settings"
             android:icon="@drawable/ic_settings_black_24dp"

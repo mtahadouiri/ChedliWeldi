@@ -37,16 +37,15 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 
-
-
     <com.nightonke.boommenu.BoomMenuButton
         android:id="@+id/bmb"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:bmb_buttonEnum="simpleCircle"
-        app:bmb_piecePlaceEnum="piecePlace_dot_9_1"
-        app:bmb_buttonPlaceEnum="buttonPlace_sc_9_1"
-        />
+        app:bmb_buttonEnum="ham"
+        app:bmb_buttonPlaceEnum="buttonPlace_ham_4"
+        app:bmb_piecePlaceEnum="piecePlace_ham_4"
+        app:layout_anchor="@+id/view_pager_main"
+        app:layout_anchorGravity="right|bottom" />
 
 
 </android.support.design.widget.CoordinatorLayout>

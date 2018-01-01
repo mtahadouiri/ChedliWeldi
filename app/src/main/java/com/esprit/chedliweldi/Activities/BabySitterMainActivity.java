@@ -50,7 +50,7 @@ public class BabySitterMainActivity extends AppCompatActivity implements Navigat
         initView();
         initViewPager();
 
-        setUpBoomMenu();
+//        setUpBoomMenu();
 
 
 
@@ -64,14 +64,14 @@ public class BabySitterMainActivity extends AppCompatActivity implements Navigat
         BoomMenuButton bmb;
          HamButton.Builder boomButtonProfile;
          HamButton.Builder boomButtonAddJob;
-        bmb = (BoomMenuButton) findViewById(R.id.bmb);
-        bmb.setNormalColor(getResources().getColor(R.color.primary));
+      //  bmb = (BoomMenuButton) findViewById(R.id.bmb);
+       // bmb.setNormalColor(getResources().getColor(R.color.primary));
         boomButtonProfile = new HamButton.Builder()
                 .normalImageRes(R.drawable.ic_add_white_24dp)
                 .normalTextRes(R.string.ham_job)
                 .subNormalTextRes(R.string.ham_job_sub)
                 .normalColorRes(R.color.primary);
-        bmb.addBuilder(boomButtonProfile);
+       // bmb.addBuilder(boomButtonProfile);
         boomButtonProfile.listener(new OnBMClickListener() {
             @Override
             public void onBoomButtonClick(int index) {
@@ -86,7 +86,7 @@ public class BabySitterMainActivity extends AppCompatActivity implements Navigat
                 .subNormalTextRes(R.string.ham_profile_sub)
                 .normalColorRes(R.color.red_400);
 
-        bmb.addBuilder(boomButtonAddJob);
+      //  bmb.addBuilder(boomButtonAddJob);
         boomButtonAddJob.listener(new OnBMClickListener() {
             @Override
             public void onBoomButtonClick(int index) {
@@ -106,7 +106,7 @@ public class BabySitterMainActivity extends AppCompatActivity implements Navigat
                 .subNormalTextRes(R.string.title_activity_sign_up)
                 .normalColorRes(R.color.blue_A400);
 
-        bmb.addBuilder(boomButtonProfile);
+      //  bmb.addBuilder(boomButtonProfile);
 
         boomButtonAddJob = new HamButton.Builder()
                 // .normalImageRes(R.drawable.profilee)
@@ -114,7 +114,7 @@ public class BabySitterMainActivity extends AppCompatActivity implements Navigat
                 .subNormalTextRes(R.string.title_activity_sign_up)
                 .normalColorRes(R.color.primary_dark);
 
-        bmb.addBuilder(boomButtonAddJob);
+      // bmb.addBuilder(boomButtonAddJob);
     }
 
 

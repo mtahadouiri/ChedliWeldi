@@ -1,6 +1,7 @@
 package com.esprit.chedliweldi.Activities;
 
 import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
@@ -10,11 +11,12 @@ import android.widget.TextView;
 
 import butterknife.Bind;
 import com.esprit.chedliweldi.Fragments.Login;
+import com.esprit.chedliweldi.Fragments.ParentProfil;
 import com.esprit.chedliweldi.R;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements ParentProfil.OnFragmentInteractionListener{
 
     @Bind(R.id.btnNext)
     Button btnSignIn ;
@@ -62,4 +64,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
 }

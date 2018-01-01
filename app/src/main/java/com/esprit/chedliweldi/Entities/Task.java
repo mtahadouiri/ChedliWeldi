@@ -5,7 +5,7 @@ package com.esprit.chedliweldi.Entities;
  */
 
 public class Task {
-    private String id,name,details,time;
+    private String id,name,details,time,state;
 
     public Task() {
     }
@@ -56,6 +56,14 @@ public class Task {
         this.time = time;
     }
 
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
     @Override
     public String toString() {
         return "Task{" +
@@ -63,6 +71,7 @@ public class Task {
                 ", name='" + name + '\'' +
                 ", details='" + details + '\'' +
                 ", time='" + time + '\'' +
+                ", state='" + state + '\'' +
                 '}';
     }
 }
