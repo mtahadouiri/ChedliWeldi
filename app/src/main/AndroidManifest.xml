@@ -9,49 +9,66 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
-        android:name=".AppController"
         android:allowBackup="true"
+        android:name=".AppController"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <!--             notification section !!!!! -->
+        <!--
+            notification section !!!!!
+       -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/colorAccent" />
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
-            android:value="@string/default_notification_channel_id" />
+            android:value="@string/default_notification_channel_id"/>
 
         <!-- [START firebase_service] -->
-        <service android:name=".notification.ChedliWeldiMessagingService">
+        <service
+            android:name=".notification.ChedliWeldiMessagingService">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
         </service>
         <!-- [END firebase_service] -->
         <!-- [START firebase_iid_service] -->
-        <service android:name=".notification.ChedliWeldiInstanceIdService">
+        <service
+            android:name=".notification.ChedliWeldiInstanceIdService">
             <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
             </intent-filter>
         </service>
         <!-- [END firebase_iid_service] -->
 
 
-        <!--             end notification section !!!!! -->
 
-        <activity android:name=".Activities.BabySitterMainActivity">
+
+
+
+        <!--
+            end notification section !!!!!
+       -->
+
+
+        <activity android:name=".Activities.BabySitterMainActivity" >
+
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+
         </activity>
+
         <activity android:name=".Activities.MainActivity" />
-        <activity android:name=".Activities.WelcomeActivity"></activity>
+
+
+        <activity android:name=".Activities.WelcomeActivity">
+
+        </activity>
         <activity android:name=".Activities.Home" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -75,24 +92,103 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".Activities.ProfilActivity"></activity>
-        <activity android:name=".Activities.LoginActivity"></activity>
-        <activity android:name=".Activities.CalendarActivity"></activity>
-        <activity android:name=".Activities.OnGoingOfferActivity"></activity>
-        <activity android:name=".Activities.FullScreenImageGalleryActivity"></activity>
-        <activity android:name=".Activities.SettingActivity"></activity>
-        <activity android:name=".Activities.MyOfferActivity">
+
+        <activity android:name=".Activities.ProfilActivity"    >
 
 
         </activity>
-        <activity android:name=".Activities.ParentMainActivity"></activity>
-        <activity android:name=".Activities.ReviewActivity"></activity>
-        <activity android:name=".Activities.SignUpActivity"></activity>
-        <activity android:name=".Activities.RequestsActivity"></activity>
+
+        <activity android:name=".Activities.LoginActivity">
+
+
+
+        </activity>
+
+
+        <activity android:name=".Activities.CalendarActivity">
+
+
+        </activity>
+
+
+
+
+
+        <activity android:name=".Activities.OnGoingOfferActivity">
+
+
+
+
+        </activity>
+
+        <activity android:name=".Activities.FullScreenImageGalleryActivity">
+
+
+
+
+        </activity>
+
+
+        <activity android:name=".Activities.SettingActivity"     >
+
+
+
+
+        </activity>
+
+
+
+        <activity android:name=".Activities.MyOfferActivity"     >
+
+
+
+
+
+        </activity>
+
+
+        <activity android:name=".Activities.ParentMainActivity"     >
+
+
+        </activity>
+
+
+
+
+
+        <activity android:name=".Activities.ReviewActivity">
+
+
+
+
+
+
+
+
+        </activity>
+        <activity android:name=".Activities.SignUpActivity">
+
+        </activity>
+
+
+        <activity android:name=".Activities.RequestsActivity">
+
+
+
+        </activity>
+
+
+
+
+
         <activity
             android:name=".Activities.MapsActivity"
             android:label="@string/title_activity_maps" />
-        <activity android:name=".Activities.AddJob" />
+
+
+
+
+       <activity android:name=".Activities.AddJob" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -103,12 +199,10 @@
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name" />
         <activity android:name=".Activities.CreateTaskListForJob" />
-        <activity android:name=".Activities.Messages"></activity>
-        <activity android:name=".Activities.ChatRoom"></activity>
-        <activity android:name=".Activities.PrivateOfferActivity">
+        <activity android:name=".Activities.Messages">
 
-
-
+        </activity>
+        <activity android:name=".Activities.ChatRoom">
 
         </activity>
     </application>

@@ -46,7 +46,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHo
         Task item = items.get(position);
         holder.name.setText(item.getName());
         holder.details.setText(item.getDetails());
-        holder.details.setText(item.getTime());
+        holder.time.setText(item.getTime());
         Random r = new Random();
         int randomInt = r.nextInt(3);
         holder.image.setImageDrawable(lstImages.get(randomInt));
@@ -78,7 +78,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHo
         public ViewHolder(View itemView) {
             super(itemView);
             image = (ImageView) itemView.findViewById(R.id.imgTask);
-            name = (TextView) itemView.findViewById(R.id.txtTaskDetails);
+            name = (TextView) itemView.findViewById(R.id.txtTaskname);
             details =(TextView)itemView.findViewById(R.id.txtTaskDetails);
             time = (TextView)itemView.findViewById(R.id.txtTaskTime);
         }

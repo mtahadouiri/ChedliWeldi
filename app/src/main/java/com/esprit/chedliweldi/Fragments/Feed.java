@@ -1,9 +1,11 @@
 package com.esprit.chedliweldi.Fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -29,6 +32,7 @@ import java.util.List;
 import com.esprit.chedliweldi.Activities.BabySitterMainActivity;
 import com.esprit.chedliweldi.Activities.Home;
 import com.esprit.chedliweldi.Activities.MainActivity;
+import com.esprit.chedliweldi.Activities.ProfilActivity;
 import com.esprit.chedliweldi.AppController;
 import com.esprit.chedliweldi.Entities.Babysitter;
 import com.esprit.chedliweldi.R;
@@ -196,8 +200,14 @@ public class Feed extends Fragment {
                 return Float.compare(babysitter.getDistance(),t1.getDistance());
             }
         });
-
-        adapter=new BabysitterRecyclerViewAdapter(babysitters,getContext());
+        adapter=new BabysitterRecyclerViewAdapter(babysitters, getContext(), new BabysitterRecyclerViewAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Babysitter item) {
+                Intent i = new Intent(getContext(), ProfilActivity.class);
+                i.putExtra("user", (Parcelable) item);
+                startActivity(i);
+            }
+        });
         adapter.notifyDataSetChanged();
         rv.setAdapter(adapter);
 

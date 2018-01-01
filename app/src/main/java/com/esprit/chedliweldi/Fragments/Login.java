@@ -511,7 +511,7 @@ public class Login extends Fragment {
 
     private void uploadFbUser(String firstName, String lastName, String emailTxT, URL profilePicture) {
         RequestQueue queue = Volley.newRequestQueue(getContext());
-        String url = AppController.TAHA_ADRESS + "fbuser";
+        String url = AppController.TAHA_ADRESS + "fbUser";
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                 response -> {
                     // response

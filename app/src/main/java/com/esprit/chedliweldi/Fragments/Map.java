@@ -1,8 +1,11 @@
 package com.esprit.chedliweldi.Fragments;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -119,7 +122,7 @@ public class Map extends Fragment implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-/*
+
         //ask for permissions..
         if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -132,7 +135,7 @@ public class Map extends Fragment implements OnMapReadyCallback {
             return;
         }
         mMap.setMyLocationEnabled(true);
-*/
+
 
         mClusterManager = new ClusterManager<MyItem>(getContext(), mMap);
 
@@ -140,7 +143,7 @@ public class Map extends Fragment implements OnMapReadyCallback {
         // manager.
        // mMap.setOnMarkerClickListener(mClusterManager);
 
-        populateMap();
+        //populateMap();
         mMap.setOnCameraIdleListener(mClusterManager);
         mMap.setOnMarkerClickListener(mClusterManager);
 

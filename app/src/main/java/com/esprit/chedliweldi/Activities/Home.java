@@ -338,6 +338,16 @@ public class Home extends AppCompatActivity implements LocationListener, Feed.On
 
         });
 
+        MenuItem onGoingParent = (MenuItem)m.findItem(R.id.On_Going_Parent);
+        onGoingParent.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                Intent i = new Intent(getContext(), OnGoing.class);
+                startActivity(i);
+                return false;
+            }
+        });
+
 
         if (Login.type.equals("Babysitter")) {
             myOffers.setVisible(false);
