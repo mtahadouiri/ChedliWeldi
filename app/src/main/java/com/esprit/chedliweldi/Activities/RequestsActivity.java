@@ -35,8 +35,11 @@ import java.util.Map;
 
 import com.esprit.chedliweldi.AppController;
 import com.esprit.chedliweldi.R;
+import com.esprit.chedliweldi.Utils.DrawerInitializer;
 import com.esprit.chedliweldi.adapters.RecycleItemClickListener;
 import com.esprit.chedliweldi.adapters.RequestRecyclerViewAdapter;
+
+import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 
 public class RequestsActivity extends AppCompatActivity {
 
@@ -54,7 +57,11 @@ public class RequestsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Intent  k = getIntent();
 
+
+
         setContentView(R.layout.activity_request);
+        DrawerInitializer.initView(this);
+        DrawerInitializer.setUpBoomMenu(this);
         description = (TextView) findViewById(R.id.txtDescription);
         date = (TextView) findViewById(R.id.txtDate);
         btnRequests = (Button) findViewById(R.id.btnRequests);
@@ -103,14 +110,17 @@ public class RequestsActivity extends AppCompatActivity {
                 View v = n.getView();
                 final Button accept = (Button) v.findViewById(R.id.btnAccept);
                 final Button profil = (Button) v.findViewById(R.id.btnProfil);
+                final MaterialRatingBar rate = (MaterialRatingBar) v. findViewById(R.id.rate);
                 final ImageView profilImage = (ImageView) v.findViewById(R.id.profileImage);
 
 
                 final TextView txtName = (TextView) v.findViewById(R.id.txtUserName);
 
                 try {
-                    Glide.with(RequestsActivity.this).load(AppController.IMAGE_SERVER_ADRESS+requests.getJSONObject(position).getString("photo")).into(profilImage);
+                    Glide.with(RequestsActivity.this).load(AppController.IMAGE_SERVER_ADRESS+requests.getJSONObject(position).getString("photo")).transform(new AppController.CircleTransform(RequestsActivity.this)).into(profilImage);
                     txtName.setText(requests.getJSONObject(position).getString("firstName")+" " +requests.getJSONObject(position).getString("lastName") );
+                    double ratee=requests.getJSONObject(position).getDouble("rate");
+                    rate.setRating((float) ratee );
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

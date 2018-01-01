@@ -26,7 +26,7 @@ import com.esprit.chedliweldi.R;
 public class OfferAdapter  extends BaseAdapter {
 
 JSONArray data;
-    SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
+    SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
 
 public OfferAdapter(JSONArray data){
     this.data=data;
@@ -66,7 +66,7 @@ public OfferAdapter(JSONArray data){
             Date d = dateFormatter.parse(item.getString("date"));
             dateFormatter.applyPattern("dd/MM/yyyy");
             date.setText(dateFormatter.format(d));
-            dateFormatter.applyPattern("yyyy-MM-dd HH:mm:ss");
+            dateFormatter.applyPattern("yyyy-MM-dd");
             mBadge.setNumber(nbr);
         } catch (JSONException e) {
             e.printStackTrace();

@@ -57,7 +57,7 @@ public class Messages extends AppCompatActivity {
        // message = new Message("0",new Babysitter("Taha", "Douiri", "https://scontent.ftun5-1.fna.fbcdn.net/v/t1.0-9/16425772_10210635995528840_4542581271681303557_n.jpg?oh=412d980a5d28bff28ba8436d778df384&oe=5AC2463A", "tsaassou@gmail.com", "", null, 0,0, 5),"Hellp");
 
         dialogsListView = (DialogsList)findViewById(R.id.dialogsList);
-        getDialogs(30);
+        getDialogs(5);
     }
 
     public List<Dialog> getDialogs(int id) {

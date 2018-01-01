@@ -25,6 +25,7 @@ import com.esprit.chedliweldi.Fragments.ParentMainFragment;
 import com.esprit.chedliweldi.Fragments.ParentMapFragment;
 import com.esprit.chedliweldi.Fragments.ParentProfil;
 import com.esprit.chedliweldi.R;
+import com.esprit.chedliweldi.Utils.DrawerInitializer;
 import com.esprit.chedliweldi.Utils.FragmentAdapter;
 import com.nightonke.boommenu.BoomButtons.HamButton;
 import com.nightonke.boommenu.BoomButtons.OnBMClickListener;
@@ -47,31 +48,27 @@ public class BabySitterMainActivity extends AppCompatActivity implements Navigat
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.baby_sitter_main);
-        initView();
+       //initView();
+
+      //  initView(this);
+
+        DrawerInitializer.initView(this);
         initViewPager();
-
-//        setUpBoomMenu();
-
-
-
-
-
-
+        setUpBoomMenu();
     }
-
 
     private void setUpBoomMenu() {
         BoomMenuButton bmb;
          HamButton.Builder boomButtonProfile;
          HamButton.Builder boomButtonAddJob;
-      //  bmb = (BoomMenuButton) findViewById(R.id.bmb);
-       // bmb.setNormalColor(getResources().getColor(R.color.primary));
+        bmb = (BoomMenuButton) findViewById(R.id.bmb);
+        bmb.setNormalColor(getResources().getColor(R.color.primary));
         boomButtonProfile = new HamButton.Builder()
                 .normalImageRes(R.drawable.ic_add_white_24dp)
                 .normalTextRes(R.string.ham_job)
                 .subNormalTextRes(R.string.ham_job_sub)
                 .normalColorRes(R.color.primary);
-       // bmb.addBuilder(boomButtonProfile);
+        bmb.addBuilder(boomButtonProfile);
         boomButtonProfile.listener(new OnBMClickListener() {
             @Override
             public void onBoomButtonClick(int index) {
@@ -86,7 +83,7 @@ public class BabySitterMainActivity extends AppCompatActivity implements Navigat
                 .subNormalTextRes(R.string.ham_profile_sub)
                 .normalColorRes(R.color.red_400);
 
-      //  bmb.addBuilder(boomButtonAddJob);
+        bmb.addBuilder(boomButtonAddJob);
         boomButtonAddJob.listener(new OnBMClickListener() {
             @Override
             public void onBoomButtonClick(int index) {
@@ -106,7 +103,7 @@ public class BabySitterMainActivity extends AppCompatActivity implements Navigat
                 .subNormalTextRes(R.string.title_activity_sign_up)
                 .normalColorRes(R.color.blue_A400);
 
-      //  bmb.addBuilder(boomButtonProfile);
+        bmb.addBuilder(boomButtonProfile);
 
         boomButtonAddJob = new HamButton.Builder()
                 // .normalImageRes(R.drawable.profilee)
@@ -114,7 +111,7 @@ public class BabySitterMainActivity extends AppCompatActivity implements Navigat
                 .subNormalTextRes(R.string.title_activity_sign_up)
                 .normalColorRes(R.color.primary_dark);
 
-      // bmb.addBuilder(boomButtonAddJob);
+        bmb.addBuilder(boomButtonAddJob);
     }
 
 
@@ -161,7 +158,7 @@ public class BabySitterMainActivity extends AppCompatActivity implements Navigat
 
     private DrawerLayout drawer;
     private void initView() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main);
+        Toolbar toolbar = (Toolbar)  findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -189,6 +186,35 @@ public class BabySitterMainActivity extends AppCompatActivity implements Navigat
 
     }
 
+    private void initView(AppCompatActivity activity) {
+
+        Toolbar toolbar = (Toolbar)   activity.findViewById(R.id.toolbar_main);
+        setSupportActionBar(toolbar);
+
+       DrawerLayout  drawer = (DrawerLayout) activity. findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                activity, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        //drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setItemIconTintList(null);
+
+        View headerView = navigationView.getHeaderView(0);
+        LinearLayout nav_header = (LinearLayout) headerView.findViewById(R.id.nav_header);
+        nav_header.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(BabySitterMainActivity.this, MainActivity.class);
+                startActivity(intent);
+                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                drawer.closeDrawer(GravityCompat.START);
+            }
+        });
+
+
+    }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {

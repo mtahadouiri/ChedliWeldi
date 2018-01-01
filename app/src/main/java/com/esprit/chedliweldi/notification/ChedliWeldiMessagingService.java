@@ -20,6 +20,8 @@ import android.widget.RemoteViews;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.NotificationTarget;
+import com.esprit.chedliweldi.Activities.MyOfferActivity;
+import com.esprit.chedliweldi.Activities.RequestsActivity;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -113,7 +115,7 @@ public class ChedliWeldiMessagingService extends FirebaseMessagingService {
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         String fullName=data.get("fullName");
         String id=data.get("id");
-        String content=data.get("content");
+
         String photo =AppController.IMAGE_SERVER_ADRESS+ data.get("photo");
         String type = data.get("type");
         boolean custom=false;
@@ -150,7 +152,7 @@ public class ChedliWeldiMessagingService extends FirebaseMessagingService {
 
 
             Intent resultIntent = new Intent(this, LoginActivity.class);
-
+            String content=data.get("content");
             remoteViews=setupRemoteViews(fullName==null ? "null":fullName,content==null ? "content":content);
             PendingIntent resultPendingIntent =
                     PendingIntent.getActivity(
@@ -166,6 +168,31 @@ public class ChedliWeldiMessagingService extends FirebaseMessagingService {
             custom=true;
 
         }
+
+        if(type!=null && type.equals("request")){
+            String idRequest=data.get("id_request");
+            String idOffer=data.get("id_offer");
+            Intent resultIntent = new Intent(this,MyOfferActivity.class);
+            resultIntent.putExtra("id_request",idRequest);
+            resultIntent.putExtra("id_offer",idOffer);
+
+            remoteViews=setupRemoteViews(fullName==null ? "null":fullName,"send you a request");
+            PendingIntent resultPendingIntent =
+                    PendingIntent.getActivity(
+                            this,
+                            0,
+                            resultIntent,
+                            PendingIntent.FLAG_UPDATE_CURRENT
+                    );
+
+            notificationBuilder.setContent(remoteViews);
+            notificationBuilder.setTicker(fullName +"send u a request");
+            notificationBuilder.setContentIntent(resultPendingIntent);
+            custom=true;
+
+        }
+
+
 
         Notification notification= notificationBuilder.build();
 if(custom){

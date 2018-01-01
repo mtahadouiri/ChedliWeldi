@@ -11,6 +11,7 @@
            android:layout_height="match_parent" android:src="@drawable/background" />
 
       <android.support.v7.widget.LinearLayoutCompat
+
           android:layout_width="match_parent" android:layout_marginTop="10dp"
           android:layout_height="match_parent" android:orientation="vertical">
 
@@ -56,26 +57,21 @@
               android:text="Oussama reguez"
               android:textColor="@android:color/white"
               android:textSize="25dp" />
-          <android.support.v7.widget.LinearLayoutCompat android:layout_gravity="center"
+
+          <me.zhanghai.android.materialratingbar.MaterialRatingBar
+              android:layout_gravity="center"
+              android:id="@+id/rate"
+              style="@style/Widget.MaterialRatingBar.RatingBar.Indicator"
               android:layout_width="wrap_content"
-              android:layout_height="wrap_content">
-              <android.support.v7.widget.AppCompatImageView
+              android:layout_height="wrap_content"
+              android:layout_alignParentEnd="true"
+              android:layout_centerVertical="true"
+              android:layout_marginEnd="11dp"
+              android:backgroundTint="@color/colorPrimary"
+              android:progressTint="@color/mtlcyellow"
+              android:rating="0"
 
-                  android:layout_width="32dp"
-                  android:layout_height="32dp"
-                  android:src="@drawable/star"  />
-              <android.support.v7.widget.AppCompatImageView
-
-                  android:layout_width="32dp"
-                  android:layout_height="32dp"
-                  android:src="@drawable/star"  />
-              <android.support.v7.widget.AppCompatImageView
-
-                  android:layout_width="32dp"
-                  android:layout_height="32dp"
-                  android:src="@drawable/star"  />
-
-          </android.support.v7.widget.LinearLayoutCompat>
+              android:stepSize="0.01" />
 
 
 

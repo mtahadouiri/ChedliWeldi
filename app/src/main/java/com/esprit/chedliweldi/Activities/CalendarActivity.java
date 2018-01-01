@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
@@ -18,6 +19,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
+import com.esprit.chedliweldi.Utils.DrawerInitializer;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
 
@@ -135,11 +137,16 @@ public class CalendarActivity extends AppCompatActivity   {
     }
 
 
-
+    Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.calendar);
+        setContentView(R.layout.activity_calendar);
+
+        DrawerInitializer.initView(this);
+        DrawerInitializer.setUpBoomMenu(this);
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar_main);
 
         compactCalendarView= (CompactCalendarView) findViewById(R.id.compactcalendar_view);
         compactCalendarView.setUseThreeLetterAbbreviation(false);
@@ -149,7 +156,9 @@ public class CalendarActivity extends AppCompatActivity   {
         events.setLayoutManager(new LinearLayoutManager(this));
 
         getDates("4");
+        Date d = new Date();
 
+        toolbar.setTitle( "Calendar "+ dateFormatter.format(d));
 
         compactCalendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
             @Override
@@ -157,7 +166,7 @@ public class CalendarActivity extends AppCompatActivity   {
                 List<Event> events = compactCalendarView.getEvents(dateClicked);
 
             String date =    dateFormatter.format(dateClicked);
-
+                toolbar.setTitle( "Calendar "+ date);
             getCalendar("4",date);
 
                 Log.d(TAG, "Day was clicked: " + dateClicked + " with events " + events);
@@ -193,15 +202,18 @@ JSONArray JsonEvents ;
                     boolean d= jsonObject.getBoolean("error");
                     if (d){
                         Log.i("etat","failed");
+                         JsonEvents = new JSONArray();
+
                     }
                     else{
 
                         JsonEvents = jsonObject.getJSONArray("offers");
-                        adapter = new EventRecyclerViewAdapter(CalendarActivity.this, JsonEvents);
-                        events.setAdapter(adapter);
-                        adapter.notifyDataSetChanged();
+
                         Log.i("etat","success");
                     }
+                    adapter = new EventRecyclerViewAdapter(CalendarActivity.this, JsonEvents);
+                    events.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
 
 
                 } catch (JSONException e) {

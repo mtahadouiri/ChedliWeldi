@@ -19,6 +19,7 @@ import java.util.Locale;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.esprit.chedliweldi.R;
+import com.github.lzyzsd.randomcolor.RandomColor;
 
 /**
  * Created by oussama_2 on 11/21/2017.
@@ -26,7 +27,7 @@ import com.esprit.chedliweldi.R;
 
 public class EventRecyclerViewAdapter extends RecyclerView.Adapter<EventRecyclerViewAdapter.CustomViewHolder> {
     private JSONArray feedItemList;
-
+    RandomColor randomColor = new RandomColor();
     private java.util.Calendar currentCalender = java.util.Calendar.getInstance(Locale.getDefault());
     SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
     SimpleDateFormat customFormatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
@@ -62,6 +63,7 @@ public class EventRecyclerViewAdapter extends RecyclerView.Adapter<EventRecycler
               String strEnd=customFormatter.format(endDate);
 
              customViewHolder.hours.setText("from "+strStart+" to "+strEnd);
+             customViewHolder.bar.setBackgroundColor(randomColor.randomColor());
 
 
 
@@ -104,6 +106,9 @@ public class EventRecyclerViewAdapter extends RecyclerView.Adapter<EventRecycler
         TextView day;
         @Bind(R.id.text)
         TextView text;
+
+        @Bind(R.id.bar)
+        View bar;
 
 
 

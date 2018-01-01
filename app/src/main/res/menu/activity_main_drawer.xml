@@ -23,6 +23,12 @@
 
 
         <item
+            android:id="@+id/message"
+            android:icon="@drawable/ic_fullscreen_black_24dp"
+            android:title="Messages" />
+
+
+        <item
             android:id="@+id/On_Going_Parent"
             android:icon="@drawable/ic_more_horiz_black_24dp"
             android:title="On Going" />
