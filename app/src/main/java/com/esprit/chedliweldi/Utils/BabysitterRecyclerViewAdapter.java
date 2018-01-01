@@ -21,14 +21,18 @@ import com.esprit.chedliweldi.R;
  * Created by PC on 16/11/2017.
  */
 
-public class BabysitterRecyclerViewAdapter extends RecyclerView.Adapter<BabysitterRecyclerViewAdapter.ViewHolder> {
+public class BabysitterRecyclerViewAdapter extends RecyclerView.Adapter<BabysitterRecyclerViewAdapter.ViewHolder>  {
 
     private List<Babysitter> items;
+    private final OnItemClickListener listener;
+
     private Context mContext;
 
-    public BabysitterRecyclerViewAdapter(List<Babysitter> items, Context context) {
+    public BabysitterRecyclerViewAdapter(List<Babysitter> items, Context context,OnItemClickListener listener) {
         this.items = items;
         this.mContext = context;
+        this.listener = listener;
+
     }
 
     @Override
@@ -48,6 +52,11 @@ public class BabysitterRecyclerViewAdapter extends RecyclerView.Adapter<Babysitt
         holder.desc.setText(item.getDescr());
         Picasso.with(mContext).load(item.getImgURL()).into(holder.image);
         holder.itemView.setTag(item);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                listener.onItemClick(item);
+            }
+        });
     }
 
     @Override
@@ -82,5 +91,7 @@ public class BabysitterRecyclerViewAdapter extends RecyclerView.Adapter<Babysitt
         }
     }
 
-
+    public interface OnItemClickListener {
+        void onItemClick(Babysitter item);
+    }
 }
