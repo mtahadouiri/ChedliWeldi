@@ -1,6 +1,5 @@
 package com.esprit.chedliweldi.Activities;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,8 +20,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
 import com.esprit.chedliweldi.AppController;
 import com.esprit.chedliweldi.R;
-import com.esprit.chedliweldi.adapters.OfferAdapter;
-import com.esprit.chedliweldi.adapters.OnGoingOfferRecycleViewAdapter;
 import com.esprit.chedliweldi.adapters.PrivateOfferRecycleViewAdapter;
 import com.esprit.chedliweldi.adapters.RecycleItemClickListener;
 
@@ -33,9 +30,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-import me.zhanghai.android.materialratingbar.MaterialRatingBar;
-
-public class PrivateOfferActivity extends AppCompatActivity {
+public class PrivateOfferBabysitterActivity extends AppCompatActivity {
 
     RecyclerView recyclerOffers;
     @Override
@@ -72,12 +67,6 @@ public class PrivateOfferActivity extends AppCompatActivity {
     JSONArray offers;
     PrivateOfferRecycleViewAdapter adapter;
     private void getOffers(final String id_user) {
-
-
-
-
-        //  JSONObject jsonObj = new JSONObject(params);
-
 
         String url = AppController.SERVER_ADRESS+"getPrivateOffers";
         StringRequest sr = new StringRequest(Request.Method.POST, url , new Response.Listener<String>() {
@@ -282,7 +271,7 @@ public class PrivateOfferActivity extends AppCompatActivity {
 
         Log.i(" dfs","sdf");
         boolean wrapInScrollView = true;
-        n =  new MaterialDialog.Builder(PrivateOfferActivity.this
+        n =  new MaterialDialog.Builder(PrivateOfferBabysitterActivity.this
         )
 
                 .customView(R.layout.private_offer_request, false)
@@ -298,7 +287,7 @@ public class PrivateOfferActivity extends AppCompatActivity {
         final TextView txtName = (TextView) v.findViewById(R.id.txtUserName);
 
         try {
-            Glide.with(PrivateOfferActivity.this).load(AppController.IMAGE_SERVER_ADRESS+offer.getString("photo")).transform(new AppController.CircleTransform(PrivateOfferActivity.this)).into(profilImage);
+            Glide.with(PrivateOfferBabysitterActivity.this).load(AppController.IMAGE_SERVER_ADRESS+offer.getString("photo")).transform(new AppController.CircleTransform(PrivateOfferBabysitterActivity.this)).into(profilImage);
            // txtName.setText(requests.getJSONObject(position).getString("firstName")+" " +requests.getJSONObject(position).getString("lastName") );
             //double ratee=requests.getJSONObject(position).getDouble("rate");
             //rate.setRating((float) ratee );

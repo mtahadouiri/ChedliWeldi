@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.esprit.chedliweldi.AppController;
@@ -58,37 +59,58 @@ public OfferAdapter(JSONArray data){
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.myoffer_item, null);
-        NotificationBadge  mBadge;
-        TextView date;
-        TextView status;
+
+
+      ViewHolder viewHolder;
+        if (view == null) {
+           view =LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.myoffer_item, null);
+            viewHolder = new ViewHolder();
+            viewHolder. mBadge = (NotificationBadge) view. findViewById(R.id.badge);
+            viewHolder.date =(TextView) view.findViewById(R.id.date);
+            viewHolder.  status =(TextView) view.findViewById(R.id.status);
+            viewHolder. badgePrivate=(LinearLayout) view.findViewById(R.id.badgePrivate);
+
+            view.setTag(viewHolder);
+        }
+        else {
+            viewHolder = (ViewHolder) view.getTag();
+        }
+
+
         int k = data.length();
+
         try {
             JSONObject item=data.getJSONObject(i);
             int nbr = item.getInt("requests");
-            mBadge = (NotificationBadge) v. findViewById(R.id.badge);
-            date =(TextView) v.findViewById(R.id.date);
-            status =(TextView) v.findViewById(R.id.status);
 
+
+               boolean isPrivate=  item.isNull("requested_babysitter");
             Date start = dateFormatter.parse(item.getString("start"));
             Date end = dateFormatter.parse(item.getString("end"));
+            if(!isPrivate){
+                viewHolder.badgePrivate.setVisibility(View.VISIBLE);
+            }
             if( now.after(start) && now.before(end)){
-                status.setText("On going");
-                   status.setTextColor(ContextCompat.getColor(AppController.getContext(),R.color.mtlcgreen));
+               viewHolder. status.setText("On going");
+               item.put("status","On going");
+                viewHolder.   status.setTextColor(ContextCompat.getColor(AppController.getContext(),R.color.mtlcgreen));
             }
             if(item.getString("status").equals("scheduled")){
-                status.setText("Scheduled");
-                status.setTextColor(ContextCompat.getColor(AppController.getContext(),R.color.mtlcOrange));
+                viewHolder.   status.setText("Scheduled");
+                viewHolder.  status.setTextColor(ContextCompat.getColor(AppController.getContext(),R.color.mtlcOrange));
             }
 
+
             if(item.getString("status").equals("pending")){
-                status.setText("pending");
-                status.setTextColor(ContextCompat.getColor(AppController.getContext(),R.color.mtlcyellow));
-                mBadge.setNumber(nbr);
+                viewHolder.   status.setText("pending");
+                viewHolder.  status.setTextColor(ContextCompat.getColor(AppController.getContext(),R.color.mtlcyellow));
+                viewHolder.mBadge.clear();
+                viewHolder.  mBadge.setNumber(nbr);
+
             }
 
             dateFormatter.applyPattern("dd/MM/yyyy");
-            date.setText(printDifference(now,start));
+            viewHolder.date.setText(printDifference(now,start));
             dateFormatter.applyPattern("yyyy-MM-dd hh:mm:ss");
 
         } catch (JSONException e) {
@@ -98,7 +120,15 @@ public OfferAdapter(JSONArray data){
         }
 
 
-        return v;
+        return view;
+    }
+
+    class ViewHolder{
+        NotificationBadge  mBadge;
+        TextView date;
+        TextView status;
+
+        LinearLayout badgePrivate;
     }
 
     public String printDifference(Date startDate, Date endDate) {

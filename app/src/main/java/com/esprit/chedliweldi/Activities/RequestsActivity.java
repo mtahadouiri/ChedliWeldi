@@ -55,42 +55,48 @@ public class RequestsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        Intent  k = getIntent();
-
-
-
+        boolean fetchData;
         setContentView(R.layout.activity_request);
-        DrawerInitializer.initView(this);
-        DrawerInitializer.setUpBoomMenu(this);
+
+        Intent  k = getIntent();
+        id =k.getStringExtra("id");
+        fetchData=k.getBooleanExtra("fetch",false);
+
         description = (TextView) findViewById(R.id.txtDescription);
         date = (TextView) findViewById(R.id.txtDate);
         btnRequests = (Button) findViewById(R.id.btnRequests);
 
 
-        String description = k.getStringExtra("description");
+        DrawerInitializer.initView(this);
+        DrawerInitializer.setUpBoomMenu(this);
 
-      this.description.setText(description);
-        id =k.getStringExtra("id");
-        int nbrRequests= k.getIntExtra("requests",0);
-        btnRequests.setText(nbrRequests+" requests");
+        getOfferInfo(id);
+        /*
+        if(!fetchData){
+            SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
+            String description = k.getStringExtra("description");
+            this.description.setText(description);
 
-        String date =k.getStringExtra("date");
-        SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
-        try {
-            Date d = dateFormatter.parse(date);
-            dateFormatter.applyPattern("E M 'at' h:m a");
-            date=dateFormatter.format(d);
-            this.date.setText(date);
+//            int nbrRequests= k.getIntExtra("requests",0);
+            String date =k.getStringExtra("date");
+  //          btnRequests.setText(nbrRequests+" requests");
 
-        } catch (ParseException e) {
-            e.printStackTrace();
+            try {
+                Date d = dateFormatter.parse(date);
+                dateFormatter.applyPattern("E M 'at' h:m a");
+                date=dateFormatter.format(d);
+                this.date.setText(date);
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
         }
-
-
+        else{
+           getOfferInfo(id);
+        }
+        */
         offers = (RecyclerView) findViewById(R.id.recycler_view);
-
-
-
         layoutManager=new LinearLayoutManager(this);
         offers.setLayoutManager(layoutManager);
 
@@ -173,9 +179,6 @@ public class RequestsActivity extends AppCompatActivity {
         }));
 
 
-
-
-
           getRequests(id);
 
 
@@ -217,6 +220,7 @@ public class RequestsActivity extends AppCompatActivity {
                       //  offers.addItemDecoration(mDividerItemDecoration);
                         adapter = new RequestRecyclerViewAdapter(RequestsActivity.this, requests);
                         offers.setAdapter(adapter);
+                        btnRequests.setText(requests.length()+" requests");
                         Log.i("etat","success");
                     }
 
@@ -260,6 +264,92 @@ public class RequestsActivity extends AppCompatActivity {
 
 
     }
+
+    private void getOfferInfo(final String id_offer) {
+
+
+        Log.e("sdf", "uploadUser:  near volley new request ");
+
+
+        //  JSONObject jsonObj = new JSONObject(params);
+
+
+        String url = AppController.SERVER_ADRESS+"getOfferById";
+        StringRequest sr = new StringRequest(Request.Method.POST, url , new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    boolean d= jsonObject.getBoolean("error");
+                    if (d){
+                        Log.i("etat","failed");
+                    }
+                    else{
+                        JSONObject offer = jsonObject.getJSONObject("offer");
+
+                        SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
+                        String descriptionn = offer.getString("description");
+                        description.setText(descriptionn);
+                        id =offer.getString("id");
+//            int nbrRequests= k.getIntExtra("requests",0);
+                        String datee =offer.getString("start");
+                        //          btnRequests.setText(nbrRequests+" requests");
+
+                        try {
+                            Date dd = dateFormatter.parse(datee);
+                            dateFormatter.applyPattern("E M 'at' h:m a");
+                            datee=dateFormatter.format(dd);
+                            date.setText(datee);
+
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+
+                        Log.i("etat","success");
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d("", "Error: " + error.getMessage());
+                Log.d("", ""+error.getMessage()+","+error.toString());
+            }
+        }){
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> headers = new HashMap<String, String>();
+                headers.put("id_offer",id_offer);
+                //  headers.put("abc", "value");
+                return headers;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String,String> headers = new HashMap<String, String>();
+                headers.put("Content-Type","application/x-www-form-urlencoded");
+                //  headers.put("abc", "value");
+                return headers;
+            }
+        };
+
+
+
+
+        // Adding request to request queue
+        AppController.getInstance().addToRequestQueue(sr);
+
+
+    }
+
+
 
    private void respondToRequest(final String respond) {
 

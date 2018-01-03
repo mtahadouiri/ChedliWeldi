@@ -70,19 +70,31 @@ Button btn;
         grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-                Intent intent = new Intent(MyOfferActivity.this,RequestsActivity.class);
-
                 try {
-                    String ff = offers.getJSONObject(i).getString("id");
-                    String description =offers.getJSONObject(i).getString("description");
-                    String date =offers.getJSONObject(i).getString("start");
-                    int nbr =offers.getJSONObject(i).getInt("requests");
-                    intent.putExtra("id",ff);
-                    intent.putExtra("description",description);
-                    intent.putExtra("date",date);
-                    intent.putExtra("requests",nbr);
+                JSONObject offer = offers.getJSONObject(i);
+                if(!offer.isNull("requested_babysitter")){
+                    Intent intent = new Intent(MyOfferActivity.this,PrivateOfferParentActivity.class);
+                    intent.putExtra("id",offer.getString("id"));
                     startActivity(intent);
+                    return;
+                    }
+           if(offer.getString("status").equals("pending")){
+              Intent intent = new Intent(MyOfferActivity.this,RequestsActivity.class);
+
+
+                  String ff = offers.getJSONObject(i).getString("id");
+                  String description =offers.getJSONObject(i).getString("description");
+                   String date =offers.getJSONObject(i).getString("start");
+                 int nbr =offers.getJSONObject(i).getInt("requests");
+                intent.putExtra("id",ff);
+              intent.putExtra("description",description);
+              intent.putExtra("date",date);
+                 intent.putExtra("requests",nbr);
+    startActivity(intent);
+}
+
+
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -130,7 +142,7 @@ Button btn;
                         OfferAdapter adapter = new OfferAdapter(offers);
 
                         grid.setAdapter(adapter);
-                        adapter.notifyDataSetChanged();
+
 
 
                         Log.i("etat","success");

@@ -4,6 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.esprit.chedliweldi.Activities.PrivateOfferActivity">
+    tools:context="com.esprit.chedliweldi.Activities.PrivateOfferBabysitterActivity">
 
 </android.support.constraint.ConstraintLayout>

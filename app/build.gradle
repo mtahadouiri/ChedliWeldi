@@ -68,7 +68,9 @@ dependencies {
     implementation 'com.github.stfalcon:chatkit:0.2.2'
     implementation 'com.github.GwonHyeok:StickySwitch:0.0.15'
     implementation 'com.facebook.android:facebook-login:4.29.0'
+    implementation 'com.github.medyo:fancybuttons:1.8.4'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.3.1'
+
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
