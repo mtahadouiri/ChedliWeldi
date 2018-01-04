@@ -53,6 +53,7 @@ public class OnGoing extends AppCompatActivity implements OnMapReadyCallback {
     private GoogleMap mMap;
     private double lat=0,longi=0;
     private Marker m;
+    private Bundle extras;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +66,7 @@ public class OnGoing extends AppCompatActivity implements OnMapReadyCallback {
                 (SupportMapFragment)
                         getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        extras = getIntent().getExtras();
         rv = (RecyclerView)findViewById(R.id.rv);
         rv.setHasFixedSize(true);
         rv.setLayoutManager(new LinearLayoutManager(this));
@@ -78,7 +80,7 @@ public class OnGoing extends AppCompatActivity implements OnMapReadyCallback {
         Log.d("ID",settings.getString("id",null));
         String url;
         if(type.equals("Parent")){
-             url = AppController.TAHA_ADRESS+"getTaskListParent?id="+settings.getString("id",null);
+             url = AppController.TAHA_ADRESS+"getTaskListParentByJobId?id="+extras.getString("jobId");
         }
         else{
              url = AppController.TAHA_ADRESS+"getTaskListBabySitter?id="+settings.getString("id",null);
@@ -100,7 +102,6 @@ public class OnGoing extends AppCompatActivity implements OnMapReadyCallback {
 
                                 JSONObject obj = task_array.getJSONObject(i);
                                 task = new Task();
-
                                 task.setId(obj.getString("idTask"));
                                 task.setDetails(obj.getString("details"));
                                 task.setName(obj.getString("task"));

@@ -62,10 +62,30 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:weightSum="5"
             android:orientation="vertical"
             android:layout_gravity="center"
             android:gravity="center">
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="4">
+                <com.wang.avi.AVLoadingIndicatorView
+                    android:id="@+id/avi"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:indicatorName="BallPulseIndicator"
+                    style="@style/AVLoadingIndicatorView.Small"
+                    app:indicatorColor="@color/orange_primary"
+                    />
+                <ImageView
+                    android:id="@+id/imgDone"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="visible"
+                    android:src="@drawable/ic_flat_tick_icon_svg"/>
 
+            </FrameLayout>
             <TextView
                 android:id="@+id/txtTaskTime"
                 android:layout_width="wrap_content"

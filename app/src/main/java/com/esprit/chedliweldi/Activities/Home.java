@@ -2,6 +2,7 @@ package com.esprit.chedliweldi.Activities;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -9,6 +10,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
+import android.os.Debug;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.NavigationView;
@@ -35,9 +37,16 @@ import android.widget.LinearLayout;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.appyvet.materialrangebar.RangeBar;
+import com.esprit.chedliweldi.Entities.Task;
+import com.esprit.chedliweldi.adapters.TaskListAdapter;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.nightonke.boommenu.BoomButtons.HamButton;
 import com.nightonke.boommenu.BoomButtons.OnBMClickListener;
 import com.nightonke.boommenu.BoomMenuButton;
@@ -55,8 +64,13 @@ import com.esprit.chedliweldi.Fragments.ParentProfil;
 import com.esprit.chedliweldi.R;
 import com.esprit.chedliweldi.Utils.FragmentAdapter;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import static com.esprit.chedliweldi.AppController.getContext;
 import static com.esprit.chedliweldi.Fragments.Login.PREFS_NAME;
+import static com.esprit.chedliweldi.Fragments.Login.type;
 
 public class Home extends AppCompatActivity implements LocationListener, Feed.OnFragmentInteractionListener, Map.OnFragmentInteractionListener, NavigationView.OnNavigationItemSelectedListener, ParentProfil.OnFragmentInteractionListener {
     private static final long MIN_TIME_BW_UPDATES = 0;
@@ -104,7 +118,7 @@ public class Home extends AppCompatActivity implements LocationListener, Feed.On
     private double latitude;
     private double longitude;
     private RangeBar rangebar;
-    private static int minDist,maxDist;
+    private static int minDist, maxDist;
     private Feed feed;
     private Map map;
 
@@ -115,7 +129,8 @@ public class Home extends AppCompatActivity implements LocationListener, Feed.On
     public static int getMaxDistance() {
         return maxDist;
     }
-    public static Location getUserLocation(){
+
+    public static Location getUserLocation() {
         return location;
     }
 
@@ -123,10 +138,10 @@ public class Home extends AppCompatActivity implements LocationListener, Feed.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-       bmb = (BoomMenuButton) findViewById(R.id.bmb);
+        bmb = (BoomMenuButton) findViewById(R.id.bmb);
         bmb.setNormalColor(getResources().getColor(R.color.primary));
-        minDist=0;
-        maxDist=100;
+        minDist = 0;
+        maxDist = 100;
         locationManager = (LocationManager) this
                 .getSystemService(Context.LOCATION_SERVICE);
 
@@ -202,7 +217,7 @@ public class Home extends AppCompatActivity implements LocationListener, Feed.On
 
         initView();
         feed = new Feed();
-        map=new Map();
+        map = new Map();
         initViewPager();
 
         setUpBoomMenu();
@@ -338,13 +353,14 @@ public class Home extends AppCompatActivity implements LocationListener, Feed.On
 
         });
 
-        MenuItem onGoingParent = (MenuItem)m.findItem(R.id.On_Going_Parent);
+        MenuItem onGoingParent = (MenuItem) m.findItem(R.id.On_Going_Parent);
         onGoingParent.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
-                Intent i = new Intent(getContext(), OnGoing.class);
-                startActivity(i);
-                return false;
+                CheckDate();
+               /* Intent i = new Intent(getContext(), OnGoing.class);
+                startActivity(i);*/
+                return true;
             }
         });
 
@@ -391,6 +407,58 @@ public class Home extends AppCompatActivity implements LocationListener, Feed.On
 
     }
 
+    private void CheckDate() {
+        SharedPreferences settings = this.getSharedPreferences(PREFS_NAME, 0);
+        RequestQueue queue = Volley.newRequestQueue(getContext());
+        Log.d("ID", settings.getString("id", null));
+        String url;
+
+        url = AppController.TAHA_ADRESS + "checkJobs?id=" + settings.getString("id", null);
+
+// Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // Display the first 500 characters of the response string.
+                        JSONArray task_array = null;
+                        Task task = null;
+                        try {
+                                JSONObject obj = new JSONObject(response);
+                                task = new Task();
+                            Log.d("Job",obj.getString("status"));
+                                if(obj.getString("status").equals("found")) {
+                                    Intent i = new Intent(getContext(), OnGoing.class);
+                                    i.putExtra("jobId",obj.getString("id"));
+                                    startActivity(i);
+                                }
+                                else{
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(Home.this);
+                                    builder.setMessage("Vous n'avez pas de job pour aujourd'hui")
+                                            .setNegativeButton("Ok", new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog, int id) {
+                                                    // User cancelled the dialog
+                                                }
+                                            });
+                                    // Create the AlertDialog object and return it
+                                    builder.create();
+                                    builder.show();
+                                }
+                            }
+                            catch (JSONException e) {
+
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("Error", error.getMessage());
+            }
+        });
+// Add the request to the RequestQueue.
+        queue.add(stringRequest);
+    }
+
     public void initViewPager() {
         mTabLayout = (TabLayout) findViewById(R.id.tab_layout_main);
         mViewPager = (ViewPager) findViewById(R.id.view_pager_main);
@@ -429,10 +497,6 @@ public class Home extends AppCompatActivity implements LocationListener, Feed.On
             }
         });
     }
-
-
-
-
 
 
     @Override
@@ -533,10 +597,11 @@ public class Home extends AppCompatActivity implements LocationListener, Feed.On
         Log.d("latitude", "Here : " + latitude);
         Log.d("longitude", "Here : " + longitude);
         feed.filtreBabysitters(feed.getBabysiiters());
-       // map.populateMap();
-        updateLocation(latitude+"",longitude+"");
+        // map.populateMap();
+        updateLocation(latitude + "", longitude + "");
     }
-    private void updateLocation(String lat,String longi) {
+
+    private void updateLocation(String lat, String longi) {
         RequestQueue queue = Volley.newRequestQueue(getContext());
         String url = AppController.TAHA_ADRESS + "updateLocation";
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
@@ -553,9 +618,9 @@ public class Home extends AppCompatActivity implements LocationListener, Feed.On
             @Override
             protected java.util.Map<String, String> getParams() {
                 java.util.Map<String, String> params = new HashMap<String, String>();
-                params.put("alt",lat);
+                params.put("alt", lat);
                 params.put("long", longi);
-                params.put("email", Home.this.getSharedPreferences(PREFS_NAME, 0).getString("email",null));
+                params.put("email", Home.this.getSharedPreferences(PREFS_NAME, 0).getString("email", null));
                 Log.d("Params", params.values().toString());
 
                 return params;
@@ -605,7 +670,7 @@ public class Home extends AppCompatActivity implements LocationListener, Feed.On
         // Gets the index value TextViews
         final EditText leftIndexValue = (EditText) dialogView.findViewById(R.id.leftIndexValue);
         final EditText rightIndexValue = (EditText) dialogView.findViewById(R.id.rightIndexValue);
-        if(minDist>=0 && maxDist>=0){
+        if (minDist >= 0 && maxDist >= 0) {
             rangebar.setLeft(minDist);
             rangebar.setRight(maxDist);
             leftIndexValue.setText("" + minDist);
@@ -617,13 +682,13 @@ public class Home extends AppCompatActivity implements LocationListener, Feed.On
             public void onRangeChangeListener(RangeBar rangeBar, int leftPinIndex,
                                               int rightPinIndex, String leftPinValue, String rightPinValue) {
                 leftIndexValue.setText("" + leftPinIndex);
-                minDist=leftPinIndex;
+                minDist = leftPinIndex;
                 rightIndexValue.setText("" + rightPinIndex);
-                maxDist=rightPinIndex;
+                maxDist = rightPinIndex;
             }
 
         });
-        Button btnDone =(Button)dialogView.findViewById(R.id.btnDone);
+        Button btnDone = (Button) dialogView.findViewById(R.id.btnDone);
 
         final AlertDialog b = dialogBuilder.create();
 

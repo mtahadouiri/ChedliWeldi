@@ -104,6 +104,12 @@
         <activity android:name=".Activities.LoginActivity">
 
 
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+
+
 
         </activity>
 
@@ -144,12 +150,6 @@
         <activity android:name=".Activities.MyOfferActivity"     >
 
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-
-
 
         </activity>
 
@@ -160,7 +160,10 @@
         </activity>
 
 
+        <activity android:name=".Activities.OnGoing"     >
 
+
+        </activity>
 
 
         <activity android:name=".Activities.ReviewActivity">

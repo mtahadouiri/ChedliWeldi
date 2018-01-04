@@ -14,7 +14,7 @@
         android:fitsSystemWindows="true"
         android:theme="@style/AppTheme.AppBarOverlay"
         app:expanded="false"
-        app:layout_behavior="carsapp.douirimohamedtaha.com.chedliweldi.adapters.ScrollingCalendarBehavior">
+        app:layout_behavior="com.esprit.chedliweldi.adapters.ScrollingCalendarBehavior">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsingToolbarLayout"
