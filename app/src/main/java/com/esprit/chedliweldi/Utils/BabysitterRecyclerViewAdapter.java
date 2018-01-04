@@ -54,6 +54,7 @@ public class BabysitterRecyclerViewAdapter extends RecyclerView.Adapter<Babysitt
         holder.itemView.setTag(item);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
+
                 listener.onItemClick(item);
             }
         });

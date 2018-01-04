@@ -2,16 +2,20 @@ package com.esprit.chedliweldi.Fragments;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.esprit.chedliweldi.Activities.ProfilActivity;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
@@ -32,7 +36,7 @@ import com.esprit.chedliweldi.R;
  * Use the {@link Map#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Map extends Fragment implements OnMapReadyCallback {
+public class Map extends Fragment implements OnMapReadyCallback,OnInfoWindowClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -135,7 +139,7 @@ public class Map extends Fragment implements OnMapReadyCallback {
             return;
         }
         mMap.setMyLocationEnabled(true);
-
+        mMap.setOnInfoWindowClickListener(this);
 
         mClusterManager = new ClusterManager<MyItem>(getContext(), mMap);
 
@@ -153,12 +157,21 @@ public class Map extends Fragment implements OnMapReadyCallback {
         for (Babysitter b: MainActivity.bbySitters) {
             Marker m = mMap.addMarker(new MarkerOptions()
                     .position(new LatLng(b.getAltitude(),b.getLongitude()))
-                    .title("Perth"));
+                    .title(b.getFirstName()+" "+b.getLastName())
+                    .snippet(""+b.getDistance()));
             m.setTag(b);
+
             //Log.d("Marker",""+m.getPosition());
             MyItem offsetItem = new MyItem(m.getPosition());
             mClusterManager.addItem(offsetItem);
         }
+    }
+
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+        Intent i = new Intent(getContext(), ProfilActivity.class);
+        i.putExtra("user", (Parcelable) marker.getTag());
+        startActivity(i);
     }
 
    /* @Override
