@@ -181,7 +181,9 @@ public class Map extends Fragment implements OnMapReadyCallback,OnInfoWindowClic
             Log.d("Babysitters",babysitters.size()+"");
             Marker m = mMap.addMarker(new MarkerOptions()
                     .position(new LatLng(b.getAltitude(),b.getLongitude()))
-                    .title(b.getFirstName()+" "+b.getLastName()));
+                    .title(b.getFirstName()+" "+b.getLastName())
+            .snippet(b.getDistance()+" km"));
+
             m.setTag(b);
 
             Log.d("Marker",""+m.getPosition());
