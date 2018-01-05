@@ -238,11 +238,12 @@ displayDialog(position);
         return -1;
     }
 
+    MaterialDialog n;
     void displayDialog(int position){
 
         Log.i(" dfs","sdf");
         boolean wrapInScrollView = true;
-        final MaterialDialog n =  new MaterialDialog.Builder(RequestsActivity.this
+        n =  new MaterialDialog.Builder(RequestsActivity.this
         )
 
                 .customView(R.layout.profil_request, false)
@@ -278,10 +279,7 @@ displayDialog(position);
         accept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.e("oo ","sdfsdf");
-                requests.remove(position);
-                adapter.notifyItemRemoved(position);
-                n.dismiss();
+               respondToRequest("accepted",position);
             }
         });
 
@@ -289,8 +287,7 @@ displayDialog(position);
         refuse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.e("oo ","sdfsdf");
-                n.dismiss();
+                respondToRequest("rejected",position);
             }
         });
         profil.setOnClickListener(new View.OnClickListener() {
@@ -395,13 +392,19 @@ displayDialog(position);
 
 
 
-   private void respondToRequest(final String respond) {
+   private void respondToRequest(final String respond,int position) {
 
 
         Log.e("sdf", "uploadUser:  near volley new request ");
+       String i= null;
+       try {
+           i = requests.getJSONObject(position).getString("id_request");
+       } catch (JSONException e) {
+           e.printStackTrace();
+       }
 
-
-        //  JSONObject jsonObj = new JSONObject(params);
+final String idR=i;
+       //  JSONObject jsonObj = new JSONObject(params);
 
 
         String url = AppController.SERVER_ADRESS+"respondRequest";
@@ -420,6 +423,36 @@ displayDialog(position);
                         Log.i("etat","failed");
                     }
                     else{
+
+                            requests.remove(position);
+                            adapter.notifyItemRemoved(position);
+                            n.dismiss();
+
+                            if(respond.equals("accepted")){
+                                new MaterialDialog.Builder(RequestsActivity.this)
+                                        .title(R.string.title)
+                                        .content("request accepted")
+                                        .positiveText("ok")
+
+                                        .show();
+                            }
+                            else{
+                                new MaterialDialog.Builder(RequestsActivity.this)
+                                        .title(R.string.title)
+                                        .content("request refused")
+                                        .positiveText("ok")
+
+                                        .show();
+                            }
+
+
+
+
+
+
+
+                        Log.e("oo ","sdfsdf");
+
 
 
                         Log.i("etat","success");
@@ -444,6 +477,7 @@ displayDialog(position);
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String,String> headers = new HashMap<String, String>();
                 headers.put("respond",respond);
+                headers.put("id_request",idR);
              //   headers.put("id_user",LoginActivity.connectedUser);
                 //  headers.put("abc", "value");
                 return headers;

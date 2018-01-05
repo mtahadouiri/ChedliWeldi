@@ -20,6 +20,7 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
 import com.esprit.chedliweldi.AppController;
+import com.esprit.chedliweldi.Fragments.Login;
 import com.esprit.chedliweldi.R;
 import com.esprit.chedliweldi.adapters.DisplayTaskListAdapter;
 import com.esprit.chedliweldi.adapters.PrivateOfferRecycleViewAdapter;
@@ -64,7 +65,7 @@ public class PrivateOfferBabysitterActivity extends AppCompatActivity {
             }
         }));
 
-        getOffers("11");
+        getOffers(Login.connectedUser);
     }
 
 

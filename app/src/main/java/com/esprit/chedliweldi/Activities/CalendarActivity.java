@@ -21,6 +21,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
+import com.esprit.chedliweldi.Fragments.Login;
 import com.esprit.chedliweldi.Utils.DrawerInitializer;
 import com.esprit.chedliweldi.adapters.RecycleItemClickListener;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
@@ -177,7 +178,7 @@ public class CalendarActivity extends AppCompatActivity   {
                 }));
 
 
-        getDates("4");
+        getDates(Login.connectedUser);
         Date d = new Date();
 
         toolbar.setTitle( "Calendar "+ dateFormatter.format(d));
@@ -189,7 +190,7 @@ public class CalendarActivity extends AppCompatActivity   {
 
             String date =    dateFormatter.format(dateClicked);
                 toolbar.setTitle( "Calendar "+ date);
-            getCalendar("4",date);
+            getCalendar(Login.connectedUser,date);
 
                 Log.d(TAG, "Day was clicked: " + dateClicked + " with events " + events);
             }

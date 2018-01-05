@@ -31,6 +31,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.esprit.chedliweldi.AppController;
+import com.esprit.chedliweldi.Fragments.Login;
 import com.esprit.chedliweldi.R;
 import com.esprit.chedliweldi.Utils.DrawerInitializer;
 import com.esprit.chedliweldi.adapters.OfferAdapter;
@@ -112,7 +113,7 @@ Button btn;
                 }
             }
         });
-        getOffers("4");
+        getOffers(Login.connectedUser);
 
 
 

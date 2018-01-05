@@ -62,7 +62,7 @@ public class Login extends Fragment {
     EditText password ;
     @Bind(R.id.txtSignUp)
     TextView txtSignUp ;
-    public static  String connectedUser="4";
+    public static  String connectedUser="10";
     private CallbackManager callbackManager;
     private LoginButton loginButton;
     private String TAG = "LoginFB";

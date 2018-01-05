@@ -59,8 +59,8 @@ public class ScheduledOfferParentActivity extends AppCompatActivity {
         recyclerView=(RecyclerView) findViewById(R.id.rv);
         LinearLayoutManager layoutManager=new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        getOfferDetail("5");
-        getTasks("5",recyclerView);
+        getOfferDetail(id);
+        getTasks(id,recyclerView);
     }
 
     private void getOfferDetail(final String idOffer) {
