@@ -133,7 +133,7 @@ public class ProfilActivity extends AppCompatActivity {
                         try {
                             i.putExtra("fullName",user.getString("firstname")+" "+user.getString("lastname"));
                         } catch (JSONException e) {
-                            
+
                         }
                         try {
                             i.putExtra("id",user.getString("id"));
