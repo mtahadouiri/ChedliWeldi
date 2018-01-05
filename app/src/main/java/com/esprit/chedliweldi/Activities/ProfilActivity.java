@@ -43,6 +43,7 @@ public class ProfilActivity extends AppCompatActivity {
     TextView fullName;
     MaterialRatingBar rate;
     ImageView callBtn;
+    ImageView sendMessage;
     Button accept;
     Button refuse;
     private static final int PERMISSION_REQUEST_CODE = 1;
@@ -64,7 +65,7 @@ public class ProfilActivity extends AppCompatActivity {
         rate = (MaterialRatingBar) findViewById(R.id.rate);
 
         callBtn = (ImageView) findViewById(R.id.callBtn);
-
+        sendMessage=(ImageView)findViewById(R.id.msgBtn);
 
         if (babysitter != null ) {
 
@@ -87,6 +88,15 @@ public class ProfilActivity extends AppCompatActivity {
                         } catch (Exception e) {
 
                         }
+                    }
+                });
+                sendMessage.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent i = new Intent(ProfilActivity.this,ChatRoom.class);
+                        i.putExtra("fullName",babysitter.getFirstName()+" "+babysitter.getLastName());
+                        i.putExtra("id",babysitter.getId());
+                        startActivity(i);
                     }
                 });
             //} catch (JSONException e) {
@@ -114,6 +124,23 @@ public class ProfilActivity extends AppCompatActivity {
                         //} catch (Exception e) {
 
                         }
+                    }
+                });
+                sendMessage.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent i = new Intent(ProfilActivity.this,ChatRoom.class);
+                        try {
+                            i.putExtra("fullName",user.getString("firstname")+" "+user.getString("lastname"));
+                        } catch (JSONException e) {
+                            
+                        }
+                        try {
+                            i.putExtra("id",user.getString("id"));
+                        } catch (JSONException e) {
+
+                        }
+                        startActivity(i);
                     }
                 });
                 } catch (JSONException e) {
