@@ -225,34 +225,21 @@ public class Login extends Fragment {
 
                 }
                 else{
+
                     Log.i("etat","success");
                     connectedUser=jsonObject.getString("id");
+                    type=jsonObject.getString("type");
                     SharedPreferences settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
                     SharedPreferences.Editor editor = settings.edit();
                     editor.putString("id", connectedUser);
+                    editor.putString("type", type);
                     editor.commit();
-                    if(jsonObject.getString("type").equals("Babysitter")){
+
+                    if(type.equals("Babysitter")){
                         showListoffers();
                     }
                     else{
-                        Log.i("etat","success");
-
-                        connectedUser=jsonObject.getString("id");
-                        SharedPreferences settingss = getActivity().getSharedPreferences(PREFS_NAME, 0);
-                        SharedPreferences.Editor editorr = settingss.edit();
-                        editorr.putString("id", connectedUser);
-                        editorr.commit();
-                        type= jsonObject.getString("type");
-                        if(type.equals("Babysitter")){
-                            showListoffers();
-                          //  showParentMain();
-                        }
-                        else {
-                    getBabysiiters();
-                        }
-                       // showMyoffer();
-
-
+                        getBabysiiters();
                     }
                    // showMyoffer();
 
