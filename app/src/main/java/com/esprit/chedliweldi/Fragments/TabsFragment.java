@@ -61,7 +61,7 @@ public class TabsFragment extends Fragment implements TabLayout.OnTabSelectedLis
        // } catch (Exception e) {
 
         }
-        ProfilePager adapter = new ProfilePager(getActivity().getSupportFragmentManager(), tabLayout.getTabCount(),id,about);
+        ProfilePager adapter = new ProfilePager(getActivity().getSupportFragmentManager(), tabLayout.getTabCount(),d);
 
         //Adding adapter to pager
         viewPager.setAdapter(adapter);

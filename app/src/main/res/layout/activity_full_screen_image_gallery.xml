@@ -1,15 +1,45 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    xmlns:fancy="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent"
     android:background="@android:color/black"
     android:orientation="vertical">
 
     <include layout="@layout/image_toolbar" />
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent">
 
     <android.support.v4.view.ViewPager
         android:id="@+id/vp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clickable="true"/>
+
+    <mehdi.sakout.fancybuttons.FancyButton
+        android:visibility="gone"
+        android:id="@+id/btn_remove"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="10dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="10dp"
+
+        fancy:fb_borderColor="#FFFFFF"
+        fancy:fb_borderWidth="1dp"
+        fancy:fb_defaultColor="@color/mtlcGrey2"
+        fancy:fb_focusColor="@color/mtlcblueLigh"
+
+        fancy:fb_iconPosition="left"
+        fancy:fb_radius="30dp"
+        fancy:fb_text="Remove Photo"
+        fancy:fb_textColor="#FFFFFF" />
+
+</FrameLayout>
+
 
 </LinearLayout>

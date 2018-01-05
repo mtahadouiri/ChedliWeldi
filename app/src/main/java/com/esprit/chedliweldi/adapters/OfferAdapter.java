@@ -90,6 +90,7 @@ public OfferAdapter(JSONArray data){
             if(!isPrivate){
                 viewHolder.badgePrivate.setVisibility(View.VISIBLE);
             }
+
             if( now.after(start) && now.before(end)){
                viewHolder. status.setText("On going");
                item.put("status","On going");
@@ -102,7 +103,7 @@ public OfferAdapter(JSONArray data){
 
 
             if(item.getString("status").equals("pending")){
-                viewHolder.   status.setText("pending");
+                viewHolder.   status.setText("Pending");
                 viewHolder.  status.setTextColor(ContextCompat.getColor(AppController.getContext(),R.color.mtlcyellow));
                 viewHolder.mBadge.clear();
                 viewHolder.  mBadge.setNumber(nbr);

@@ -20,6 +20,7 @@ import android.widget.RemoteViews;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.NotificationTarget;
+import com.esprit.chedliweldi.Activities.ChatRoom;
 import com.esprit.chedliweldi.Activities.MyOfferActivity;
 import com.esprit.chedliweldi.Activities.RequestsActivity;
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -151,8 +152,10 @@ public class ChedliWeldiMessagingService extends FirebaseMessagingService {
         if(type!=null && type.equals("message")){
 
 
-            Intent resultIntent = new Intent(this, LoginActivity.class);
+            Intent resultIntent = new Intent(this, ChatRoom.class);
+
             String content=data.get("content");
+            resultIntent.putExtra("id",data.get("id_sender"));
             remoteViews=setupRemoteViews(fullName==null ? "null":fullName,content==null ? "content":content);
             PendingIntent resultPendingIntent =
                     PendingIntent.getActivity(
@@ -172,9 +175,11 @@ public class ChedliWeldiMessagingService extends FirebaseMessagingService {
         if(type!=null && type.equals("request")){
             String idRequest=data.get("id_request");
             String idOffer=data.get("id_offer");
-            Intent resultIntent = new Intent(this,MyOfferActivity.class);
+            Intent resultIntent = new Intent(this,RequestsActivity.class);
+           // resultIntent.putExtra("id_request",idRequest);
             resultIntent.putExtra("id_request",idRequest);
-            resultIntent.putExtra("id_offer",idOffer);
+            resultIntent.putExtra("id",idOffer);
+            resultIntent.putExtra("fetch",true);
 
             remoteViews=setupRemoteViews(fullName==null ? "null":fullName,"send you a request");
             PendingIntent resultPendingIntent =
@@ -191,6 +196,93 @@ public class ChedliWeldiMessagingService extends FirebaseMessagingService {
             custom=true;
 
         }
+
+
+        if(type!=null && type.equals("parent_accept")){
+            String idOffer=data.get("id_offer");
+            Intent resultIntent = new Intent(this,RequestsActivity.class);
+            // resultIntent.putExtra("id_request",idRequest);
+
+            resultIntent.putExtra("id_offer",idOffer);
+            remoteViews=setupRemoteViews(fullName==null ? "null":fullName,"accepted your request");
+            PendingIntent resultPendingIntent =
+                    PendingIntent.getActivity(
+                            this,
+                            0,
+                            resultIntent,
+                            PendingIntent.FLAG_UPDATE_CURRENT
+                    );
+
+            notificationBuilder.setContent(remoteViews);
+            notificationBuilder.setTicker(fullName +"send u a request");
+            notificationBuilder.setContentIntent(resultPendingIntent);
+            custom=true;
+        }
+
+
+
+        if(type!=null && type.equals("babysitter_accept")){
+            String idOffer=data.get("id_offer");
+            Intent resultIntent = new Intent(this,RequestsActivity.class);
+            // resultIntent.putExtra("id_request",idRequest);
+
+            resultIntent.putExtra("id_offer",idOffer);
+            remoteViews=setupRemoteViews(fullName==null ? "null":fullName,"accepted your offer");
+            PendingIntent resultPendingIntent =
+                    PendingIntent.getActivity(
+                            this,
+                            0,
+                            resultIntent,
+                            PendingIntent.FLAG_UPDATE_CURRENT
+                    );
+
+            notificationBuilder.setContent(remoteViews);
+            notificationBuilder.setTicker(fullName +"accepted your private offer");
+            notificationBuilder.setContentIntent(resultPendingIntent);
+            custom=true;
+        }
+
+        if(type!=null && type.equals("parent_refuse")){
+
+           /*
+            Intent resultIntent = new Intent(this,Activity.class);
+            // resultIntent.putExtra("id_request",idRequest);
+            resultIntent.putExtra("id_request",idRequest);
+            resultIntent.putExtra("id",idOffer);
+            resultIntent.putExtra("fetch",true);
+*/
+            remoteViews=setupRemoteViews(fullName==null ? "null":fullName," refused your  request");
+
+
+            notificationBuilder.setContent(remoteViews);
+            notificationBuilder.setTicker(fullName +"refused your request");
+
+            custom=true;
+
+        }
+
+
+        if(type!=null && type.equals("babysitter_refuse")){
+
+           /*
+            Intent resultIntent = new Intent(this,Activity.class);
+            // resultIntent.putExtra("id_request",idRequest);
+            resultIntent.putExtra("id_request",idRequest);
+            resultIntent.putExtra("id",idOffer);
+            resultIntent.putExtra("fetch",true);
+*/
+            remoteViews=setupRemoteViews(fullName==null ? "null":fullName," has refused your private offer");
+
+
+            notificationBuilder.setContent(remoteViews);
+            notificationBuilder.setTicker(fullName +"has refused your private offer");
+
+            custom=true;
+
+        }
+
+
+
 
 
 

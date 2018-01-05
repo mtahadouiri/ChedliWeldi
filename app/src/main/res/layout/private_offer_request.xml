@@ -1,4 +1,6 @@
-<android.support.v7.widget.LinearLayoutCompat android:layout_width="match_parent"
+<android.support.v7.widget.LinearLayoutCompat
+    android:layout_width="match_parent"
+    android:background="@color/colorGreyLight"
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical">
 
@@ -11,7 +13,6 @@
            android:layout_height="match_parent" android:src="@drawable/background" />
 
       <android.support.v7.widget.LinearLayoutCompat
-
           android:layout_width="match_parent" android:layout_marginTop="10dp"
           android:layout_height="match_parent" android:orientation="vertical">
 
@@ -58,88 +59,101 @@
               android:textColor="@android:color/white"
               android:textSize="25dp" />
 
-          <me.zhanghai.android.materialratingbar.MaterialRatingBar
-              android:layout_gravity="center"
-              android:id="@+id/rate"
-              style="@style/Widget.MaterialRatingBar.RatingBar.Indicator"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_alignParentEnd="true"
-              android:layout_centerVertical="true"
-              android:layout_marginEnd="11dp"
-              android:backgroundTint="@color/colorPrimary"
-              android:progressTint="@color/mtlcyellow"
-              android:rating="0"
-
-              android:stepSize="0.01" />
-
-
-
 
       </android.support.v7.widget.LinearLayoutCompat>
 
 
 
     </android.support.v7.widget.ContentFrameLayout>
-    <android.support.v7.widget.LinearLayoutCompat
-        android:layout_width="match_parent"
-        android:weightSum="3"
-        android:layout_height="50dp" android:background="@color/colorGreyLight">
-        <LinearLayout  android:layout_gravity="center"
-            android:layout_width="0dp" android:layout_weight="1"
-            android:layout_height="wrap_content" android:orientation="vertical" android:gravity="center">
-            <android.support.v7.widget.AppCompatTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:text="500" />
-            <android.support.v7.widget.AppCompatTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:text="Mission" />
 
-
-        </LinearLayout>
-
-
-        <LinearLayout  android:layout_gravity="center"
-            android:layout_width="0dp" android:layout_weight="1"
-            android:layout_height="wrap_content" android:orientation="vertical" android:gravity="center">
-            <android.support.v7.widget.AppCompatTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:text="50" />
-            <android.support.v7.widget.AppCompatTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:text="favorites" />
-
-
-        </LinearLayout>
-
-        <LinearLayout  android:layout_gravity="center"
-            android:layout_width="0dp" android:layout_weight="1"
-            android:layout_height="wrap_content" android:orientation="vertical" android:gravity="center">
-            <android.support.v7.widget.AppCompatTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:text="500" />
-            <android.support.v7.widget.AppCompatTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:text="Reports" />
-
-
-        </LinearLayout>
-
-    </android.support.v7.widget.LinearLayoutCompat>
 <android.support.v7.widget.LinearLayoutCompat
-
+    android:background="@color/colorGreyLight"
     android:layout_width="match_parent" android:layout_marginBottom="10dp"  android:layout_marginTop="10dp"
     android:layout_height="fill_parent"  android:orientation="vertical" android:weightSum="6">
 
     <LinearLayout
         android:layout_width="match_parent"
+        android:background="@color/colorGreyLight"
         android:layout_height="0dp"  android:layout_weight="5" android:gravity="center" android:orientation="vertical" >
+        <LinearLayout
+            android:elevation="20dp"
 
-        <Button
-            android:id="@+id/btnProfil"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="view Full profile" />
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_marginLeft="3dp"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_marginLeft="3dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp" android:src="@drawable/info_green" />
+                <TextView
+                    android:id="@+id/txtDescription"
+                    android:textSize="18dp"
+                    android:layout_marginLeft="3dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"   android:text="i neeed a baby sitter as soon as possible for my daughter sabrina "  />
+
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_marginLeft="3dp"
+                android:gravity="center_vertical"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp" android:src="@drawable/time_green" />
+
+                <TextView
+                    android:id="@+id/txtDate"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="3dp"
+                    android:text="thursday 21 2017 at 15 am "
+
+                    android:textSize="18dp" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_marginTop="3dp"
+                android:textSize="18dp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginBottom="3dp"
+                android:layout_height="wrap_content" android:text="Tasks" />
+
+          <android.support.v7.widget.RecyclerView
+              android:id="@+id/rv"
+              android:layout_width="match_parent"
+              android:layout_height="fill_parent"></android.support.v7.widget.RecyclerView>
+
+        </LinearLayout>
+
+
+
 
     </LinearLayout>
 

@@ -9,6 +9,74 @@
     android:layout_height="match_parent">
 
     <TextView
+        android:id="@+id/textView5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:text="Info"
+
+        android:textColor="@color/mtlcBlack"
+        android:textSize="20dp" />
+
+    <android.support.v7.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:weightSum="3"
+        android:layout_height="50dp" android:background="@color/colorGreyLight">
+        <LinearLayout  android:layout_gravity="center"
+            android:layout_width="0dp" android:layout_weight="1"
+            android:layout_height="wrap_content" android:orientation="vertical" android:gravity="center">
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/txtMission"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:text="500" />
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:text="Mission" />
+
+
+        </LinearLayout>
+
+
+        <LinearLayout  android:layout_gravity="center"
+            android:layout_width="0dp" android:layout_weight="1"
+            android:layout_height="wrap_content" android:orientation="vertical" android:gravity="center">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtAge"
+                android:text="50" />
+            <android.support.v7.widget.AppCompatTextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:text="Age" />
+
+
+        </LinearLayout>
+
+        <LinearLayout  android:layout_gravity="center"
+            android:layout_width="0dp" android:layout_weight="1"
+            android:layout_height="wrap_content" android:orientation="vertical" android:gravity="center">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/txtGender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="500" />
+            <android.support.v7.widget.AppCompatTextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:text="Gender" />
+
+
+        </LinearLayout>
+
+    </android.support.v7.widget.LinearLayoutCompat>
+
+
+    <TextView
         android:id="@+id/textView4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

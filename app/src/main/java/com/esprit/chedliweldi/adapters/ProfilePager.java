@@ -12,6 +12,9 @@ import com.esprit.chedliweldi.Fragments.AboutFragment;
 import com.esprit.chedliweldi.Fragments.PhotosFragment;
 import com.esprit.chedliweldi.Fragments.ReviewFragment;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 
 /**
  * Created by Belal on 2/3/2016.
@@ -23,13 +26,22 @@ public class ProfilePager extends FragmentStatePagerAdapter {
     int tabCount;
 String idUser;
 String about;
+JSONObject data;
     //Constructor to the class
-    public ProfilePager(FragmentManager fm, int tabCount,String id,String about) {
+    public ProfilePager(FragmentManager fm, int tabCount, JSONObject data) {
+
         super(fm);
         //Initializing tab count
         this.tabCount= tabCount;
-        this.about=about;
-this.idUser=id;
+        this.data=data;
+
+        try {
+            this.about=data.getString("about");
+            this.idUser=data.getString("id");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
 
     //Overriding method getItem
@@ -38,7 +50,7 @@ this.idUser=id;
         //Returning the current tabs
         switch (position) {
             case 0:
-                AboutFragment tab1 =  AboutFragment.newInstance(idUser,about);
+                AboutFragment tab1 =  AboutFragment.newInstance(data);
                 return tab1;
             case 1:
                 PhotosFragment tab2 =  PhotosFragment.newInstance(idUser);

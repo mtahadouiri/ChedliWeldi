@@ -23,6 +23,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,6 +32,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.esprit.chedliweldi.AppController;
 import com.esprit.chedliweldi.R;
+import com.esprit.chedliweldi.Utils.DateUtility;
 
 /**
  * Created by oussama_2 on 11/21/2017.
@@ -57,6 +60,10 @@ public class RequestRecyclerViewAdapter extends RecyclerView.Adapter<RequestRecy
         try {
              feedItem = feedItemList.getJSONObject(i);
            customViewHolder.request.setText(feedItem.getString("firstName")+" "+feedItem.getString("lastName") +" Send you a request");
+
+                Date d = DateUtility.TimeStampFormatter.parse(feedItem.getString("date"));
+
+            customViewHolder.remaining.setText(DateUtility.printDifference(d,new Date()));
            // customViewHolder.description.setText(feedItem.getString("description"));
            Glide.with(mContext).load(AppController.IMAGE_SERVER_ADRESS+feedItem.getString("photo")).transform(new AppController.CircleTransform(mContext)).into(customViewHolder.image);
            /*
@@ -69,7 +76,7 @@ public class RequestRecyclerViewAdapter extends RecyclerView.Adapter<RequestRecy
             });
 */
 
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -101,6 +108,8 @@ public class RequestRecyclerViewAdapter extends RecyclerView.Adapter<RequestRecy
         @Bind(R.id.txtOffer)
         TextView request;
 
+        @Bind(R.id.textView8)
+        TextView remaining;
 
         @Bind(R.id.photo)
         ImageView image;

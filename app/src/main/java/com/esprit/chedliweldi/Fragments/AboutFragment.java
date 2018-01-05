@@ -44,6 +44,12 @@ TagGroup tags;
     LinearLayout t;
     //Overriden method onCreateView
 TextView txtAbout ;
+    TextView txtGender ;
+    TextView txtAge ;
+    TextView txtMission ;
+
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -54,8 +60,24 @@ TextView txtAbout ;
         View v = inflater.inflate(R.layout.about, container, false);
         String id = getArguments().getString("id");
         String about = getArguments().getString("about");
+        String age = getArguments().getString("age");
+
+        String mission = getArguments().getString("mission");
+        String gender="Male";
+    int isMale =getArguments().getInt("isMale");
+       if(isMale!=1){
+           gender="Female";
+       }
+
 
         txtAbout=(TextView) v.findViewById(R.id.txtAbout);
+        txtMission=(TextView) v.findViewById(R.id.txtMission);
+        txtAge=(TextView) v.findViewById(R.id.txtAge);
+        txtGender=(TextView) v.findViewById(R.id.txtGender);
+
+        txtGender.setText(gender);
+        txtMission.setText(mission);
+        txtAge.setText(age);
                 tags = (TagGroup) v.findViewById(R.id.tags);
 
         txtAbout.setText(about);
@@ -89,11 +111,28 @@ LinearLayout tmp;
 
 
 
-    public static AboutFragment newInstance(String idUser,String about) {
+    public static AboutFragment newInstance(JSONObject d) {
         AboutFragment fragment = new AboutFragment();
         Bundle args = new Bundle();
-        args.putString("id", idUser);
-        args.putString("about", about);
+
+        try {
+            String l =d.getString("mission");
+            String m = d.getString("age");
+
+            args.putString("mission", d.getString("mission"));
+            args.putString("age", d.getString("age"));
+            args.putInt("isMale", d.getInt("isMale"));
+            args.putString("id", d.getString("id"));
+            args.putString("about", d.getString("about"));
+
+
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
 
         fragment.setArguments(args);
         return fragment;

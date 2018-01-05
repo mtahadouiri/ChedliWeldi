@@ -40,6 +40,7 @@ import com.esprit.chedliweldi.adapters.RecycleItemClickListener;
 import com.esprit.chedliweldi.adapters.RequestRecyclerViewAdapter;
 
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
+import mehdi.sakout.fancybuttons.FancyButton;
 
 public class RequestsActivity extends AppCompatActivity {
 
@@ -49,6 +50,7 @@ public class RequestsActivity extends AppCompatActivity {
  TextView description ;
     TextView date ;
     Button btnRequests ;
+    String idRequest=null;
 
     String id;
     @Override
@@ -60,6 +62,7 @@ public class RequestsActivity extends AppCompatActivity {
 
         Intent  k = getIntent();
         id =k.getStringExtra("id");
+        idRequest=k.getStringExtra("id_request");
         fetchData=k.getBooleanExtra("fetch",false);
 
         description = (TextView) findViewById(R.id.txtDescription);
@@ -104,66 +107,8 @@ public class RequestsActivity extends AppCompatActivity {
             @Override
             public void onItemClick(View view, final int position) {
 
-                Log.i(" dfs","sdf");
-                boolean wrapInScrollView = true;
-                final MaterialDialog n =  new MaterialDialog.Builder(RequestsActivity.this
-                )
 
-                        .customView(R.layout.profil_request, false)
-
-                        .show();
-
-                View v = n.getView();
-                final Button accept = (Button) v.findViewById(R.id.btnAccept);
-                final Button profil = (Button) v.findViewById(R.id.btnProfil);
-                final MaterialRatingBar rate = (MaterialRatingBar) v. findViewById(R.id.rate);
-                final ImageView profilImage = (ImageView) v.findViewById(R.id.profileImage);
-
-
-                final TextView txtName = (TextView) v.findViewById(R.id.txtUserName);
-
-                try {
-                    Glide.with(RequestsActivity.this).load(AppController.IMAGE_SERVER_ADRESS+requests.getJSONObject(position).getString("photo")).transform(new AppController.CircleTransform(RequestsActivity.this)).into(profilImage);
-                    txtName.setText(requests.getJSONObject(position).getString("firstName")+" " +requests.getJSONObject(position).getString("lastName") );
-                    double ratee=requests.getJSONObject(position).getDouble("rate");
-                    rate.setRating((float) ratee );
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                accept.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Log.e("oo ","sdfsdf");
-                       requests.remove(position);
-                        adapter.notifyItemRemoved(position);
-                        n.dismiss();
-                    }
-                });
-
-                Button refuse = (Button) v.findViewById(R.id.btnRefuse);
-                refuse.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Log.e("oo ","sdfsdf");
-                        n.dismiss();
-                    }
-                });
-                profil.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent i = new Intent(RequestsActivity.this,ProfilActivity.class);
-                        //   JSONObject jsonObject  =new JSONObject();
-                        // i.putExtra("json",jsonObject);
-                        try {
-                            ProfilActivity.user=requests.getJSONObject(position);
-                            startActivity(i);
-                        } catch (JSONException e) {
-
-                        }
-                    }
-                });
-
-
+displayDialog(position);
 
                 /*
 
@@ -213,6 +158,7 @@ public class RequestsActivity extends AppCompatActivity {
                     else{
                        requests = jsonObject.getJSONArray("requests");
 
+
                         DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(
                                 offers.getContext(),
                                 layoutManager.getOrientation()
@@ -221,6 +167,17 @@ public class RequestsActivity extends AppCompatActivity {
                         adapter = new RequestRecyclerViewAdapter(RequestsActivity.this, requests);
                         offers.setAdapter(adapter);
                         btnRequests.setText(requests.length()+" requests");
+
+
+                    if(idRequest!=null){
+                        int position =findRequestPosition(idRequest);
+                        if(position !=-1){
+                            displayDialog(position);
+                        }
+
+
+                                   }
+
                         Log.i("etat","success");
                     }
 
@@ -263,6 +220,93 @@ public class RequestsActivity extends AppCompatActivity {
         AppController.getInstance().addToRequestQueue(sr);
 
 
+    }
+
+
+    int findRequestPosition(String id){
+        try{
+       for(int i =0 ;i<requests.length();i++){
+          if(requests.getJSONObject(i).getString("id_request").equals(id)){
+              return i;
+          }
+       }
+
+    }
+    catch (Exception e){
+        return -1;
+    }
+        return -1;
+    }
+
+    void displayDialog(int position){
+
+        Log.i(" dfs","sdf");
+        boolean wrapInScrollView = true;
+        final MaterialDialog n =  new MaterialDialog.Builder(RequestsActivity.this
+        )
+
+                .customView(R.layout.profil_request, false)
+
+                .show();
+
+        View v = n.getView();
+        final Button accept = (Button) v.findViewById(R.id.btnAccept);
+        final FancyButton profil = (FancyButton) v.findViewById(R.id.btnProfil);
+        final TextView missions= (TextView) v.findViewById(R.id.txtMission);
+        final TextView age= (TextView) v.findViewById(R.id.txtAge);
+        final TextView reviews= (TextView) v.findViewById(R.id.txtReviews);
+
+        final MaterialRatingBar rate = (MaterialRatingBar) v. findViewById(R.id.rate);
+        final ImageView profilImage = (ImageView) v.findViewById(R.id.profileImage);
+
+
+        final TextView txtName = (TextView) v.findViewById(R.id.txtUserName);
+
+
+        try {
+            Glide.with(RequestsActivity.this).load(AppController.IMAGE_SERVER_ADRESS+requests.getJSONObject(position).getString("photo")).transform(new AppController.CircleTransform(RequestsActivity.this)).into(profilImage);
+            txtName.setText(requests.getJSONObject(position).getString("firstName")+" " +requests.getJSONObject(position).getString("lastName") );
+            double ratee=requests.getJSONObject(position).getDouble("rate");
+            rate.setRating((float) ratee );
+            missions.setText(requests.getJSONObject(position).getString("mission"));
+            age.setText(requests.getJSONObject(position).getString("age"));
+            reviews.setText(requests.getJSONObject(position).getString("reviews"));
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        accept.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.e("oo ","sdfsdf");
+                requests.remove(position);
+                adapter.notifyItemRemoved(position);
+                n.dismiss();
+            }
+        });
+
+        Button refuse = (Button) v.findViewById(R.id.btnRefuse);
+        refuse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.e("oo ","sdfsdf");
+                n.dismiss();
+            }
+        });
+        profil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(RequestsActivity.this,ProfilActivity.class);
+                //   JSONObject jsonObject  =new JSONObject();
+                // i.putExtra("json",jsonObject);
+                try {
+                    ProfilActivity.user=requests.getJSONObject(position);
+                    startActivity(i);
+                } catch (JSONException e) {
+
+                }
+            }
+        });
     }
 
     private void getOfferInfo(final String id_offer) {
@@ -426,6 +470,6 @@ public class RequestsActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        getRequests(id);
+        //getRequests(id);
     }
 }
