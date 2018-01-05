@@ -139,7 +139,6 @@ public class Login extends Fragment {
                             editor.putString("imageUrl", profilePicture.toString());
                             // Commit the edits!
                             editor.commit();
-
                             uploadFbUser(firstName,lastName,emailTxT,profilePicture);
 
                             Intent main = new Intent(getActivity(),Home.class);
@@ -227,6 +226,10 @@ public class Login extends Fragment {
                 else{
                     Log.i("etat","success");
                     connectedUser=jsonObject.getString("id");
+                    SharedPreferences settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
+                    SharedPreferences.Editor editor = settings.edit();
+                    editor.putString("id", connectedUser);
+                    editor.commit();
                     if(jsonObject.getString("type").equals("Babysitter")){
                         showListoffers();
                     }
@@ -234,6 +237,10 @@ public class Login extends Fragment {
                         Log.i("etat","success");
 
                         connectedUser=jsonObject.getString("id");
+                        SharedPreferences settingss = getActivity().getSharedPreferences(PREFS_NAME, 0);
+                        SharedPreferences.Editor editorr = settingss.edit();
+                        editorr.putString("id", connectedUser);
+                        editorr.commit();
                         type= jsonObject.getString("type");
                         if(type.equals("Babysitter")){
                             showListoffers();
@@ -490,6 +497,7 @@ public class Login extends Fragment {
                             editor.putString("imageUrl", profilePicture.toString());
                             // Commit the edits!
                             editor.commit();
+                            connectedUser = jsonObject.getString("id");
                             Intent main = new Intent(getActivity(),Home.class);
                             startActivity(main);
                         }else {

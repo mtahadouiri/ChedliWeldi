@@ -83,6 +83,7 @@ public class AddJob extends AppCompatActivity implements TimePickerDialog.OnTime
     private String provider;
     private SupportMapFragment mapFragment;
     private SharedPreferences settings;
+    private Bundle bundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +96,7 @@ public class AddJob extends AppCompatActivity implements TimePickerDialog.OnTime
        // checkLocationPermission();
         cardView1 = (LinearLayout) findViewById(R.id.linearLayoutTime);
         cardView1.setTag("cardView1");
+        bundle = getIntent().getExtras();
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         provider = locationManager.getBestProvider(new Criteria(), false);
@@ -190,10 +192,14 @@ public class AddJob extends AppCompatActivity implements TimePickerDialog.OnTime
     }
 
     private void AddJobPost(int parentId, String date, String title, String descr, String from, String to ,LatLng position) {
+        String url;
         String lati = "" + position.latitude;
         String longi = ""+position.longitude;
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = AppController.TAHA_ADRESS + "AddJob";
+        if(bundle.getString("bbid")!=null){
+            url = AppController.TAHA_ADRESS + "AddJobId";
+        }
+        else url = AppController.TAHA_ADRESS + "AddJob";
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                 response -> {
                     // response
@@ -220,6 +226,9 @@ public class AddJob extends AppCompatActivity implements TimePickerDialog.OnTime
                 params.put("title", title);
                 params.put("longi",lati);
                 params.put("alt", longi);
+                if(bundle.getString("bbid")!=null){
+                    params.put("bbId", bundle.getString("bbid"));
+                }
                 Log.d("Params", params.values().toString());
                 return params;
             }
