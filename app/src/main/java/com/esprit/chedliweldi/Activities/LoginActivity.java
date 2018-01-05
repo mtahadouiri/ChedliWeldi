@@ -81,11 +81,6 @@ public class LoginActivity extends AppCompatActivity implements ParentProfil.OnF
         }
 
 
-
-
-
-
-
     }
 
 
