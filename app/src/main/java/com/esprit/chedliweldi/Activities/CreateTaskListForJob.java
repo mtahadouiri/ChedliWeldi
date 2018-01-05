@@ -1,5 +1,6 @@
 package com.esprit.chedliweldi.Activities;
 
+import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
@@ -13,7 +14,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -21,6 +24,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -87,7 +91,28 @@ public class CreateTaskListForJob extends AppCompatActivity {
         final EditText name = (EditText) dialogView.findViewById(R.id.txtTaskTilte);
         final EditText details = (EditText) dialogView.findViewById(R.id.txtTaskDetail);
         final TextView time = (TextView) dialogView.findViewById(R.id.txtTaskTime);
+        final ImageView imgTime=(ImageView)dialogView.findViewById(R.id.imgTaskTime);
+        imgTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // TODO Auto-generated method stub
+                Calendar mcurrentTime = Calendar.getInstance();
+                int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+                int minute = mcurrentTime.get(Calendar.MINUTE);
+                TimePickerDialog mTimePicker;
+                mTimePicker = new TimePickerDialog(CreateTaskListForJob.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                        String hourString = selectedHour < 10 ? "0" + selectedHour : "" + selectedHour;
+                        String minuteString = selectedMinute < 10 ? "0" + selectedMinute : "" + selectedMinute;
 
+                        time.setText( hourString + ":" + minuteString);
+                    }
+                }, hour, minute, true);//Yes 24 hour time
+                mTimePicker.setTitle("Select Time");
+                mTimePicker.show();
+            }
+        });
         dialogBuilder.setTitle("Add task");
         dialogBuilder.setMessage("Enter task details below");
         dialogBuilder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
@@ -96,6 +121,7 @@ public class CreateTaskListForJob extends AppCompatActivity {
                 taskDetails=details.getText().toString();
                 taskTime=time.getText().toString();
                 task=new Task(taskName,taskDetails,taskTime);
+                task.setState("0");
                 addTaskToServer(id,taskName,taskDetails,taskTime);
                 taskList.add(task);
                 fabDone.setVisibility(View.VISIBLE);

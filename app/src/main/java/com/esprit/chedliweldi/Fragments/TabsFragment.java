@@ -16,8 +16,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.esprit.chedliweldi.Activities.ProfilActivity;
+import com.esprit.chedliweldi.Entities.Babysitter;
 import com.esprit.chedliweldi.R;
 import com.esprit.chedliweldi.adapters.ProfilePager;
+
+import static com.esprit.chedliweldi.Activities.ProfilActivity.babysitter;
 
 /**
  * Created by Belal on 2/3/2016.
@@ -26,7 +29,6 @@ import com.esprit.chedliweldi.adapters.ProfilePager;
 //Our class extending fragment
 public class TabsFragment extends Fragment implements TabLayout.OnTabSelectedListener, ViewPager.OnPageChangeListener  {
     private TabLayout tabLayout;
-
     //This is our viewPager
     private ViewPager viewPager;
     //Overriden method onCreateView
@@ -56,6 +58,7 @@ public class TabsFragment extends Fragment implements TabLayout.OnTabSelectedLis
           id =d.getString("id");
           about=d.getString("about");
         } catch (JSONException e) {
+       // } catch (Exception e) {
 
         }
         ProfilePager adapter = new ProfilePager(getActivity().getSupportFragmentManager(), tabLayout.getTabCount(),d);

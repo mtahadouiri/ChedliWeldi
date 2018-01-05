@@ -38,6 +38,10 @@ import com.esprit.chedliweldi.Entities.Babysitter;
 import com.esprit.chedliweldi.R;
 import com.esprit.chedliweldi.Utils.BabySittersJSONParser;
 import com.esprit.chedliweldi.Utils.BabysitterRecyclerViewAdapter;
+import com.google.android.gms.maps.MapFragment;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -161,6 +165,7 @@ public class Feed extends Fragment {
                         // Display the first 500 characters of the response string.
                         babysitters= BabySittersJSONParser.parseData(response);
                         MainActivity.bbySitters=babysitters;
+
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -173,10 +178,9 @@ public class Feed extends Fragment {
         return babysitters;
     }
 
-    public void filtreBabysitters(List<Babysitter> babysitters) {
+    public void filtreBabysitters(List<Babysitter> babysitters, Map map) {
 
         List<Babysitter> bb = new ArrayList<>();
-        Log.d("Babysitters",babysitters.size()+"");
         Iterator<Babysitter> iter = babysitters.iterator();
 
 
@@ -186,7 +190,6 @@ public class Feed extends Fragment {
             mallLoc.setLatitude(b.getAltitude());
             mallLoc.setLongitude(b.getLongitude());
 
-            Log.d("Distance"," "+(mallLoc.distanceTo(Home.getUserLocation())/1000));
             b.setDistance(mallLoc.distanceTo(Home.getUserLocation())/1000);
             if ((mallLoc.distanceTo(Home.getUserLocation())/1000) < Home.getMinDistance() || (mallLoc.distanceTo(Home.getUserLocation())/1000) > Home.getMaxDistance()) {
                 bb.add(b);
@@ -205,10 +208,24 @@ public class Feed extends Fragment {
             public void onItemClick(Babysitter item) {
                 Intent i = new Intent(getContext(), ProfilActivity.class);
                 i.putExtra("user", (Parcelable) item);
+                JSONObject j = new JSONObject();
+                try {
+                    j.put("id",item.getId());
+                    j.put("about",item.getDescr());
+                    j.put("photo",item.getImgURL());
+                    j.put("rate",4);
+                    j.put("firstName",item.getFirstName());
+                    j.put("lastname",item.getLastName());
+                    j.put("phoneNumber",item.getPhone());
+                    ProfilActivity.user=j;
+                } catch (JSONException e) {
+
+                }
                 startActivity(i);
             }
         });
         adapter.notifyDataSetChanged();
+       // map.populateMap();
         rv.setAdapter(adapter);
 
     }

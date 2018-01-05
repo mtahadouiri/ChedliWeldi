@@ -2,16 +2,32 @@ package com.esprit.chedliweldi.Fragments;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.esprit.chedliweldi.Activities.Home;
+import com.esprit.chedliweldi.Activities.ProfilActivity;
+import com.esprit.chedliweldi.AppController;
+import com.esprit.chedliweldi.Utils.BabySittersJSONParser;
+import com.esprit.chedliweldi.Utils.BabysitterRecyclerViewAdapter;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
@@ -24,6 +40,15 @@ import com.esprit.chedliweldi.Entities.Babysitter;
 import com.esprit.chedliweldi.Entities.MyItem;
 import com.esprit.chedliweldi.R;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
+
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
@@ -32,7 +57,7 @@ import com.esprit.chedliweldi.R;
  * Use the {@link Map#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Map extends Fragment implements OnMapReadyCallback {
+public class Map extends Fragment implements OnMapReadyCallback,OnInfoWindowClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -47,6 +72,7 @@ public class Map extends Fragment implements OnMapReadyCallback {
     private ClusterManager<MyItem> mClusterManager;
 
     private OnFragmentInteractionListener mListener;
+    private List<Babysitter> babysitters;
 
     public Map() {
         // Required empty public constructor
@@ -135,30 +161,54 @@ public class Map extends Fragment implements OnMapReadyCallback {
             return;
         }
         mMap.setMyLocationEnabled(true);
+        mMap.setOnInfoWindowClickListener(this);
 
-
-        mClusterManager = new ClusterManager<MyItem>(getContext(), mMap);
+      //  mClusterManager = new ClusterManager<MyItem>(getContext(), mMap);
 
         // Point the map's listeners at the listeners implemented by the cluster
         // manager.
        // mMap.setOnMarkerClickListener(mClusterManager);
-
+        getBabysiiters();
         //populateMap();
-        mMap.setOnCameraIdleListener(mClusterManager);
-        mMap.setOnMarkerClickListener(mClusterManager);
+       // mMap.setOnCameraIdleListener(mClusterManager);
+        //mMap.setOnMarkerClickListener(mClusterManager);
 
     }
 
     public void populateMap() {
-        for (Babysitter b: MainActivity.bbySitters) {
+        for (Babysitter b: babysitters) {
+
+            Log.d("Babysitters",babysitters.size()+"");
             Marker m = mMap.addMarker(new MarkerOptions()
                     .position(new LatLng(b.getAltitude(),b.getLongitude()))
-                    .title("Perth"));
+                    .title(b.getFirstName()+" "+b.getLastName()));
             m.setTag(b);
-            //Log.d("Marker",""+m.getPosition());
+
+            Log.d("Marker",""+m.getPosition());
             MyItem offsetItem = new MyItem(m.getPosition());
-            mClusterManager.addItem(offsetItem);
+            //mClusterManager.addItem(offsetItem);
         }
+    }
+
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+        Intent i = new Intent(getContext(), ProfilActivity.class);
+        Babysitter b = (Babysitter) marker.getTag();
+        JSONObject j = new JSONObject();
+        try {
+            j.put("id",b.getId());
+            j.put("about",b.getDescr());
+            j.put("photo",b.getImgURL());
+            j.put("rate",4);
+            j.put("firstName",b.getFirstName());
+            j.put("lastname",b.getLastName());
+            j.put("phoneNumber",b.getPhone());
+            ProfilActivity.user=j;
+        } catch (JSONException e) {
+
+        }
+        i.putExtra("user", (Parcelable) marker.getTag());
+        startActivity(i);
     }
 
    /* @Override
@@ -185,5 +235,52 @@ public class Map extends Fragment implements OnMapReadyCallback {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+    public List<Babysitter> getBabysiiters() {
+        babysitters=new ArrayList<>();
+        RequestQueue queue = Volley.newRequestQueue(getContext());
+        String url = AppController.TAHA_ADRESS+"getBabysitters";
+// Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // Display the first 500 characters of the response string.
+                        babysitters= BabySittersJSONParser.parseData(response);
+                        //MainActivity.bbySitters=babysitters;
+                        filtreBabysitters(babysitters);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("Error", error.getMessage());
+            }
+        });
+// Add the request to the RequestQueue.
+        queue.add(stringRequest);
+        return babysitters;
+    }
 
+    public void filtreBabysitters(List<Babysitter> babysitters) {
+
+        List<Babysitter> bb = new ArrayList<>();
+        Log.d("Babysittersssssssssss",babysitters.size()+"");
+        Iterator<Babysitter> iter = babysitters.iterator();
+
+
+        for (Babysitter b :
+                babysitters) {
+            Location mallLoc = new Location("");
+            mallLoc.setLatitude(b.getAltitude());
+            mallLoc.setLongitude(b.getLongitude());
+
+            Log.d("Distance"," "+(mallLoc.distanceTo(Home.getUserLocation())/1000));
+            b.setDistance(mallLoc.distanceTo(Home.getUserLocation())/1000);
+            if ((mallLoc.distanceTo(Home.getUserLocation())/1000) < Home.getMinDistance() || (mallLoc.distanceTo(Home.getUserLocation())/1000) > Home.getMaxDistance()) {
+                bb.add(b);
+            }
+        }
+        babysitters.removeAll(bb);
+        populateMap();
+
+    }
 }

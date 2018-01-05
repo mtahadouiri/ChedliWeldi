@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -80,6 +81,7 @@ public class ChatRoom extends AppCompatActivity {
             }
         });
 
+        getRecievedMessages(otherId,settings.getString("id", null));
 
         callBtn.setActivated(false);
         callBtn.setOnClickListener(new View.OnClickListener() {
@@ -133,6 +135,7 @@ public class ChatRoom extends AppCompatActivity {
                     ArrayList<Message>msgs = new ArrayList<>();
                     msgs.add(message);
                     adapter.addToEnd(msgs, false);
+
                 },
                 error -> {
                     // error
@@ -152,12 +155,13 @@ public class ChatRoom extends AppCompatActivity {
         queue.add(postRequest);
     }
 
-    /*protected void loadMessages() {
+  /*  protected void loadMessages() {
         new Handler().postDelayed(new Runnable() { //imitation of internet connection
             @Override
             public void run() {
-                ArrayList<Message> messages = getRecievedMessages();
-                lastLoadedDate = messages.get(messages.size() - 1).getCreatedAt();
+                getRecievedMessages(otherId,settings.getString("id", null));
+                ArrayList<Message> msg = messages;
+                lastLoadedDate = msg.get(msg.size() - 1).getCreatedAt();
                 adapter.addToEnd(messages, false);
             }
         }, 1000);
@@ -342,5 +346,7 @@ public class ChatRoom extends AppCompatActivity {
         };
         queue.add(postRequest);
     }
+
+
 
 }
