@@ -76,7 +76,7 @@ public class Login extends Fragment {
 
 
    // public static String type="Babysitter";
-  public static String type="Parent";
+      public static String type="Parent";
 
     public void validateLogin(String email ,String password){
 
@@ -227,6 +227,7 @@ public class Login extends Fragment {
                 else{
                     Log.i("etat","success");
                     connectedUser=jsonObject.getString("id");
+
                     if(jsonObject.getString("type").equals("Babysitter")){
                         showListoffers();
                     }
