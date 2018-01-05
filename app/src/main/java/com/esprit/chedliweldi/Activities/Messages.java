@@ -1,6 +1,7 @@
 package com.esprit.chedliweldi.Activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -36,6 +37,7 @@ import com.esprit.chedliweldi.Entities.Message;
 import com.esprit.chedliweldi.R;
 
 import static com.esprit.chedliweldi.AppController.IMAGE_SERVER_ADRESS;
+import static com.esprit.chedliweldi.Fragments.Login.PREFS_NAME;
 
 public class Messages extends AppCompatActivity {
     private Dialog dialog;
@@ -45,6 +47,7 @@ public class Messages extends AppCompatActivity {
     private List<Message> messages;
     private ArrayList<Babysitter> babysitters;
     private DialogsListAdapter dialogsListAdapter;
+    private SharedPreferences settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,9 +58,10 @@ public class Messages extends AppCompatActivity {
         setSupportActionBar(toolbar);
         dialogs=new ArrayList<>();
        // message = new Message("0",new Babysitter("Taha", "Douiri", "https://scontent.ftun5-1.fna.fbcdn.net/v/t1.0-9/16425772_10210635995528840_4542581271681303557_n.jpg?oh=412d980a5d28bff28ba8436d778df384&oe=5AC2463A", "tsaassou@gmail.com", "", null, 0,0, 5),"Hellp");
+        settings = this.getSharedPreferences(PREFS_NAME, 0);
 
         dialogsListView = (DialogsList)findViewById(R.id.dialogsList);
-        getDialogs(5);
+        getDialogs(Integer.parseInt(settings.getString("id",null)));
     }
 
     public List<Dialog> getDialogs(int id) {

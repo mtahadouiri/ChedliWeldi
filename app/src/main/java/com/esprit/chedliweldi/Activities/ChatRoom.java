@@ -80,6 +80,7 @@ public class ChatRoom extends AppCompatActivity {
             }
         });
 
+        getRecievedMessages(otherId,settings.getString("id", null));
 
         callBtn.setActivated(false);
         callBtn.setOnClickListener(new View.OnClickListener() {
