@@ -49,6 +49,8 @@
     <string name="ham_profile_sub">Open profile settings</string>
     <string name="ham_job">Jobs</string>
     <string name="ham_job_sub">Add a new babysitting job</string>
+    <string name="ham_ongoing">Ongoing Job</string>
+    <string name="ham_ongoing_sub">Check your babysitter and the tasklist</string>
     <!-- TODO: Remove or change this placeholder text -->
 
 

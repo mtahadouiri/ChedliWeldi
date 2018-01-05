@@ -1,33 +1,53 @@
 package com.esprit.chedliweldi.Utils;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.esprit.chedliweldi.Activities.BabySitterMainActivity;
 import com.esprit.chedliweldi.Activities.CalendarActivity;
+import com.esprit.chedliweldi.Activities.Home;
 import com.esprit.chedliweldi.Activities.MainActivity;
 import com.esprit.chedliweldi.Activities.Messages;
 import com.esprit.chedliweldi.Activities.MyOfferActivity;
+import com.esprit.chedliweldi.Activities.OnGoing;
 import com.esprit.chedliweldi.Activities.OnGoingOfferActivity;
 import com.esprit.chedliweldi.Activities.SettingActivity;
 import com.esprit.chedliweldi.AppController;
 import com.esprit.chedliweldi.Entities.Message;
+import com.esprit.chedliweldi.Entities.Task;
 import com.esprit.chedliweldi.Fragments.Login;
 import com.esprit.chedliweldi.R;
 import com.nightonke.boommenu.BoomButtons.HamButton;
 import com.nightonke.boommenu.BoomButtons.OnBMClickListener;
 import com.nightonke.boommenu.BoomMenuButton;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import static com.esprit.chedliweldi.AppController.getContext;
+import static com.esprit.chedliweldi.Fragments.Login.PREFS_NAME;
 
 /**
  * Created by oussama_2 on 12/29/2017.
@@ -130,16 +150,27 @@ public  class DrawerInitializer implements NavigationView.OnNavigationItemSelect
 
             });
 
+            MenuItem onGoingParent = (MenuItem) m.findItem(R.id.On_Going_Parent);
+            onGoingParent.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem menuItem) {
+                    CheckDate();
+               /* Intent i = new Intent(getContext(), OnGoing.class);
+                startActivity(i);*/
+                    return true;
+                }
+            });
 
-            if(Login.type.equals("Babysitter")){
+            if (Login.type.equals("Babysitter")) {
                 myOffers.setVisible(false);
                 goingOffers.setVisible(true);
                 calendar.setVisible(true);
-            }
-            else{
+                onGoingParent.setVisible(false);
+            } else {
                 calendar.setVisible(false);
                 goingOffers.setVisible(false);
             }
+
 
 
             MenuItem settings = (MenuItem) m.findItem(R.id.nav_settings);
@@ -230,4 +261,57 @@ public  class DrawerInitializer implements NavigationView.OnNavigationItemSelect
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         return false;
     }
+
+    public static void CheckDate() {
+        SharedPreferences settings = getContext().getSharedPreferences(PREFS_NAME, 0);
+        RequestQueue queue = Volley.newRequestQueue(getContext());
+        Log.d("ID", settings.getString("id", null));
+        String url;
+
+        url = AppController.TAHA_ADRESS + "checkJobs?id=" + settings.getString("id", null);
+
+// Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // Display the first 500 characters of the response string.
+                        JSONArray task_array = null;
+                        Task task = null;
+                        try {
+                            JSONObject obj = new JSONObject(response);
+                            task = new Task();
+                            Log.d("Job",obj.getString("status"));
+                            if(obj.getString("status").equals("found")) {
+                                Intent i = new Intent(getContext(), OnGoing.class);
+                                i.putExtra("jobId",obj.getString("id"));
+                                getContext().startActivity(i);
+                            }
+                            else{
+                                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                                builder.setMessage("Vous n'avez pas de job pour aujourd'hui")
+                                        .setNegativeButton("Ok", new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int id) {
+                                                // User cancelled the dialog
+                                            }
+                                        });
+                                // Create the AlertDialog object and return it
+                                builder.create();
+                                builder.show();
+                            }
+                        }
+                        catch (JSONException e) {
+
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("Error", error.getMessage());
+            }
+        });
+// Add the request to the RequestQueue.
+        queue.add(stringRequest);
+    }
+
 }
