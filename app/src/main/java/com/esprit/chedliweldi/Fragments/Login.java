@@ -76,7 +76,7 @@ public class Login extends Fragment {
 
 
    // public static String type="Babysitter";
-      public static String type="Parent";
+  public static String type="Parent";
 
     public void validateLogin(String email ,String password){
 
@@ -227,7 +227,10 @@ public class Login extends Fragment {
                 else{
                     Log.i("etat","success");
                     connectedUser=jsonObject.getString("id");
-
+                    SharedPreferences settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
+                    SharedPreferences.Editor editor = settings.edit();
+                    editor.putString("id", connectedUser);
+                    editor.commit();
                     if(jsonObject.getString("type").equals("Babysitter")){
                         showListoffers();
                     }
@@ -235,6 +238,10 @@ public class Login extends Fragment {
                         Log.i("etat","success");
 
                         connectedUser=jsonObject.getString("id");
+                        SharedPreferences settingss = getActivity().getSharedPreferences(PREFS_NAME, 0);
+                        SharedPreferences.Editor editorr = settingss.edit();
+                        editorr.putString("id", connectedUser);
+                        editorr.commit();
                         type= jsonObject.getString("type");
                         if(type.equals("Babysitter")){
                             showListoffers();
@@ -491,6 +498,7 @@ public class Login extends Fragment {
                             editor.putString("imageUrl", profilePicture.toString());
                             // Commit the edits!
                             editor.commit();
+                            connectedUser = jsonObject.getString("id");
                             Intent main = new Intent(getActivity(),Home.class);
                             startActivity(main);
                         }else {

@@ -43,6 +43,7 @@ public class ProfilActivity extends AppCompatActivity {
     TextView fullName;
     MaterialRatingBar rate;
     ImageView callBtn;
+    ImageView makeRequestBtn;
     ImageView sendMessage;
     Button accept;
     Button refuse;
@@ -65,6 +66,7 @@ public class ProfilActivity extends AppCompatActivity {
         rate = (MaterialRatingBar) findViewById(R.id.rate);
 
         callBtn = (ImageView) findViewById(R.id.callBtn);
+        makeRequestBtn = (ImageView) findViewById(R.id.makeJobRequest);
         sendMessage=(ImageView)findViewById(R.id.msgBtn);
 
         if (babysitter != null ) {
@@ -74,8 +76,7 @@ public class ProfilActivity extends AppCompatActivity {
                 //fullName.setText(user.getString("firstName") + " " + user.getString("lastName"));
                 fullName.setText(babysitter.getFirstName()+ " " + babysitter.getLastName());
              //   Glide.with(this).load(AppController.IMAGE_SERVER_ADRESS + user.getString("photo")).transform(new AppController.CircleTransform(this)).into(profileImage);
-                Glide.with(this).load(AppController.IMAGE_SERVER_ADRESS + babysitter.getImgURL()).transform(new AppController.CircleTransform(this)).into(profileImage);
-
+                Glide.with(this).load(babysitter.getImgURL()).transform(new AppController.CircleTransform(this)).into(profileImage);
                // rate.setRating((float) user.getDouble("rate"));
                 rate.setRating((float) 4);
                 callBtn.setOnClickListener(new View.OnClickListener() {
@@ -99,6 +100,16 @@ public class ProfilActivity extends AppCompatActivity {
                         startActivity(i);
                     }
                 });
+                makeRequestBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        try {
+                            SendJobRequest(user.getString("id"));
+                        } catch (JSONException e) {
+
+                        }
+                    }
+                });
             //} catch (JSONException e) {
             } catch (Exception e) {
 
@@ -109,7 +120,7 @@ public class ProfilActivity extends AppCompatActivity {
             try {
                 fullName.setText(user.getString("firstName") + " " + user.getString("lastName"));
                 //fullName.setText(babysitter.getFirstName()+ " " + babysitter.getLastName());
-                Glide.with(this).load(AppController.IMAGE_SERVER_ADRESS + user.getString("photo")).transform(new AppController.CircleTransform(this)).into(profileImage);
+                Glide.with(this).load(user.getString("photo")).transform(new AppController.CircleTransform(this)).into(profileImage);
                 //Glide.with(this).load(AppController.IMAGE_SERVER_ADRESS + babysitter.getImgURL()).transform(new AppController.CircleTransform(this)).into(profileImage);
 
                 rate.setRating((float) user.getDouble("rate"));
@@ -141,6 +152,16 @@ public class ProfilActivity extends AppCompatActivity {
 
                         }
                         startActivity(i);
+                    }
+                });
+                makeRequestBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        try {
+                            SendJobRequest(user.getString("id"));
+                        } catch (JSONException e) {
+
+                        }
                     }
                 });
                 } catch (JSONException e) {
@@ -264,5 +285,9 @@ public class ProfilActivity extends AppCompatActivity {
 
     }
 
-
+    public void SendJobRequest(String bbId){
+        Intent i = new Intent(ProfilActivity.this, AddJob.class);
+        i.putExtra("bbid",bbId);
+        startActivity(i);
+    }
 }
