@@ -48,7 +48,7 @@ public class BabysitterRecyclerViewAdapter extends RecyclerView.Adapter<Babysitt
         Location mallLoc = new Location("");
         mallLoc.setLatitude(item.getAltitude());
         mallLoc.setLongitude(item.getLongitude());
-        holder.location.setText((mallLoc.distanceTo(Home.getUserLocation())/ 1000)+" km");
+        holder.location.setText(String.format("%.2f", (mallLoc.distanceTo(Home.getUserLocation())/ 1000))+" km");
         holder.desc.setText(item.getDescr());
         Picasso.with(mContext).load(item.getImgURL()).into(holder.image);
         holder.itemView.setTag(item);

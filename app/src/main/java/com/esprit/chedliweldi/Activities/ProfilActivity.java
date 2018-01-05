@@ -29,6 +29,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.esprit.chedliweldi.AppController;
+import com.esprit.chedliweldi.Entities.Babysitter;
 import com.esprit.chedliweldi.Fragments.TabsFragment;
 import com.esprit.chedliweldi.R;
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
@@ -45,6 +46,7 @@ public class ProfilActivity extends AppCompatActivity {
     Button accept;
     Button refuse;
     private static final int PERMISSION_REQUEST_CODE = 1;
+    public static Babysitter babysitter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +56,8 @@ public class ProfilActivity extends AppCompatActivity {
         // makeJsonObjectRequest();
         //  signUp("salima@gmail.com","sdsdf",1254259,"salima","reguez","adress","23-03-1998","1");
 
-
+        Bundle extras = getIntent().getExtras();
+        babysitter=extras.getParcelable("user");
         setContentView(R.layout.profil);
         profileImage = (ImageView) findViewById(R.id.profileImage);
         fullName = (TextView) findViewById(R.id.txtFullName);
@@ -63,28 +66,60 @@ public class ProfilActivity extends AppCompatActivity {
         callBtn = (ImageView) findViewById(R.id.callBtn);
 
 
-        if (user != null) {
+        if (babysitter != null ) {
 
 
             try {
+                //fullName.setText(user.getString("firstName") + " " + user.getString("lastName"));
+                fullName.setText(babysitter.getFirstName()+ " " + babysitter.getLastName());
+             //   Glide.with(this).load(AppController.IMAGE_SERVER_ADRESS + user.getString("photo")).transform(new AppController.CircleTransform(this)).into(profileImage);
+                Glide.with(this).load(AppController.IMAGE_SERVER_ADRESS + babysitter.getImgURL()).transform(new AppController.CircleTransform(this)).into(profileImage);
+
+               // rate.setRating((float) user.getDouble("rate"));
+                rate.setRating((float) 4);
+                callBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        try {
+                            //callBabysitter(user.getString("phoneNumber"));
+                            callBabysitter(babysitter.getPhone());
+                       // } catch (JSONException e) {
+                        } catch (Exception e) {
+
+                        }
+                    }
+                });
+            //} catch (JSONException e) {
+            } catch (Exception e) {
+
+            }
+
+        }
+        else if (user!=null){
+            try {
                 fullName.setText(user.getString("firstName") + " " + user.getString("lastName"));
+                //fullName.setText(babysitter.getFirstName()+ " " + babysitter.getLastName());
                 Glide.with(this).load(AppController.IMAGE_SERVER_ADRESS + user.getString("photo")).transform(new AppController.CircleTransform(this)).into(profileImage);
+                //Glide.with(this).load(AppController.IMAGE_SERVER_ADRESS + babysitter.getImgURL()).transform(new AppController.CircleTransform(this)).into(profileImage);
 
                 rate.setRating((float) user.getDouble("rate"));
+                //rate.setRating((float) 4);
                 callBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         try {
                             callBabysitter(user.getString("phoneNumber"));
-                        } catch (JSONException e) {
+                           // callBabysitter(babysitter.getPhone());
+                             } catch (JSONException e) {
+                        //} catch (Exception e) {
 
                         }
                     }
                 });
-            } catch (JSONException e) {
+                } catch (JSONException e) {
+            //} catch (Exception e) {
 
             }
-
         }
 
 

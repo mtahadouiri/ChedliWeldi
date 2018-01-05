@@ -596,7 +596,7 @@ public class Home extends AppCompatActivity implements LocationListener, Feed.On
         Log.d("onLocationChanged", "sd");
         Log.d("latitude", "Here : " + latitude);
         Log.d("longitude", "Here : " + longitude);
-        feed.filtreBabysitters(feed.getBabysiiters());
+        feed.filtreBabysitters(feed.getBabysiiters(),map);
         // map.populateMap();
         updateLocation(latitude + "", longitude + "");
     }
@@ -695,8 +695,8 @@ public class Home extends AppCompatActivity implements LocationListener, Feed.On
         btnDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                feed.filtreBabysitters(feed.getBabysiiters());
-                map.populateMap();
+                feed.filtreBabysitters(feed.getBabysiiters(),map);
+
                 b.dismiss();
             }
         });
