@@ -117,12 +117,13 @@
 
                 <ImageView
                     android:layout_width="25dp"
-                    android:layout_height="25dp" android:src="@drawable/info_black" />
+                    android:layout_height="25dp" android:src="@drawable/info_green" />
                 <TextView
                     android:id="@+id/txtDescription"
+                    android:textSize="18dp"
                     android:layout_marginLeft="3dp"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"   android:text="i neeed a baby sitter as soon as possible for my daughter sabrina " android:textSize="15dp" />
+                    android:layout_height="wrap_content"   android:text="i neeed a baby sitter as soon as possible for my daughter sabrina "  />
 
 
 
@@ -139,20 +140,25 @@
 
                 <ImageView
                     android:layout_width="25dp"
-                    android:layout_height="25dp" android:src="@drawable/time" />
+                    android:layout_height="25dp" android:src="@drawable/time_green" />
 
                 <TextView
                     android:id="@+id/txtDate"
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="3dp"
                     android:text="thursday 21 2017 at 15 am "
 
-                    android:textSize="15dp" />
+                    android:textSize="18dp" />
             </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
+                android:layout_marginTop="3dp"
+                android:textSize="18dp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginBottom="3dp"
                 android:layout_height="wrap_content" android:text="Tasks" />
 
           <android.support.v7.widget.RecyclerView

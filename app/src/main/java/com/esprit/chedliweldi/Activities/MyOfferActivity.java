@@ -78,6 +78,18 @@ Button btn;
                     startActivity(intent);
                     return;
                     }
+
+
+                    if(offer.getString("status").equals("scheduled")){
+                        Intent intent = new Intent(MyOfferActivity.this,ScheduledOfferParentActivity.class);
+                        String ff = offers.getJSONObject(i).getString("id");
+                        intent.putExtra("id",ff);
+
+                        startActivity(intent);
+                        return;
+                    }
+
+
            if(offer.getString("status").equals("pending")){
               Intent intent = new Intent(MyOfferActivity.this,RequestsActivity.class);
 

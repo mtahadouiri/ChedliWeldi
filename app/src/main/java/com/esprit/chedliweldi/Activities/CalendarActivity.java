@@ -4,6 +4,7 @@ package com.esprit.chedliweldi.Activities;
  * Created by oussama_2 on 11/27/2017.
  */
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.icu.util.Calendar;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -20,6 +22,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.esprit.chedliweldi.Utils.DrawerInitializer;
+import com.esprit.chedliweldi.adapters.RecycleItemClickListener;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
 
@@ -154,6 +157,25 @@ public class CalendarActivity extends AppCompatActivity   {
         compactCalendarView.getFirstDayOfCurrentMonth();
          events = (RecyclerView) findViewById(R.id.recycler_view);
         events.setLayoutManager(new LinearLayoutManager(this));
+        events.addOnItemTouchListener(new RecycleItemClickListener(this, events, new RecycleItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        Intent i = new Intent(CalendarActivity.this,ScheduledOfferBabysitterActivity.class);
+                        try {
+                            i.putExtra("id",JsonEvents.getJSONObject(position).getString("id"));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        startActivity(i);
+
+                    }
+
+                    @Override
+                    public void onItemLongClick(View view, int position) {
+
+                    }
+                }));
+
 
         getDates("4");
         Date d = new Date();

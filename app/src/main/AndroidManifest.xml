@@ -57,12 +57,32 @@
         <activity android:name=".Activities.BabySitterMainActivity" >
 
 
+
         </activity>
 
         <activity android:name=".Activities.MainActivity" />
 
         <activity android:name=".Activities.PrivateOfferParentActivity" >
 
+
+
+
+        </activity>
+        <activity android:name=".Activities.PrivateOfferBabysitterActivity" >
+
+
+
+
+
+        </activity>
+
+        <activity android:name=".Activities.ScheduledOfferParentActivity" >
+
+
+
+        </activity>
+
+        <activity android:name=".Activities.ScheduledOfferBabysitterActivity" >
 
 
 
@@ -111,6 +131,8 @@
         <activity android:name=".Activities.CalendarActivity">
 
 
+
+
         </activity>
 
 
@@ -142,7 +164,6 @@
 
 
         <activity android:name=".Activities.MyOfferActivity"     >
-
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

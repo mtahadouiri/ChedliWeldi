@@ -39,8 +39,11 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 import com.esprit.chedliweldi.Activities.FullScreenImageGalleryActivity;
 import com.esprit.chedliweldi.AppController;
@@ -65,6 +68,7 @@ Toolbar toolbar;
     RecyclerView recyclerView;
     ImageGalleryAdapter imageGalleryAdapter;
     ArrayList<String> photos = new ArrayList<>();
+    ArrayList<String>idPhotos= new ArrayList<String>();
     SpotsDialog dialog ;
     FloatingActionButton add ;
     @Override
@@ -118,7 +122,6 @@ Toolbar toolbar;
                     images = new ArrayList<>();
 
                     Uri u = data.getClipData().getItemAt(i).getUri();
-
                     Bitmap  bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), u);
                     images.add(bitmap);
                     dialog.show();
@@ -156,8 +159,13 @@ Toolbar toolbar;
             public void onItemClick(View view, final int position) {
 
                 Intent i = new Intent(getActivity(), FullScreenImageGalleryActivity.class);
-                i.putStringArrayListExtra(FullScreenImageGalleryActivity.KEY_IMAGES,photos);
+              //  i.putStringArrayListExtra(FullScreenImageGalleryActivity.KEY_IMAGES,photos);
+
+                      i.putStringArrayListExtra(FullScreenImageGalleryActivity.KEY_IMAGES,photos);
+                      i.putStringArrayListExtra("positions",idPhotos);
+                i.putExtra("enable",true);
                 i.putExtra(FullScreenImageGalleryActivity.KEY_POSITION,position);
+
                 startActivity(i);
 
 
@@ -207,7 +215,7 @@ imageGalleryAdapter.notifyDataSetChanged();
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setTitle("sdfsfd");
+            actionBar.setTitle("photos");
         }
 
     }
@@ -298,6 +306,12 @@ imageGalleryAdapter.notifyDataSetChanged();
     }
 
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getPhotos(Login.connectedUser);
+    }
+
     private void getPhotos(final String idUser) {
 
 
@@ -329,7 +343,7 @@ imageGalleryAdapter.notifyDataSetChanged();
                         for (  int i =0 ;i<skillsJson.length();i++){
                             JSONObject skill = skillsJson.getJSONObject(i);
 
-
+                           idPhotos.add(skill.getString("id"));
                             photos.add(AppController.IMAGE_SERVER_ADRESS+skill.getString("photo"));
                         }
 

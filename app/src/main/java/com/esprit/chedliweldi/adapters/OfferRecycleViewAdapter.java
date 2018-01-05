@@ -26,13 +26,17 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
 
+import com.esprit.chedliweldi.Fragments.Login;
 import com.esprit.chedliweldi.Fragments.TaskFragment;
+import com.esprit.chedliweldi.Utils.DateUtility;
 import com.ramotion.foldingcell.FoldingCell;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -71,12 +75,23 @@ public class OfferRecycleViewAdapter extends RecyclerView.Adapter<OfferRecycleVi
            customViewHolder.fullName.setText(feedItem.getString("firstName")+" "+feedItem.getString("lastName"));
            customViewHolder.distance.setText(feedItem.getInt("distance")+" km");
             customViewHolder.description.setText(feedItem.getString("description"));
+
+            try {
+                Date d = DateUtility.TimeStampFormatter.parse(feedItem.getString("createDate"));
+                customViewHolder.createDate.setText(DateUtility.printDifference(d,new Date()));
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+
+
             Glide.with(mContext).load(AppController.IMAGE_SERVER_ADRESS+feedItem.getString("photo")).transform(new AppController.CircleTransform(mContext)).into(customViewHolder.image);
             final String id=feedItem.getString("idOffer");
             customViewHolder.btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    sendRequest(LoginActivity.connectedUser,id);
+                    sendRequest(Login.connectedUser,id);
                 }
             });
 
@@ -88,6 +103,7 @@ public class OfferRecycleViewAdapter extends RecyclerView.Adapter<OfferRecycleVi
 
 
         final JSONObject finalFeedItem = feedItem;
+        JSONObject finalFeedItem1 = feedItem;
         customViewHolder.fc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,7 +117,13 @@ public class OfferRecycleViewAdapter extends RecyclerView.Adapter<OfferRecycleVi
               customViewHolder.profileImage.setImageDrawable(customViewHolder.image.getDrawable());
                 customViewHolder.fc.toggle(false);
              if  ( !customViewHolder.fc.isUnfolded()){
-                 getTasks("5",customViewHolder.recyclerView);
+                 String id= null;
+                 try {
+                     id = finalFeedItem1.getString("idOffer");
+                 } catch (JSONException e) {
+                     e.printStackTrace();
+                 }
+                 getTasks(id,customViewHolder.recyclerView);
              }
 
 
@@ -144,6 +166,8 @@ public class OfferRecycleViewAdapter extends RecyclerView.Adapter<OfferRecycleVi
         TextView distance;
         @Bind(R.id.rv)
        RecyclerView recyclerView;
+        @Bind(R.id.txtCreateDate)
+        TextView createDate;
         @Bind(R.id.txtDesc)
         TextView description;
 

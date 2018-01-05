@@ -22,12 +22,15 @@ import com.bumptech.glide.Glide;
 import com.esprit.chedliweldi.Activities.LoginActivity;
 import com.esprit.chedliweldi.AppController;
 import com.esprit.chedliweldi.R;
+import com.esprit.chedliweldi.Utils.DateUtility;
 import com.ramotion.foldingcell.FoldingCell;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -61,16 +64,16 @@ public class PrivateOfferRecycleViewAdapter extends RecyclerView.Adapter<Private
         JSONObject feedItem=null;
         try {
              feedItem = feedItemList.getJSONObject(i);
+             Date d  = DateUtility.TimeStampFormatter.parse(feedItem.getString("createDate"));
+            customViewHolder.createDate.setText(DateUtility.printDifference(d,new Date()));
            customViewHolder.fullName.setText(feedItem.getString("firstName")+" "+feedItem.getString("lastName"));
            //customViewHolder.distance.setText(feedItem.getInt("distance")+" km");
             customViewHolder.description.setText(feedItem.getString("description"));
             Glide.with(mContext).load(AppController.IMAGE_SERVER_ADRESS+feedItem.getString("photo")).transform(new AppController.CircleTransform(mContext)).into(customViewHolder.image);
-            final String id=feedItem.getString("idOffer");
-
-
-
 
         } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
             e.printStackTrace();
         }
 
@@ -107,6 +110,8 @@ public class PrivateOfferRecycleViewAdapter extends RecyclerView.Adapter<Private
         TextView fullName;
         @Bind(R.id.txtDesc)
         TextView description;
+        @Bind(R.id.txtCreateDate)
+        TextView createDate;
 
 
 

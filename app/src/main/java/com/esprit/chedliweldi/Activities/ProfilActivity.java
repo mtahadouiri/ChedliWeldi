@@ -127,6 +127,11 @@ public class ProfilActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void finish() {
+        super.finish();
+        user=null;
+    }
 
     private void respondToRequest(final String respond, final String idRequest) {
 

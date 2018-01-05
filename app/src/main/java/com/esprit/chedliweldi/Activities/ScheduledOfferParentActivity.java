@@ -3,16 +3,13 @@ package com.esprit.chedliweldi.Activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -22,9 +19,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
 import com.esprit.chedliweldi.AppController;
 import com.esprit.chedliweldi.R;
-import com.esprit.chedliweldi.Utils.DrawerInitializer;
-import com.esprit.chedliweldi.adapters.RecycleItemClickListener;
-import com.esprit.chedliweldi.adapters.RequestRecyclerViewAdapter;
+import com.esprit.chedliweldi.adapters.DisplayTaskListAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,10 +32,9 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 import mehdi.sakout.fancybuttons.FancyButton;
 
-public class PrivateOfferParentActivity extends AppCompatActivity {
+public class ScheduledOfferParentActivity extends AppCompatActivity {
 
 
  LinearLayoutManager layoutManager;
@@ -49,6 +43,7 @@ public class PrivateOfferParentActivity extends AppCompatActivity {
     ImageView image;
     TextView fullName;
     FancyButton btnPublic ;
+    RecyclerView recyclerView;
     SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
     String id;
     @Override
@@ -56,19 +51,16 @@ public class PrivateOfferParentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Intent  k = getIntent();
         id =k.getStringExtra("id");
-        setContentView(R.layout.private_offer_parent);
+        setContentView(R.layout.scheduled_offer_parent);
         description = (TextView) findViewById(R.id.txtDescription);
         fullName = (TextView) findViewById(R.id.txtFullName);
         image = (ImageView) findViewById(R.id.profileImage);
         date = (TextView) findViewById(R.id.txtDate);
-        btnPublic = (  FancyButton )findViewById(R.id.btn_public);
-        btnPublic.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                makeOfferPublic(id);
-            }
-        });
-        getOfferDetail(id);
+        recyclerView=(RecyclerView) findViewById(R.id.rv);
+        LinearLayoutManager layoutManager=new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        getOfferDetail("5");
+        getTasks("5",recyclerView);
     }
 
     private void getOfferDetail(final String idOffer) {
@@ -80,7 +72,7 @@ public class PrivateOfferParentActivity extends AppCompatActivity {
         //  JSONObject jsonObj = new JSONObject(params);
 
 
-        String url = AppController.SERVER_ADRESS+"getPrivateOffer";
+        String url = AppController.SERVER_ADRESS+"getOffer";
         StringRequest sr = new StringRequest(Request.Method.POST, url , new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -156,7 +148,7 @@ public class PrivateOfferParentActivity extends AppCompatActivity {
 
 
     }
-    private void makeOfferPublic(final String idOffer) {
+    private void getTasks(final String idUser,RecyclerView rv) {
 
 
         Log.e("sdf", "uploadUser:  near volley new request ");
@@ -165,11 +157,10 @@ public class PrivateOfferParentActivity extends AppCompatActivity {
         //  JSONObject jsonObj = new JSONObject(params);
 
 
-        String url = AppController.SERVER_ADRESS+"makeOfferPublic";
+        String url = AppController.SERVER_ADRESS+"getTasks";
         StringRequest sr = new StringRequest(Request.Method.POST, url , new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-
 
                 try {
                     JSONObject jsonObject = new JSONObject(response);
@@ -178,18 +169,21 @@ public class PrivateOfferParentActivity extends AppCompatActivity {
 
 
                     if (d){
-                        Log.i("etat","failed");
+
+
                     }
                     else{
 
-                        Intent i = new Intent(PrivateOfferParentActivity.this,RequestsActivity.class);
-                        i.putExtra("id",id);
-                        startActivity(i);
+                        JSONArray tasks = jsonObject.getJSONArray("tasks");
+
+                        DisplayTaskListAdapter adapter = new DisplayTaskListAdapter(tasks);
+                        rv.setAdapter(adapter);
+                        adapter.notifyDataSetChanged();
+                        int dd= tasks.length();
+                        int ddd= tasks.length();
 
 
 
-
-                        Log.i("etat","success");
                     }
 
 
@@ -208,17 +202,16 @@ public class PrivateOfferParentActivity extends AppCompatActivity {
         }){
 
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String,String> headers = new HashMap<String, String>();
-                headers.put("offer_id",idOffer);
-                //   headers.put("id_user",LoginActivity.connectedUser);
+            protected java.util.Map<String, String> getParams() throws AuthFailureError {
+                java.util.Map<String,String> headers = new HashMap<String, String>();
+                headers.put("id_offer",idUser);
                 //  headers.put("abc", "value");
                 return headers;
             }
 
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String,String> headers = new HashMap<String, String>();
+            public java.util.Map<String, String> getHeaders() throws AuthFailureError {
+                java.util.Map<String,String> headers = new HashMap<String, String>();
                 headers.put("Content-Type","application/x-www-form-urlencoded");
                 //  headers.put("abc", "value");
                 return headers;
@@ -233,7 +226,6 @@ public class PrivateOfferParentActivity extends AppCompatActivity {
 
 
     }
-
 
 
 

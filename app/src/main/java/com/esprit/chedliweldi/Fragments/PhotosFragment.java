@@ -44,7 +44,7 @@ import com.esprit.chedliweldi.adapters.RecycleItemClickListener;
 //Our class extending fragment
 public class PhotosFragment extends Fragment  {
     LinearLayoutCompat linear ;
-
+    ArrayList<String>idPhotos= new ArrayList<String>();
 
     public static PhotosFragment newInstance(String idUser) {
         PhotosFragment fragment = new PhotosFragment();
@@ -123,6 +123,7 @@ public class PhotosFragment extends Fragment  {
 
 
                            photos.add(AppController.IMAGE_SERVER_ADRESS+photo.getString("photo"));
+                           idPhotos.add(photo.getString("id"));
                        }
 
 
@@ -198,7 +199,9 @@ public class PhotosFragment extends Fragment  {
 
                 Intent i = new Intent(getActivity(), FullScreenImageGalleryActivity.class);
                 i.putStringArrayListExtra(FullScreenImageGalleryActivity.KEY_IMAGES,photos);
+                i.putStringArrayListExtra("positions",idPhotos);
                 i.putExtra(FullScreenImageGalleryActivity.KEY_POSITION,position);
+
                 startActivity(i);
 
 
