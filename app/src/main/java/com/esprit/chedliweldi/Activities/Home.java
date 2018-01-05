@@ -43,6 +43,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.appyvet.materialrangebar.RangeBar;
 import com.esprit.chedliweldi.Entities.Task;
+import com.esprit.chedliweldi.Utils.DrawerInitializer;
 import com.esprit.chedliweldi.adapters.TaskListAdapter;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -81,6 +82,8 @@ public class Home extends AppCompatActivity implements LocationListener, Feed.On
     private BoomMenuButton bmb;
     private HamButton.Builder boomButtonProfile;
     private HamButton.Builder boomButtonAddJob;
+    private HamButton.Builder boomButtonOnGoing;
+    //private HamButton.Builder boomButtonAddJob;
 
     public String resp;
     public List<Babysitter> babysitters = new ArrayList<>();
@@ -215,7 +218,8 @@ public class Home extends AppCompatActivity implements LocationListener, Feed.On
         }
 
 
-        initView();
+        //initView();
+        DrawerInitializer.initView(this);
         feed = new Feed();
         map = new Map();
         initViewPager();
@@ -232,53 +236,63 @@ public class Home extends AppCompatActivity implements LocationListener, Feed.On
 
 
     private void setUpBoomMenu() {
-        boomButtonProfile = new HamButton.Builder()
-                .normalImageRes(R.drawable.ic_add_white_24dp)
-                .normalTextRes(R.string.ham_job)
-                .subNormalTextRes(R.string.ham_job_sub)
-                .normalColorRes(R.color.primary);
-        bmb.addBuilder(boomButtonProfile);
-        boomButtonProfile.listener(new OnBMClickListener() {
-            @Override
-            public void onBoomButtonClick(int index) {
-                Intent i = new Intent(Home.this, AddJob.class);
-                startActivity(i);
-            }
-        });
+        if (Login.type.equals("Babysitter")) {
 
-        boomButtonAddJob = new HamButton.Builder()
-                .normalImageRes(R.drawable.ic_settings_white)
-                .normalTextRes(R.string.ham_profile)
-                .subNormalTextRes(R.string.ham_profile_sub)
-                .normalColorRes(R.color.red_400);
+        } else {
+            boomButtonProfile = new HamButton.Builder()
+                    .normalImageRes(R.drawable.ic_add_white_24dp)
+                    .normalTextRes(R.string.ham_job)
+                    .subNormalTextRes(R.string.ham_job_sub)
+                    .normalColorRes(R.color.primary);
+            bmb.addBuilder(boomButtonProfile);
+            boomButtonProfile.listener(new OnBMClickListener() {
+                @Override
+                public void onBoomButtonClick(int index) {
+                    Intent i = new Intent(Home.this, AddJob.class);
+                    startActivity(i);
+                }
+            });
 
-        bmb.addBuilder(boomButtonAddJob);
-        boomButtonAddJob.listener(new OnBMClickListener() {
-            @Override
-            public void onBoomButtonClick(int index) {
-                Fragment parentProfile = new ParentProfil();
-                Bundle bundle = new Bundle();
-                bundle.putString("First time", "no");
-                parentProfile.setArguments(bundle);
-                getSupportFragmentManager().beginTransaction().add(R.id.fl, parentProfile).addToBackStack("Home").commit();
-            }
-        });
+            boomButtonAddJob = new HamButton.Builder()
+                    .normalImageRes(R.drawable.ic_settings_white)
+                    .normalTextRes(R.string.ham_profile)
+                    .subNormalTextRes(R.string.ham_profile_sub)
+                    .normalColorRes(R.color.red_primary);
 
-        boomButtonProfile = new HamButton.Builder()
-                //.normalImageRes(R.drawable.profilee)
-                .normalTextRes(R.string.dummy_content)
-                .subNormalTextRes(R.string.title_activity_sign_up)
-                .normalColorRes(R.color.blue_A400);
+            bmb.addBuilder(boomButtonAddJob);
+            boomButtonAddJob.listener(new OnBMClickListener() {
+                @Override
+                public void onBoomButtonClick(int index) {
+                    Fragment parentProfile = new ParentProfil();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("First time", "no");
+                    parentProfile.setArguments(bundle);
+                    getSupportFragmentManager().beginTransaction().add(R.id.fl, parentProfile).addToBackStack("Home").commit();
+                }
+            });
 
-        bmb.addBuilder(boomButtonProfile);
+            boomButtonOnGoing = new HamButton.Builder()
+                    .normalImageRes(R.drawable.ic_more_horiz_black_24dp)
+                    .normalTextRes(R.string.ham_ongoing)
+                    .subNormalTextRes(R.string.ham_ongoing_sub)
+                    .normalColorRes(R.color.blue_primary);
+            boomButtonOnGoing.listener(new OnBMClickListener() {
+                @Override
+                public void onBoomButtonClick(int index) {
+                    CheckDate();
+                }
+            });
+            bmb.addBuilder(boomButtonOnGoing);
 
-        boomButtonAddJob = new HamButton.Builder()
-                // .normalImageRes(R.drawable.profilee)
-                .normalTextRes(R.string.dummy_content)
-                .subNormalTextRes(R.string.title_activity_sign_up)
-                .normalColorRes(R.color.primary_dark);
+            boomButtonProfile = new HamButton.Builder()
+                    //.normalImageRes(R.drawable.profilee)
+                    .normalTextRes(R.string.dummy_content)
+                    .subNormalTextRes(R.string.title_activity_sign_up)
+                    .normalColorRes(R.color.orange_primary);
 
-        bmb.addBuilder(boomButtonAddJob);
+            bmb.addBuilder(boomButtonProfile);
+        }
+
     }
 
 
@@ -369,6 +383,7 @@ public class Home extends AppCompatActivity implements LocationListener, Feed.On
             myOffers.setVisible(false);
             goingOffers.setVisible(true);
             calendar.setVisible(true);
+            onGoingParent.setVisible(false);
         } else {
             calendar.setVisible(false);
             goingOffers.setVisible(false);
