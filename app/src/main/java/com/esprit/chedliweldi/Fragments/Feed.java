@@ -98,7 +98,6 @@ public class Feed extends Fragment {
             // Instantiate the RequestQueue.
 
         }
-        getBabysiiters();
     }
 
     @Override
@@ -112,6 +111,7 @@ public class Feed extends Fragment {
         rv.setHasFixedSize(true);
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
         rv.setItemAnimator(new DefaultItemAnimator());
+        getBabysiiters();
 
         /*adapter=new BabysitterRecyclerViewAdapter(MainActivity.bbySitters,getContext());
         rv.setAdapter(adapter);*/

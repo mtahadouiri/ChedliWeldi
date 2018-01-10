@@ -8,21 +8,19 @@
     android:layout_height="match_parent"
     android:background="#f1f1f1"
     android:padding="12dp">
-
+    <TextView
+        android:id="@+id/empty_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="No offers found"
+        android:visibility="gone"
+        android:textSize="36sp" />
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerInParent="true">
 
-        <TextView
-            android:id="@+id/empty_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:text="No babysitters found"
-            android:textSize="36sp" />
     </android.support.v7.widget.RecyclerView>
 
 
