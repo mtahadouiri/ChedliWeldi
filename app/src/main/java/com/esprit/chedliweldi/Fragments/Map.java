@@ -265,7 +265,6 @@ public class Map extends Fragment implements OnMapReadyCallback,OnInfoWindowClic
     public void filtreBabysitters(List<Babysitter> babysitters) {
 
         List<Babysitter> bb = new ArrayList<>();
-        Log.d("Babysittersssssssssss",babysitters.size()+"");
         Iterator<Babysitter> iter = babysitters.iterator();
 
 
@@ -275,13 +274,12 @@ public class Map extends Fragment implements OnMapReadyCallback,OnInfoWindowClic
             mallLoc.setLatitude(b.getAltitude());
             mallLoc.setLongitude(b.getLongitude());
 
-            Log.d("Distance"," "+(mallLoc.distanceTo(Home.getUserLocation())/1000));
-            b.setDistance(mallLoc.distanceTo(Home.getUserLocation())/1000);
+            /*b.setDistance(mallLoc.distanceTo(Home.getUserLocation())/1000);
             if ((mallLoc.distanceTo(Home.getUserLocation())/1000) < Home.getMinDistance() || (mallLoc.distanceTo(Home.getUserLocation())/1000) > Home.getMaxDistance()) {
                 bb.add(b);
-            }
+            }*/
         }
-        babysitters.removeAll(bb);
+        //babysitters.removeAll(bb);
         populateMap();
 
     }

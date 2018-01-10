@@ -95,4 +95,6 @@ public class BabysitterRecyclerViewAdapter extends RecyclerView.Adapter<Babysitt
     public interface OnItemClickListener {
         void onItemClick(Babysitter item);
     }
+
+
 }

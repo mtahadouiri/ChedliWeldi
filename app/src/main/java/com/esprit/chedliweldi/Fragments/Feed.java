@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -59,6 +60,7 @@ public class Feed extends Fragment {
     public List<Babysitter> babysitters = new ArrayList<>();
     public RecyclerView rv;
     public BabysitterRecyclerViewAdapter adapter;
+    public TextView emptyView;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -106,9 +108,11 @@ public class Feed extends Fragment {
         View v = inflater.inflate(R.layout.fragment_feed, container, false);
         //setUpRecyclerView();
         rv = (RecyclerView) v.findViewById(R.id.rv);
+        emptyView = (TextView)v.findViewById(R.id.empty_view);
         rv.setHasFixedSize(true);
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
         rv.setItemAnimator(new DefaultItemAnimator());
+
         /*adapter=new BabysitterRecyclerViewAdapter(MainActivity.bbySitters,getContext());
         rv.setAdapter(adapter);*/
         return v;
@@ -190,12 +194,12 @@ public class Feed extends Fragment {
             mallLoc.setLatitude(b.getAltitude());
             mallLoc.setLongitude(b.getLongitude());
 
-            b.setDistance(mallLoc.distanceTo(Home.getUserLocation())/1000);
+          /*  b.setDistance(mallLoc.distanceTo(Home.getUserLocation())/1000);
             if ((mallLoc.distanceTo(Home.getUserLocation())/1000) < Home.getMinDistance() || (mallLoc.distanceTo(Home.getUserLocation())/1000) > Home.getMaxDistance()) {
                 bb.add(b);
-            }
+            }*/
         }
-        babysitters.removeAll(bb);
+      //  babysitters.removeAll(bb);
         Collections.sort(babysitters, new Comparator<Babysitter>() {
             @Override
             public int compare(Babysitter babysitter, Babysitter t1) {
@@ -224,9 +228,17 @@ public class Feed extends Fragment {
                 startActivity(i);
             }
         });
+
         adapter.notifyDataSetChanged();
        // map.populateMap();
         rv.setAdapter(adapter);
+        if (babysitters.size()>0){
+            rv.setVisibility(View.VISIBLE);
+            emptyView.setVisibility(View.GONE);
+        }else{
+            rv.setVisibility(View.GONE);
+            emptyView.setVisibility(View.VISIBLE);
+        }
 
     }
 

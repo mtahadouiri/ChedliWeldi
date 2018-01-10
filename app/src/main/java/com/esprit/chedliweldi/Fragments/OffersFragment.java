@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.volley.AuthFailureError;
@@ -49,7 +50,7 @@ public class OffersFragment extends Fragment {
     RecyclerView offers ;
     List<JSONObject> data;
     OfferRecycleViewAdapter adapter ;
-
+    private TextView emptyView;
 
 
     @Override
@@ -60,6 +61,7 @@ public class OffersFragment extends Fragment {
         View v = inflater.inflate(R.layout.offer_list, container, false);
 
         offers = (RecyclerView)v. findViewById(R.id.recycler_view);
+        emptyView = (TextView)v.findViewById(R.id.empty_view);
         offers.setLayoutManager(new LinearLayoutManager(getContext()));
 
 
@@ -78,6 +80,14 @@ public class OffersFragment extends Fragment {
         adapter = new OfferRecycleViewAdapter(getActivity(), data);
         offers.setAdapter(adapter);
         adapter.notifyDataSetChanged();
+        if (this.data.size()>0){
+            offers.setVisibility(View.VISIBLE);
+            emptyView.setVisibility(View.GONE);
+        }else{
+            offers.setVisibility(View.GONE);
+            emptyView.setVisibility(View.VISIBLE);
+        }
+
     }
 
 
