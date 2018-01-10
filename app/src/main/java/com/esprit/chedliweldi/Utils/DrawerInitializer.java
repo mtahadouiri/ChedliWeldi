@@ -27,11 +27,13 @@ import com.android.volley.toolbox.Volley;
 import com.esprit.chedliweldi.Activities.BabySitterMainActivity;
 import com.esprit.chedliweldi.Activities.CalendarActivity;
 import com.esprit.chedliweldi.Activities.Home;
+import com.esprit.chedliweldi.Activities.LoginActivity;
 import com.esprit.chedliweldi.Activities.MainActivity;
 import com.esprit.chedliweldi.Activities.Messages;
 import com.esprit.chedliweldi.Activities.MyOfferActivity;
 import com.esprit.chedliweldi.Activities.OnGoing;
 import com.esprit.chedliweldi.Activities.OnGoingOfferActivity;
+import com.esprit.chedliweldi.Activities.PrivateOfferBabysitterActivity;
 import com.esprit.chedliweldi.Activities.SettingActivity;
 import com.esprit.chedliweldi.AppController;
 import com.esprit.chedliweldi.Entities.Message;
@@ -89,7 +91,31 @@ public  class DrawerInitializer implements NavigationView.OnNavigationItemSelect
             //   MenuItem foo_menu_item=m.add("foo");
 
             MenuItem myOffers = (MenuItem) m.findItem(R.id.nav_my_offers);
+            MenuItem signout = (MenuItem) m.findItem(R.id.nav_sign_out);
+
+            signout.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem menuItem) {
+                    Intent i = new Intent(activity, LoginActivity.class);
+
+                    activity.startActivity(i);
+
+
+                    return false;
+                }
+            });
+            MenuItem privateOffers = (MenuItem) m.findItem(R.id.privateRequests);
+            privateOffers.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem menuItem) {
+                    Intent i = new Intent(activity,PrivateOfferBabysitterActivity.class);
+                    activity.startActivity(i);
+
+                    return false;
+                }
+            });
             MenuItem messages = (MenuItem) m.findItem(R.id.message);
+
 
 
             messages.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
@@ -154,7 +180,7 @@ public  class DrawerInitializer implements NavigationView.OnNavigationItemSelect
             onGoingParent.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem menuItem) {
-                    CheckDate();
+                    CheckDate(activity);
                /* Intent i = new Intent(getContext(), OnGoing.class);
                 startActivity(i);*/
                     return true;
@@ -166,9 +192,11 @@ public  class DrawerInitializer implements NavigationView.OnNavigationItemSelect
                 goingOffers.setVisible(true);
                 calendar.setVisible(true);
                 onGoingParent.setVisible(false);
+                privateOffers.setVisible(true);
             } else {
                 calendar.setVisible(false);
                 goingOffers.setVisible(false);
+                privateOffers.setVisible(false);
             }
 
 
@@ -262,7 +290,7 @@ public  class DrawerInitializer implements NavigationView.OnNavigationItemSelect
         return false;
     }
 
-    public static void CheckDate() {
+    public static void CheckDate(AppCompatActivity activity) {
         SharedPreferences settings = getContext().getSharedPreferences(PREFS_NAME, 0);
         RequestQueue queue = Volley.newRequestQueue(getContext());
         Log.d("ID", settings.getString("id", null));
@@ -283,12 +311,12 @@ public  class DrawerInitializer implements NavigationView.OnNavigationItemSelect
                             task = new Task();
                             Log.d("Job",obj.getString("status"));
                             if(obj.getString("status").equals("found")) {
-                                Intent i = new Intent(getContext(), OnGoing.class);
+                                Intent i = new Intent(activity, OnGoing.class);
                                 i.putExtra("jobId",obj.getString("id"));
-                                getContext().startActivity(i);
+                                activity.startActivity(i);
                             }
                             else{
-                                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                                AlertDialog.Builder builder = new AlertDialog.Builder(activity);
                                 builder.setMessage("Vous n'avez pas de job pour aujourd'hui")
                                         .setNegativeButton("Ok", new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int id) {

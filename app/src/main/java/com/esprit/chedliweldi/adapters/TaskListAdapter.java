@@ -117,7 +117,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHo
         RequestQueue queue = Volley.newRequestQueue(getContext());
         Log.d("ID", settings.getString("id", null));
         String url;
-        url = AppController.TAHA_ADRESS + "updateTask?id=" + id;
+        url = AppController.TAHA_ADRESS + "updateTasks?id=" + id;
 
 // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,

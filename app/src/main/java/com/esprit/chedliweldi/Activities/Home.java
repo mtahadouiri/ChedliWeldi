@@ -633,6 +633,9 @@ public class Home extends AppCompatActivity implements LocationListener, Feed.On
             @Override
             protected java.util.Map<String, String> getParams() {
                 java.util.Map<String, String> params = new HashMap<String, String>();
+                Log.d("alt",lat);
+                Log.d("long",longi);
+                Log.d("email",Home.this.getSharedPreferences(PREFS_NAME, 0).getString("email", null));
                 params.put("alt", lat);
                 params.put("long", longi);
                 params.put("email", Home.this.getSharedPreferences(PREFS_NAME, 0).getString("email", null));

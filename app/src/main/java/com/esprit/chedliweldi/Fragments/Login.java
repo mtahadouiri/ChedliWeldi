@@ -232,6 +232,8 @@ public class Login extends Fragment {
                     SharedPreferences settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
                     SharedPreferences.Editor editor = settings.edit();
                     editor.putString("id", connectedUser);
+                    editor.putString("email", email);
+
                     editor.putString("type", type);
                     editor.commit();
 

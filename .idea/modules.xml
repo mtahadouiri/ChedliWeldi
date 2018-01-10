@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/ChedliWeldi.iml" filepath="$PROJECT_DIR$/ChedliWeldi.iml" />
-      <module fileurl="file://C:\ChedliWeldi_final\ChedliWeldi.iml" filepath="C:\ChedliWeldi_final\ChedliWeldi.iml" />
-      <module fileurl="file://F:\IbeDroid\ChedliWeldiVCS\ChedliWeldi\ChedliWeldiFull.iml" filepath="F:\IbeDroid\ChedliWeldiVCS\ChedliWeldi\ChedliWeldiFull.iml" />
-      <module fileurl="file://F:\IbeDroid\ChedliWeldiVCS\ChedliWeldi\ChedliWeldi_final.iml" filepath="F:\IbeDroid\ChedliWeldiVCS\ChedliWeldi\ChedliWeldi_final.iml" />
-      <module fileurl="file://C:\ChedliWeldiFull\ChedliWeldi_git.iml" filepath="C:\ChedliWeldiFull\ChedliWeldi_git.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ChedliWeldi_final.iml" filepath="$PROJECT_DIR$/ChedliWeldi_final.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

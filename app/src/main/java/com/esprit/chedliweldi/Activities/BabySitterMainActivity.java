@@ -381,7 +381,7 @@ void setupLocation(){
          tab2 = new ParentMapFragment();
         List<Fragment> fragments = new ArrayList<>();
         fragments.add(tab1);
-       // fragments.add(tab2);
+       fragments.add(tab2);
         mViewPager.setOffscreenPageLimit(2);
         FragmentAdapter mFragmentAdapter = new FragmentAdapter(getSupportFragmentManager(), fragments, titles);
         mViewPager.setAdapter(mFragmentAdapter);

@@ -26,6 +26,11 @@
             android:icon="@drawable/envelope"
             android:title="Messages" />
 
+        <item
+            android:id="@+id/privateRequests"
+            android:icon="@drawable/envelope"
+            android:title="private Offers" />
+
 
         <item
             android:id="@+id/On_Going_Parent"
